@@ -3,7 +3,7 @@
 namespace Reactor\ServiceContainer;
 
 
-class ServiceContainer extends ValueContainer {
+class ServiceContainer extends ValueContainer implements ServiceProviderInterface {
 
     public function createService($name, $value = null) {
         if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
@@ -29,6 +29,12 @@ class ServiceContainer extends ValueContainer {
                 $value->reset();
             }
         }
+        $this->setParent(null);
+    }
+
+    public function getService($container = null) {
+        $this->setParent($container);
+        return $this;
     }
 
 }

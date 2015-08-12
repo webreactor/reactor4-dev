@@ -11,7 +11,7 @@ class Reference implements ServiceProviderInterface {
         $this->name = $name;
     }
 
-    public function get($container) {
+    public function getService($container = null) {
         if ($this->loading) {
             throw new Exceptions\CircularReferenceExeption(implode("-", (array)$this->name));
         }

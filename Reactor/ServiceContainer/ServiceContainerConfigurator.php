@@ -93,6 +93,9 @@ class ServiceContainerConfigurator {
         if ($start == '$' && $start == $stop) {
             return getenv($inner_value);
         }
+        if ($start == '!' && $start == $stop) {
+            return constant($inner_value);
+        }
         return $value;
     }
 

@@ -58,7 +58,7 @@ class ServiceProvider implements ServiceProviderInterface {
         return $this;
     }
 
-    public function get($container) {
+    public function getService($container = null) {
         if ($this->instance) {
             return $this->instance;
         }
@@ -86,7 +86,7 @@ class ServiceProvider implements ServiceProviderInterface {
             }
         } elseif (is_object($data)) {
             if (is_a($data, 'Reactor\\ServiceContainer\\Reference')) {
-                $data = $data->get($container);
+                $data = $data->getService($container);
             }
         }
         return $data;
