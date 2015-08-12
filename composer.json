@@ -1,0 +1,15 @@
+{
+    "name": "webreactor/reactor4-dev",
+    "description": "Dev repo for Reactor4",
+    "authors": [
+        {
+            "name": "Maxim Popov",
+            "email": "toecto@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Reactor\\": "Reactor/"
+        }
+    }
+}
