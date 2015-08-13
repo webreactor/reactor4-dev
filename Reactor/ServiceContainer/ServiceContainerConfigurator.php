@@ -27,7 +27,11 @@ class ServiceContainerConfigurator {
     public function createProvider($config) {
         $config = $this->parseServiceConfig($config);
 
-        $service = new ServiceProvider();
+        $provider = 'ServiceProvider';
+        if (isset($config['provider'])) {
+            $provider = $config['provider'];
+        }
+        $service = new $provider();
 
         if (isset($config['scenario'])) {
             $this->loadScenario($service, $config['scenario']);

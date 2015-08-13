@@ -5,9 +5,9 @@ namespace Reactor\ServiceContainer;
 
 class ServiceContainer extends ValueContainer implements ServiceProviderInterface {
 
-    public function createService($name, $value = null) {
-        if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
-            $value = new ServiceProvider($value);
+    public function createService($name, $value = null, $arguments = array()) {
+        if (!is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+            $value = new ServiceProvider($value, $arguments);
         }
         return $this->data[$name] = $value;
     }
