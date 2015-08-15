@@ -15,6 +15,17 @@ class ValueContainer {
         $this->parent = $parent;
     }
 
+    public function getParent() {
+        return $this->parent;
+    }
+
+    public function getRoot() {
+        if ($this->parent) {
+            return $this->getRoot();
+        }
+        return $this;
+    }
+
     public function has($name) {
         if (isset($this->data[$name])) {
             return true;
@@ -26,18 +37,18 @@ class ValueContainer {
         return $this->data[$name] = $value;
     }
 
-    public function getValue($name) {
+    public function get($name) {
         if (!isset($this->data[$name])) {
             if ($this->parent !== null) {
-                return $this->parent->getValue($name);
+                return $this->parent->get($name);
             }
             return null;
         }
-        return $this->data[$name];
+        return $this->getDirect($name);
     }
 
-    public function get($name) {
-        return $this->getValue($name);
+    public function getDirect($name) {
+        return $this->data[$name];
     }
 
     public function remove($name) {

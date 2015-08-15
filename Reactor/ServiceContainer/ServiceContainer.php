@@ -12,8 +12,8 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
         return $this->data[$name] = $value;
     }
 
-    public function get($name) {
-        $value = $this->getValue($name);
+    public function getDirect($name) {
+        $value = $this->data[$name];
         if ($value === null) {
             throw new Exceptions\ServiceNotFoundExeption($name);
         }
