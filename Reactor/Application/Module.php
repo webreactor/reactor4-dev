@@ -16,8 +16,8 @@ class Module extends ServiceContainer {
             return;
         }
         $this->loaded_modules[$name] = true;
-        $module = new $module_class();
-        $this->set($name, $module_loader->load($this));
+        $module_loader = new $module_loader_class();
+        $this->set($name, $module_loader->setService($this));
     }
 
 }

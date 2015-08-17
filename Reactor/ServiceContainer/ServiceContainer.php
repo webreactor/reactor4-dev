@@ -2,7 +2,6 @@
 
 namespace Reactor\ServiceContainer;
 
-
 class ServiceContainer extends ValueContainer implements ServiceProviderInterface {
 
     public function createService($name, $value = null, $arguments = array()) {
