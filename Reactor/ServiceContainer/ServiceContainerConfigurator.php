@@ -27,46 +27,46 @@ class ServiceContainerConfigurator {
     public function createProvider($config) {
         $config = $this->parseServiceConfig($config);
 
-        $provider = 'ServiceProvider';
+        $provider_class = 'ServiceProvider';
         if (isset($config['provider'])) {
-            $provider = $config['provider'];
+            $provider_class = $config['provider'];
         }
-        $service = new $provider();
+        $provider = new $provider_class();
 
         if (isset($config['scenario'])) {
-            $this->loadScenario($service, $config['scenario']);
+            $this->loadScenario($provider, $config['scenario']);
         } else {
             if (!isset($config['create'])) {
-                throw new Exceptions\ServiceConfigurationExeption('Nothing to create '.var_export($config, true));
+                throw new Exceptions\ServiceConfiguratorExeption('Nothing to create '.var_export($config, true));
             }
             if (!isset($config['arguments'])) {
                 $config['arguments'] = array();
             }
-            $service->createScenario($config['create'], $config['arguments']);
+            $provider->createScenario($config['create'], $config['arguments']);
         }
 
         if (isset($config['shared'])) {
-            $service->shared($config['shared']);
+            $provider->shared($config['shared']);
         }
 
-        return $service;
+        return $provider;
     }
 
-    protected function loadScenario($service, $scenario) {
+    protected function loadScenario($provider, $scenario) {
         foreach ($scenario as $step) {
             if (!isset($step['arguments'])) {
                 $step['arguments'] = array();
             }
             if (isset($step['create'])) {
-                $service->createScenario($step['create'], $step['arguments']);
+                $provider->createScenario($step['create'], $step['arguments']);
             } elseif (isset($step['factory'])) {
-                $service->addFactory($step['factory'], $step['arguments']);
+                $provider->addFactory($step['factory'], $step['arguments']);
             } elseif (isset($step['call'])) {
-                $service->addCall($step['call'], $step['arguments']);
+                $provider->addCall($step['call'], $step['arguments']);
             } elseif (isset($step['configurator'])) {
-                $service->addConfigurator($step['configurator'], $step['arguments']);
+                $provider->addConfigurator($step['configurator'], $step['arguments']);
             } else {
-                throw new Exceptions\ServiceConfigurationExeption('Cannot parse step '.var_export($step, true));
+                throw new Exceptions\ServiceConfiguratorExeption('Cannot parse step '.var_export($step, true));
             }
         }
     }
