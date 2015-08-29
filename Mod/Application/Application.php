@@ -2,7 +2,7 @@
 
 namespace Mod\Application;
 
-class Application extends \Reactor\Application {
+class Application extends \Reactor\Application\Application {
 
 }
 

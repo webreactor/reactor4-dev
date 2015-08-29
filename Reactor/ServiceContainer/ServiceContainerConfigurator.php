@@ -10,6 +10,8 @@ class ServiceContainerConfigurator {
     }
 
     public function load($config) {
+        $config = $this->createReferences($config);
+
         if (isset($config['parameters'])) {
             foreach($config['parameters'] as $name => $value) {
                 if ($this->container->has($name)) {
@@ -29,7 +31,6 @@ class ServiceContainerConfigurator {
     }
 
     public function createProvider($config) {
-        $config = $this->parseServiceConfig($config);
 
         $provider = new ServiceProvider();
 
@@ -71,11 +72,11 @@ class ServiceContainerConfigurator {
         }
     }
 
-    protected function parseServiceConfig($config) {
+    protected function createReferences($config) {
         $data = array();
         foreach($config as $key => $value) {
             if (is_array($value)) {
-                $data[$key] = $this->parseServiceConfig($value);
+                $data[$key] = $this->createReferences($value);
             } else {
                 if (is_string($value)) {
                     $data[$key] = $this->handleValue($value);
@@ -92,12 +93,24 @@ class ServiceContainerConfigurator {
         $stop = substr($value, -1, 1);
         $inner_value = substr($value, 1, -1);
         if ($start == '%' && $start == $stop) {
+            if ($inner_value[0] == '*') {
+                $inner_value = substr($inner_value, 1);
+                return (new Reference($inner_value))->getService($this->container);    
+            }
             return new Reference($inner_value);
         }
         if ($start == '$' && $start == $stop) {
+            if ($inner_value[0] == '*') {
+                $inner_value = substr($inner_value, 1);
+                return (new EnvironmentReference($inner_value))->getService();    
+            }
             return new EnvironmentReference($inner_value);
         }
         if ($start == '!' && $start == $stop) {
+            if ($inner_value[0] == '*') {
+                $inner_value = substr($inner_value, 1);
+                return (new ConstantReference($inner_value))->getService();    
+            }
             return new ConstantReference($inner_value);
         }
         return $value;

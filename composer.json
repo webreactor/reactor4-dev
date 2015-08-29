@@ -10,8 +10,7 @@
     "autoload": {
         "psr-4": {
             "Reactor\\": "Reactor/",
-            "Mod\\": "Mod/",
-            "App\\": "App/"
+            "Mod\\": "mod/"
         }
     }
 }
