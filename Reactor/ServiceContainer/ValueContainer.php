@@ -2,7 +2,7 @@
 
 namespace Reactor\ServiceContainer;
 
-class ValueContainer {
+class ValueContainer implements \ArrayAccess {
 
     protected $data = array();
     protected $parent = null;
@@ -68,6 +68,22 @@ class ValueContainer {
     }
 
     public function __unset($name) {
+        $this->remove($name);
+    }
+
+    public function offsetExists($name) {
+        return $this->has($name);
+    }
+
+    public function offsetGet($name) {
+        return $this->get($name);
+    }
+
+    public function offsetSet($name, $value) {
+        return $this->set($name, $value);
+    }
+
+    public function offsetUnset($name) {
         $this->remove($name);
     }
 

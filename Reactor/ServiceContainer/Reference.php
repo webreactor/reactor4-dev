@@ -23,11 +23,13 @@ class Reference implements ServiceProviderInterface {
 
         $cnt = count($this->name);
         for ($i = 0; $i < $cnt; $i++) {
-            $val = $val->get($this->name[$i]);
+            $val = $val[$this->name[$i]];
         }
 
         $this->loading = false;
         return $val;
     }
+
+    public function reset() {}
 
 }

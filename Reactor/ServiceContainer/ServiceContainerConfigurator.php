@@ -10,28 +10,28 @@ class ServiceContainerConfigurator {
     }
 
     public function load($config) {
-        foreach($config['parameters'] as $name => $value) {
-            if ($this->container->has($name)) {
-                $data = $this->container->get($name);
-                if (is_array($data) && is_array($value)) {
-                    $value = array_merge_recursive($value, $data);    
+        if (isset($config['parameters'])) {
+            foreach($config['parameters'] as $name => $value) {
+                if ($this->container->has($name)) {
+                    $data = $this->container->get($name);
+                    if (is_array($data) && is_array($value)) {
+                        $value = array_merge_recursive($value, $data);    
+                    }
                 }
+                $this->container->set($name, $value);
             }
-            $this->container->set($name, $value);
         }
-        foreach($config['services'] as $name => $service_config) {
-            $this->container->set($name, $this->createProvider($service_config));
+        if (isset($config['services'])) {
+            foreach($config['services'] as $name => $service_config) {
+                $this->container->set($name, $this->createProvider($service_config));
+            }
         }
     }
 
     public function createProvider($config) {
         $config = $this->parseServiceConfig($config);
 
-        $provider_class = 'ServiceProvider';
-        if (isset($config['provider'])) {
-            $provider_class = $config['provider'];
-        }
-        $provider = new $provider_class();
+        $provider = new ServiceProvider();
 
         if (isset($config['scenario'])) {
             $this->loadScenario($provider, $config['scenario']);
@@ -95,10 +95,10 @@ class ServiceContainerConfigurator {
             return new Reference($inner_value);
         }
         if ($start == '$' && $start == $stop) {
-            return getenv($inner_value);
+            return new EnvironmentReference($inner_value);
         }
         if ($start == '!' && $start == $stop) {
-            return constant($inner_value);
+            return new ConstantReference($inner_value);
         }
         return $value;
     }

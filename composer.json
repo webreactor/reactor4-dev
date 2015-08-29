@@ -9,7 +9,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "Reactor\\": "Reactor/"
+            "Reactor\\": "Reactor/",
+            "Mod\\": "Mod/",
+            "App\\": "App/"
         }
     }
 }

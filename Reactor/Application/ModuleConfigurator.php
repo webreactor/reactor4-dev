@@ -14,18 +14,21 @@ class ModuleConfigurator {
         $this->container_configurator = new ServiceContainerConfigurator($module);
     }
 
-    public function loadJSON($file) {
-        $config_loader = new ConfigurationJSONLoader();
-        $full_file = $module->path.$file;
-        if (!is_file($full_file)) {
-            return false;
-        }
-        $config = $config_loader->load($full_file);
+    public function load($config) {
         if (!isset($config['modules'])) {
             $config['modules'] = array();
         }
         $this->container_configurator->load($config);
-        return true;
+        foreach ($config['modules'] as $name => $module_def) {
+            if (is_array($module_def)) {
+                $module_class = $module_def['class'];
+                $module_arguments = $module_def['class'];
+            } else {
+                $module_class = $module_def;
+                $module_arguments = array();
+            }
+            $this->module->loadModule($name, $module_class, $module_arguments);
+        }
     }
 
 }

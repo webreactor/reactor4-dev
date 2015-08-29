@@ -2,7 +2,7 @@
 
 namespace Reactor\Application;
 
-class ConfigurationJSONLoader {
+class ConfigurationReaderJSON {
 
     public function load($file) {
         $data = $this->loadFile($file);

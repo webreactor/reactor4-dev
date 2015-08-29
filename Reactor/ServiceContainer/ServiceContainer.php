@@ -17,7 +17,7 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
             throw new Exceptions\ServiceNotFoundExeption($name);
         }
         if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
-            return $value->get($this);
+            return $value->getService($this);
         }
         return $value;
     }
