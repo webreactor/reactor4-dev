@@ -1,6 +1,7 @@
 <?php
 
 namespace Reactor\Application;
+use Reactor\Application\Exceptions\ModuleConfiguratorExeption;
 
 class ConfigurationReaderJSON {
 
@@ -10,7 +11,7 @@ class ConfigurationReaderJSON {
 
     public function load($path) {
         if (in_array($path, $this->loaded)) {
-            throw new \Exception("Reccursive config loading");
+            throw new ModuleConfiguratorExeption("Reccursive config loading on $path");
         }
         $this->loaded[] = $path;
         if (is_dir($path)) {
@@ -46,7 +47,11 @@ class ConfigurationReaderJSON {
     }
 
     protected function loadSingleFile($file) {
-        return json_decode(file_get_contents($file), true);
+        $data = json_decode(file_get_contents($file), true);
+        if ($data === null) {
+            throw new ModuleConfiguratorExeption("Error Processing $file");
+        }
+        return $data;
     }
 
 }

@@ -1,0 +1,15 @@
+{
+    "modules": {
+        "db.connections": "\\Reactor\\Database\\Module"
+    },
+    "parameters": {
+        "db.connections": {
+            "local": {
+                "user": "root",
+                "password": "anabios",
+                "link": "mysql:dbname=catalog-service;host=localhost"
+            }
+        },
+        "db": "%db.connections/local%"
+    }
+}

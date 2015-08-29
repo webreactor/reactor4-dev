@@ -19,6 +19,10 @@ class ValueContainer implements \ArrayAccess {
         return $this->parent;
     }
 
+    public function getKeysDirect() {
+        return array_keys($this->data);
+    }
+
     public function getRoot() {
         if ($this->parent) {
             return $this->getRoot();
@@ -42,7 +46,7 @@ class ValueContainer implements \ArrayAccess {
             if ($this->parent !== null) {
                 return $this->parent->get($name);
             }
-            return null;
+            throw new Exceptions\ServiceNotFoundExeption($name);
         }
         return $this->getDirect($name);
     }

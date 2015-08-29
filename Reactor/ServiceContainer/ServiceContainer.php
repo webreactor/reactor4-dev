@@ -12,10 +12,10 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
     }
 
     public function getDirect($name) {
-        $value = $this->data[$name];
-        if ($value === null) {
+        if (!isset($this->data[$name])) {
             throw new Exceptions\ServiceNotFoundExeption($name);
         }
+        $value = $this->data[$name];
         if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
             return $value->getService($this);
         }
@@ -23,12 +23,18 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
     }
 
     public function reset() {
-        foreach ($this->data as $value) {
+        $this->_reset($this->data);
+        $this->setParent(null);
+    }
+
+    protected function _reset($data) {
+        foreach ($data as $value) {
             if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
                 $value->reset();
+            } elseif (is_array($value)) {
+                $this->_reset($value);
             }
         }
-        $this->setParent(null);
     }
 
     public function getService($container = null) {
