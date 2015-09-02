@@ -27,16 +27,12 @@ class Compiler {
             $this->error('No tag systems installed');
             return;
         }
-        foreach($this->gekkon->settings['tag_systems'] as $sys => $data)
+        foreach($this->gekkon->settings['tag_systems'] as $class_name => $data)
         {
-            $class_name = 'Reactor\\Gekkon\\Tags\\'.$sys.'\\TagSystem';
-            if(class_exists($class_name))
-            {
-                $this->tag_systems[$sys] = new $class_name($this, $data);
-                $tokens[$data['open']][$data['close']] = preg_quote($data['close'],
-                        '/');
-                $tag_system_map[$data['open']][$data['close']][] = $sys;
-            }
+            $this->tag_systems[$class_name] = new $class_name($this, $data);
+            $tokens[$data['open']][$data['close']] = preg_quote($data['close'],
+                    '/');
+            $tag_system_map[$data['open']][$data['close']][] = $class_name;
         }
         $open_tokens = array();
         $close_tokens = array();

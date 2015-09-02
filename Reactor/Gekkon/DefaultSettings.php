@@ -10,19 +10,19 @@ class DefaultSettings {
             'auto_escape' => false,
             'force_compile' => false,
             'tag_systems' => array(
-                'SimpleEcho' => array(
+                'Reactor\\Gekkon\\Tags\\SimpleEcho\\TagSystem' => array(
                     'open' => '{',
                     'close' => '}',
                 ),
-                'Common' => array(
+                'Reactor\\Gekkon\\Tags\\Common\\TagSystem' => array(
                     'open' => '{',
                     'close' => '}',
                 ),
-                'Gettext' => array(
+                'Reactor\\Gekkon\\Tags\\Gettext\\TagSystem' => array(
                     'open' => '{{',
                     'close' => '}}',
                 ),
-                'Comment' => array(
+                'Reactor\\Gekkon\\Tags\\Comment\\TagSystem' => array(
                     'open' => '{#',
                     'close' => '#}',
                 ),
