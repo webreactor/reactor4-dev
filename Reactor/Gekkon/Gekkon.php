@@ -6,7 +6,6 @@ class Gekkon {
     var $version = '4.3';
     var $gekkon_path;
     var $compiler;
-    var $display_errors;
     var $settings;
     var $loaded;
     var $data;
@@ -18,8 +17,7 @@ class Gekkon {
     {
         $this->gekkon_path = dirname(__file__).'/';
         $this->compiler = false;
-        $this->display_errors = true; //ini_get('display_errors') == 'on';
-        $this->settings = array('force_compile' => true);
+        $this->settings = DefaultSettings::get();
         $this->loaded = array();
         $this->data = new \ArrayObject();
         $this->data['global'] = $this->data;
@@ -99,9 +97,6 @@ class Gekkon {
     {
         if(!$this->compiler)
         {
-            include $this->gekkon_path.'settings.php';
-            $this->settings += $settings;
-            //Gekkon::include_dir($this->gekkon_path.'Compiler');
             $this->compiler = new Compiler\Compiler($this);
         }
         $this->binTplProvider->save($template,
@@ -115,33 +110,34 @@ class Gekkon {
         if($object !== false) $message .= ' ['.$object.']';
         $message .= ' '.nl2br($msg."\n");
 
-        if($this->display_errors)
+        if($this->settings['display_errors'])
                 echo '<div class="gekkon_error">'.$message.'</div>';
 
         error_log(trim(strip_tags($message)));
         return false;
     }
 
-    static function include_dir($path)
+    function settingsSetAll($value)
     {
-        $path = rtrim($path, '/');
-        if(is_dir($path))
-        {
-            $dirs = array();
-            foreach(scandir($path) as $file)
-            {
-                if($file[0] != '.')
-                {
-                    $to_include = $path.'/'.$file;
-                    if(is_dir($to_include)) $dirs[] = $to_include;
-                    elseif(strtolower(strrchr($to_include, '.')) === '.php')
-                    {
-                        include_once $to_include;
-                    }
-                }
-            }
-            foreach($dirs as $dir) Gekkon::include_dir($dir);
-        }
+        $this->settings = $value;
+    }
+
+    function settingsSet($name, $value)
+    {
+        $this->settings[$name] = $value;
+    }
+
+    function addTagSystem($name, $open, $close)
+    {
+        $this->settings['tag_systems'][$name] = array(
+            'open' => $open,
+            'close' => $close,
+        );
+    }
+
+    function removeTagSystem($name)
+    {
+        unset($this->settings['tag_systems'][$name]);
     }
 
     static function clear_dir($path)

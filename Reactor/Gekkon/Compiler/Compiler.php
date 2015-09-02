@@ -14,6 +14,7 @@ class Compiler {
         $this->uid = 0;
         $this->binTplCode = false;
         $this->exp_compiler = new ExpCompiler($this);
+        $this->open_tokens = null;
         $this->init();
     }
 
@@ -22,6 +23,10 @@ class Compiler {
         $this->tag_systems = array();
         $tokens = array();
         $tag_system_map = array();
+        if (empty($this->gekkon->settings['tag_systems'])) {
+            $this->error('No tag systems installed');
+            return;
+        }
         foreach($this->gekkon->settings['tag_systems'] as $sys => $data)
         {
             $class_name = 'Reactor\\Gekkon\\Tags\\'.$sys.'\\TagSystem';
@@ -135,6 +140,7 @@ class Compiler {
     function find_tag(&$_str)
     {
         $open_raw = false;
+        if(empty($this->open_tokens)) return false;
         if(preg_match('/'.$this->open_tokens.'/u', $_str, $preg_data,
                         PREG_OFFSET_CAPTURE))
         {
