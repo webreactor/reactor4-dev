@@ -3,7 +3,7 @@
 namespace Reactor\Gekkon\Tags\Comment;
 use \Reactor\Gekkon\Compiler\BaseTag;
 
-//sys_gettext is a tag system and tag in the same time
+//This system is a tag system and tag in the same time
 class TagSystem extends BaseTag {
 
     var $compiler;
