@@ -19,7 +19,7 @@ class TemplateProviderFS {
         return false;
     }
 
-    function set_group($base_dir) {
+    function set_module($base_dir) {
         $this->base_dir = $base_dir;
     }
 

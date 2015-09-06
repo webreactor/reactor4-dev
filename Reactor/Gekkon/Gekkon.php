@@ -24,8 +24,8 @@ class Gekkon {
         $this->tplProvider = new TemplateProviderFS('');
         $this->binTplProvider = new BinTplProviderFS($this, $bin_path);
         $this->cacheProvider = new CacheProviderFS($bin_path);
-        $this->tplGroup = new TemplateGroup($this);
-        $this->tplGroup->push($tpl_path);
+        $this->tplModuleManager = new TplModuleManager($this);
+        $this->tplModuleManager->push($tpl_path);
     }
 
     function assign($name, $data)
@@ -38,22 +38,22 @@ class Gekkon {
         $this->data[$name] = $data;
     }
 
-    function push_group($group)
+    function push_module($module)
     {
-        $this->tplGroup->push($group);
+        $this->tplModuleManager->push($module);
     }
 
-    function pop_group()
+    function pop_module()
     {
-        return $this->tplGroup->pop();
+        return $this->tplModuleManager->pop();
     }
 
-    function display($tpl_name, $scope_data = false, $group = null)
+    function display($tpl_name, $scope_data = false, $module = null)
     {
-        if ($group) $this->push_group($group);
+        if ($module) $this->push_module($module);
         if(($binTemplate = $this->template($tpl_name)) !== false)
                 $binTemplate->display($this->get_scope($scope_data));
-        if ($group) $this->pop_group();
+        if ($module) $this->pop_module();
     }
 
     function get_display($tpl_name, $scope_data = false)
@@ -96,16 +96,13 @@ class Gekkon {
         //$this->binTplProvider->clear_cache($template); // clear_bin_cache?
     }
 
-    function get_group() {
-        return $this->tplGroup->group;
-    }
-
     function get_scope($data = false)
     {
         if($data !== false && $data !== $this->data)
         {
             $scope = new \ArrayObject($data);
-            $scope['global'] = $this->data;
+            $scope['_global'] = $this->data;
+            $scope['_module'] = $this->tplModuleManager->module;
             return $scope;
         }
         return $this->data;
@@ -135,17 +132,27 @@ class Gekkon {
         return false;
     }
 
-    function settingsSetAll($value)
+    function settings_set_all($value)
     {
         $this->settings = $value;
     }
 
-    function settingsSet($name, $value)
+    function settings_set($name, $value)
     {
         $this->settings[$name] = $value;
     }
 
-    function addTagSystem($name, $open, $close)
+    function set_property($name, $value)
+    {
+        $this->$name = $value;
+    }
+
+    function get_property($name)
+    {
+        return $this->$name;
+    }
+
+    function add_tag_system($name, $open, $close)
     {
         $this->settings['tag_systems'][$name] = array(
             'open' => $open,
@@ -153,7 +160,7 @@ class Gekkon {
         );
     }
 
-    function removeTagSystem($name)
+    function remove_tag_system($name)
     {
         unset($this->settings['tag_systems'][$name]);
     }
