@@ -4,7 +4,7 @@ namespace Reactor\Gekkon;
 
 class TemplateProviderFS {
 
-    private $base_dir;
+    protected $base_dir;
 
     function __construct($base_dir)
     {
@@ -19,12 +19,16 @@ class TemplateProviderFS {
         return false;
     }
 
+    function set_group($base_dir) {
+        $this->base_dir = $base_dir;
+    }
+
     function get_full_name($name)
     {
         return $this->base_dir.$name;
     }
 
-    private function get_association_name($name)
+    protected function get_association_name($name)
     {
         $name = basename($name);
         if(($t = strpos($name, '_')) !== false) return substr($name, 0, $t);

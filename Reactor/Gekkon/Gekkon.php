@@ -16,14 +16,16 @@ class Gekkon {
     function __construct($tpl_path, $bin_path)
     {
         $this->gekkon_path = dirname(__file__).'/';
-        $this->compiler = false;
+        $this->compiler = null;
         $this->settings = DefaultSettings::get();
         $this->loaded = array();
         $this->data = new \ArrayObject();
         $this->data['global'] = $this->data;
-        $this->tplProvider = new TemplateProviderFS($tpl_path);
+        $this->tplProvider = new TemplateProviderFS('');
         $this->binTplProvider = new BinTplProviderFS($this, $bin_path);
         $this->cacheProvider = new CacheProviderFS($bin_path);
+        $this->tplGroup = new TemplateGroup($this);
+        $this->tplGroup->push($tpl_path);
     }
 
     function assign($name, $data)
@@ -36,10 +38,22 @@ class Gekkon {
         $this->data[$name] = $data;
     }
 
-    function display($tpl_name, $scope_data = false, $block = '__main')
+    function push_group($group)
     {
+        $this->tplGroup->push($group);
+    }
+
+    function pop_group()
+    {
+        return $this->tplGroup->pop();
+    }
+
+    function display($tpl_name, $scope_data = false, $group = null)
+    {
+        if ($group) $this->push_group($group);
         if(($binTemplate = $this->template($tpl_name)) !== false)
-                $binTemplate->display($this->get_scope($scope_data), $block);
+                $binTemplate->display($this->get_scope($scope_data));
+        if ($group) $this->pop_group();
     }
 
     function get_display($tpl_name, $scope_data = false)
@@ -79,7 +93,11 @@ class Gekkon {
         if(($binTpl = $this->binTplProvider->load($template)) !== false)
                 $this->cacheProvider->clear_cache($binTpl, $id);
 
-        $this->binTplProvider->clear_cache($template);
+        //$this->binTplProvider->clear_cache($template); // clear_bin_cache?
+    }
+
+    function get_group() {
+        return $this->tplGroup->group;
     }
 
     function get_scope($data = false)

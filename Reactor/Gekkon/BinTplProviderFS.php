@@ -4,8 +4,8 @@ namespace Reactor\Gekkon;
 
 class BinTplProviderFS {
 
-    private $base_dir;
-    private $loaded = array();
+    protected $base_dir;
+    protected $loaded = array();
 
     function __construct($gekkon, $base)
     {
@@ -13,7 +13,7 @@ class BinTplProviderFS {
         $this->gekkon = $gekkon;
     }
 
-    private function full_path($association)
+    protected function full_path($association)
     {
         $bin_name = basename($association);
         $bin_path = $this->base_dir.abs(crc32($association)).'/';

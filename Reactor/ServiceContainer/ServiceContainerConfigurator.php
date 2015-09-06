@@ -89,30 +89,33 @@ class ServiceContainerConfigurator {
     }
 
     protected function handleValue($value) {
-        $start = $value[0];
-        $stop = substr($value, -1, 1);
-        $inner_value = substr($value, 1, -1);
-        if ($start == '%' && $start == $stop) {
-            if ($inner_value[0] == '*') {
-                $inner_value = substr($inner_value, 1);
-                return (new Reference($inner_value))->getService($this->container);    
+        if (strlen($value) > 0) {
+            $start = $value[0];
+            $stop = substr($value, -1, 1);
+            $inner_value = substr($value, 1, -1);
+            if ($start == '%' && $start == $stop) {
+                if ($inner_value[0] == '*') {
+                    $inner_value = substr($inner_value, 1);
+                    return (new Reference($inner_value))->getService($this->container);    
+                }
+                return new Reference($inner_value);
             }
-            return new Reference($inner_value);
-        }
-        if ($start == '$' && $start == $stop) {
-            if ($inner_value[0] == '*') {
-                $inner_value = substr($inner_value, 1);
-                return (new EnvironmentReference($inner_value))->getService();    
+            if ($start == '$' && $start == $stop) {
+                if ($inner_value[0] == '*') {
+                    $inner_value = substr($inner_value, 1);
+                    return (new EnvironmentReference($inner_value))->getService();    
+                }
+                return new EnvironmentReference($inner_value);
             }
-            return new EnvironmentReference($inner_value);
-        }
-        if ($start == '!' && $start == $stop) {
-            if ($inner_value[0] == '*') {
-                $inner_value = substr($inner_value, 1);
-                return (new ConstantReference($inner_value))->getService();    
+            if ($start == '!' && $start == $stop) {
+                if ($inner_value[0] == '*') {
+                    $inner_value = substr($inner_value, 1);
+                    return (new ConstantReference($inner_value))->getService();    
+                }
+                return new ConstantReference($inner_value);
             }
-            return new ConstantReference($inner_value);
         }
+
         return $value;
     }
 

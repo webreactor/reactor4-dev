@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\Gekkon;
+namespace Reactor\Gekkon\Module;
 
 use Reactor\Application\Exceptions\ModuleConfiguratorExeption;
 

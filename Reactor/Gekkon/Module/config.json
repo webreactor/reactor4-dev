@@ -1,0 +1,22 @@
+{
+    "services": {
+        "gekkon": {
+            "scenario": [
+                {
+                    "create": "\\Reactor\\Gekkon\\Module\\Gekkon",
+                    "arguments": [ "", "%tpl_bin%" ]
+                },
+                {
+                    "call": "register",
+                    "arguments": [ "application", "%application%" ]
+                },
+                {
+                    "call": "push_group",
+                    "arguments": [ "%application%" ]
+                }
+
+            ],
+            "shared": true
+        }
+    }
+}

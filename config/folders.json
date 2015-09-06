@@ -1,0 +1,13 @@
+{
+    "services" : {
+        "folders.gekkon.tpl_bin": {
+            "shared": true,
+            "scenario": [
+                {
+                    "factory": "implode",
+                    "arguments": [ "", [ "!BASE_DIR!", "tpl_bin/" ] ]
+                }
+            ]
+        }
+    }
+}
