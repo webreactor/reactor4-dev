@@ -5,17 +5,15 @@ namespace Reactor\Gekkon\Module;
 class TplModuleManager {
 
     protected $stack = array();
-    public $module = null;
+    protected $module = null;
     protected $gekkon = null;
 
-    function __construct($gekkon)
-    {
+    public function __construct($gekkon) {
         $this->tplProvider = $gekkon->tplProvider;
         $this->gekkon = $gekkon;
     }
 
-    function push($module)
-    {
+    public function push($module) {
         if (!is_object($module)) {
             $module = (new Reference($module))->getService($this->module);
         }
@@ -23,14 +21,13 @@ class TplModuleManager {
         $this->register($module);
     }
 
-    function pop()
-    {
+    public function pop() {
         $module = array_pop($this->stack);
         $this->register($module);
         return $module;
     }
 
-    function register($module) {
+    protected function register($module) {
         $this->module = $module;
         $this->tplProvider->set_module($module->dir().'tpl/');
         $this->gekkon->data['_module'] = $module;
