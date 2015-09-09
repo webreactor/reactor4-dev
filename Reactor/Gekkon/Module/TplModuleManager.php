@@ -1,6 +1,7 @@
 <?php
 
 namespace Reactor\Gekkon\Module;
+use \Reactor\ServiceContainer\Reference;
 
 class TplModuleManager {
 

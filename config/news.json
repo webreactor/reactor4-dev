@@ -1,0 +1,5 @@
+{
+    "modules": {
+        "news": "\\Mod\\News\\Module"
+    }
+}

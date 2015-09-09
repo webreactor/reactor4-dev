@@ -7,7 +7,6 @@ class Gekkon {
     var $gekkon_path;
     var $compiler;
     var $settings;
-    var $loaded;
     var $data;
     var $tplProvider;
     var $binTplProvider;
@@ -18,7 +17,6 @@ class Gekkon {
         $this->gekkon_path = dirname(__file__).'/';
         $this->compiler = null;
         $this->settings = DefaultSettings::get();
-        $this->loaded = array();
         $this->data = new \ArrayObject();
         $this->data['global'] = $this->data;
         $this->tplProvider = new TemplateProviderFS('');
@@ -66,8 +64,6 @@ class Gekkon {
     function template($tpl_name)
     {
         $tpl_full_name = $this->tplProvider->get_full_name($tpl_name);
-        if(isset($this->loaded[$tpl_full_name]))
-                return $this->loaded[$tpl_full_name];
 
         if(($template = $this->tplProvider->load($tpl_name)) === false)
                 return $this->error('Template '.$tpl_name.' cannot be found at '.$tpl_full_name,
@@ -82,7 +78,7 @@ class Gekkon {
                     return $this->error('Cannot compile '.$tpl_name, 'gekkon');
             $this->cacheProvider->clear_cache($binTpl);
         }
-        return $this->loaded[$tpl_full_name] = $binTpl;
+        return $binTpl;
     }
 
     function clear_cache($tpl_name, $id = '')

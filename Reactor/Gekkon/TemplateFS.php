@@ -5,12 +5,10 @@ namespace Reactor\Gekkon;
 class TemplateFS {
 
     var $name;
-    var $association;
 
-    function __construct($name, $association)
+    function __construct($name)
     {
         $this->name = $name;
-        $this->association = $association;
     }
 
     function check_bin($binTemplate)
@@ -22,5 +20,16 @@ class TemplateFS {
     {
         return file_get_contents($this->name);
     }
+    
+    function association()
+    {
+        $dir = dirname($this->name).'/';
+        $name = basename($this->name);
 
+        if(preg_match('/-|_|\./', $name, $matched, PREG_OFFSET_CAPTURE)) {
+            $name = substr($name, 0, $matched[0][1]);
+        }
+
+        return $dir.$name.'.tpl';
+    }
 }

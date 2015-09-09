@@ -15,7 +15,7 @@ class BinTemplateCode {
         $this->blocks['__constructor'] = '';
         $this->meta['created'] = time();
         $this->meta['name'] = $this->template->name;
-        $this->meta['association'] = $this->template->association;
+        $this->meta['association'] = $this->template->association();
         $this->meta['gekkon_ver'] = $compiler->gekkon->version;
     }
 

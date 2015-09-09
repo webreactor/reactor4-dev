@@ -26,11 +26,12 @@ class BinTplProviderFS {
                 return new binTemplate($this->gekkon,
                     $this->loaded[$template->name]);
 
-        $file = $this->full_path($template->association);
+        $file = $this->full_path($template->association());
         if(is_file($file))
         {
             $bins = include($file);
             $this->loaded = array_merge($this->loaded, $bins);
+            if (!isset($this->loaded[$template->name])) return false;
             return new binTemplate($this->gekkon, $this->loaded[$template->name]);
         }
         return false;
@@ -38,14 +39,14 @@ class BinTplProviderFS {
 
     function save($template, $binTplCodeSet)
     {
-        Gekkon::create_dir(dirname($file = $this->full_path($template->association)));
+        Gekkon::create_dir(dirname($file = $this->full_path($template->association())));
         unset($this->loaded[$template->name]);
         file_put_contents($file, '<?php return '.$binTplCodeSet->code());
     }
 
     function clear_cache($template)
     {
-        if(is_file($file = $this->full_path($template->association)) !== false)
+        if(is_file($file = $this->full_path($template->association())) !== false)
                 unlink($file);
     }
 
