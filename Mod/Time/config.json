@@ -1,10 +1,20 @@
 {
 	"services": {
-		"time": {
+		"time_shared": {
 			"shared": true,
 			"scenario": [
 				{
 					"create": "\\Mod\\Time\\Service"
+				}
+			]
+		},
+		"time": {
+			"scenario": [
+				{
+					"create": "%time_shared%"
+				},
+				{
+					"factory": "get"
 				}
 			]
 		}

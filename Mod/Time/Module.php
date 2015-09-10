@@ -2,6 +2,5 @@
 
 namespace Mod\Time;
 
-class Module extends \Reactor\Application\Module
-{
+class Module extends \Reactor\Application\Module {
 }

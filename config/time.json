@@ -3,8 +3,6 @@
 		"time_module": "\\Mod\\Time\\Module"
 	},
 	"parameters": {
-		"time_module": {
-		},
 		"time": "%time_module/time%"
 	}
 }

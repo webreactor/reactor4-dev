@@ -2,10 +2,8 @@
 
 namespace Mod\Time;
 
-class Service
-{
-	function get()
-	{
-		return time();
-	}
+class Service {
+    function get() {
+        return time();
+    }
 }
