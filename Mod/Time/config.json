@@ -1,0 +1,12 @@
+{
+	"services": {
+		"time": {
+			"shared": true,
+			"scenario": [
+				{
+					"create": "\\Mod\\Time\\Service"
+				}
+			]
+		}
+	}
+}
