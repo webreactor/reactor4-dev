@@ -18,8 +18,12 @@ class Dispatcher {
 
     public function addListener($event_name, $callable) {
         $this->listeners[$this->getPregMask($event_name)][] = $callable;
-        $this->cache = array();
+        $this->resetCache();
         return $this;
+    }
+
+    public function resetCache() {
+        $this->cache = array();
     }
 
     public function addSubscriber(SubscriberInterface $subscriber) {

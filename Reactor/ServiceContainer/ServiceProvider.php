@@ -70,7 +70,7 @@ class ServiceProvider implements ServiceProviderInterface {
     }
 
     public function createInstance($container) {
-        $scenario = $this->resolveServices($this->scenario, $container);
+        $scenario = $this->resolveProviders($this->scenario, $container);
         $instance = null;
         foreach($scenario as $step) {
             $instance = call_user_func_array(array($this, 'step_'.$step['type']), array($instance, $step['igniter'], $step['arguments']));
@@ -79,10 +79,10 @@ class ServiceProvider implements ServiceProviderInterface {
         return $instance;
     }
 
-    public function resolveServices($data, $container) {
+    public function resolveProviders($data, $container) {
         if (is_array($data)) {
             foreach ($data as $key => $value) {
-                $data[$key] = $this->resolveServices($value, $container);
+                $data[$key] = $this->resolveProviders($value, $container);
             }
         } elseif (is_object($data)) {
             if (is_a($data, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {

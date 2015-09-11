@@ -6,9 +6,12 @@ use Reactor\ServiceContainer\Reference;
 
 class Application extends Module {
 
-    public function init() {
+    protected function init() {
+        if (empty($this->name)) {
+            $this->name = 'application';
+        }
+        $this->createService($this->name, new Reference());
         $configurator = parent::init();
-        $this->createService('application', new Reference());
     }
 
 }

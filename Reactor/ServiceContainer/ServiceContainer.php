@@ -11,6 +11,18 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
         return $this->data[$name] = $value;
     }
 
+    public function getByPath($path) {
+        if (!is_array($path)) {
+            $path = explode('/', trim($path, '/'));
+        }
+        $value = $this;
+        $cnt = count($path);
+        for ($i = 0; $i < $cnt; $i++) {
+            $value = $value[$path[$i]];
+        }
+        return $value;
+    }
+
     public function getDirect($name) {
         if (!isset($this->data[$name])) {
             throw new Exceptions\ServiceNotFoundExeption($name);

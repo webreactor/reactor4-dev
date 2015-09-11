@@ -1,0 +1,17 @@
+{
+    "modules": {
+        "events": "\\Reactor\\Events\\Module\\SubscribersLoaderHelper"
+    },
+    "parameters": {
+        "events": {
+            "listeners": {
+                "user.deleted": { "printer": "display" }
+            }
+        }
+    },
+    "services": {
+        "printer": {
+            "create": "\\Mod\\News\\Printer"
+        }
+    }
+}

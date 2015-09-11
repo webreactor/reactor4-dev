@@ -1,11 +1,10 @@
 {
     "modules": {
-        "gekkon": "\\Reactor\\Gekkon\\Module\\Module"
+        "view": "\\Reactor\\Gekkon\\Module\\Gekkon"
     },
     "parameters": {
-        "gekkon": {
+        "view": {
             "tpl_bin": "%folders.gekkon.tpl_bin%"
-        },
-        "view": "%gekkon/gekkon%"
+        }
     }
 }
