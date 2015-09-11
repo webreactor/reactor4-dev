@@ -26,7 +26,7 @@ class ContainerAwareDispatcher extends Dispatcher {
     public function addSubscriberService($reference) {
         $subscriber = $this->resolver->resolveProviders($reference, $this->container);
         if (!is_a($subscriber, "\\Reactor\\Events\\SubscriberInterface")) {
-            throw new \Exception("Subscriber has to implement \Reactor\Events\SubscriberInterface");
+            throw new \Exception("Subscriber has to implement \\Reactor\\Events\\SubscriberInterface");
         }
         foreach ($subscriber->getEventHandlers() as $event_name => $method_name) {
             $this->addListener($event_name, array($reference, $method_name));
