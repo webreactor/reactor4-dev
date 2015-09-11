@@ -94,7 +94,7 @@ class ServiceContainerConfigurator {
             $stop = substr($value, -1, 1);
             $inner_value = substr($value, 1, -1);
             if ($start == '%' && $start == $stop) {
-                if ($inner_value[0] == '*') {
+                if (strlen($inner_value) > 0 && $inner_value[0] == '*') {
                     $inner_value = substr($inner_value, 1);
                     return (new Reference($inner_value))->getService($this->container);    
                 }

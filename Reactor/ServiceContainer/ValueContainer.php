@@ -55,6 +55,10 @@ class ValueContainer implements \ArrayAccess {
         return $this->data[$name];
     }
 
+    public function hasDirect($name) {
+        return isset($this->data[$name]);
+    }
+
     public function remove($name) {
         unset($this->data[$name]);
     }

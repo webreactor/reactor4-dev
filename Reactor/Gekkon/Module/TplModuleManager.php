@@ -1,6 +1,7 @@
 <?php
 
 namespace Reactor\Gekkon\Module;
+
 use \Reactor\ServiceContainer\Reference;
 
 class TplModuleManager {
@@ -16,7 +17,7 @@ class TplModuleManager {
 
     public function push($module) {
         if (!is_object($module)) {
-            $module = (new Reference($module))->getService($this->module);
+            $module = $this->module->getByPath($module);
         }
         array_push($this->stack, $module);
         $this->register($module);
@@ -30,7 +31,7 @@ class TplModuleManager {
 
     protected function register($module) {
         $this->module = $module;
-        $this->tplProvider->set_module($module->dir().'tpl/');
+        $this->tplProvider->set_module($module->getDir().'tpl/');
         $this->gekkon->data['_module'] = $module;
     }
 

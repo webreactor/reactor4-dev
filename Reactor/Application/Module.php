@@ -8,16 +8,27 @@ use Reactor\ServiceContainer\ServiceContainer;
 class Module extends ServiceContainer {
 
     protected $dir = null;
+    protected $name;
+    protected $path;
 
-    public function __construct($container = null, $data = array()) {
+    public function __construct($name = '', $container = null, $data = array()) {
+        $this->name = $name;
         $this->setParent($container);
         $this->data = $data;
         $this->init();
     }
 
-    public function init() {
+    public function getModulePath() {
+        return $this->path;
+    }
+
+    protected function init() {
+        $this->path = $this->name;
+        if ($this->parent) {
+            $this->path = $this->parent->getModulePath().'/'.$this->path;
+        }
         $configurator = new ModuleConfigurator($this);
-        $config_file = $this->dir().'config.json';
+        $config_file = $this->getDir().'config.json';
         if (is_file($config_file)) {
             $config_loader = new ConfigurationReaderJSON();
             $config = $config_loader->load($config_file);
@@ -34,11 +45,11 @@ class Module extends ServiceContainer {
                 $data = $existing_data;
             }
         }
-        $module = new $module_class($this, $data);
+        $module = new $module_class($name, $this, $data);
         $this->set($name, $module);
     }
 
-    public function dir() {
+    public function getDir() {
         if ($this->dir === null) {
             $ref = new \ReflectionClass($this);
             $this->dir = dirname($ref->getFileName()).'/';
