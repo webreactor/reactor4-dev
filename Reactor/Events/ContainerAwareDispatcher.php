@@ -14,13 +14,9 @@ class ContainerAwareDispatcher extends Dispatcher {
         $this->container = $container;
     }
 
-    public function dispatch(Event $event) {
-        $listeners = $this->getListeners($event->getName());
-        foreach ($listeners as $callback) {
-            $obj = $this->resolver->resolveProviders($callback[0], $this->container);
-            call_user_func(array($obj, $callback[1]), $event);
-        }
-        return $this;
+    protected function runCallback($callable, Event $event) {
+        $obj = $this->resolver->resolveProviders($callable[0], $this->container);
+        call_user_func(array($obj, $callable[1]), $event);
     }
 
     public function addSubscriberService($reference) {
