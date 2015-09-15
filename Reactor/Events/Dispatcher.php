@@ -33,6 +33,10 @@ class Dispatcher {
         return $this;
     }
 
+    public function raise($name, $data = null) {
+        $this->dispatch(new Event($name, $data));
+    }
+
     public function dispatch(Event $event) {
         $listeners = $this->getListeners($event->getName());
         foreach ($listeners as $callable) {
