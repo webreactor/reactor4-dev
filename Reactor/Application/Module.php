@@ -15,6 +15,9 @@ class Module extends ServiceContainer {
         $this->name = $name;
         $this->setParent($container);
         $this->data = $data;
+        if ($container !== null) {
+            $container->set($name, $this);    
+        }
         $this->init();
     }
 
@@ -46,7 +49,6 @@ class Module extends ServiceContainer {
             }
         }
         $module = new $module_class($name, $this, $data);
-        $this->set($name, $module);
     }
 
     public function getDir() {
