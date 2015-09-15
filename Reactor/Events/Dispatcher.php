@@ -35,10 +35,14 @@ class Dispatcher {
 
     public function dispatch(Event $event) {
         $listeners = $this->getListeners($event->getName());
-        foreach ($listeners as $callback) {
-            call_user_func($callback, $event);
+        foreach ($listeners as $callable) {
+            $this->runCallback($callable, $event);
         }
         return $this;
+    }
+
+    protected function runCallback($callable, Event $event) {
+        call_user_func($callable, $event);
     }
 
     public function getListeners($event_name) {

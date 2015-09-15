@@ -22,7 +22,7 @@ class SubscribersLoaderHelper extends \Reactor\Application\Module {
 
         if ($this->hasDirect('subscribers')) {
             foreach ($this->getDirect('subscribers') as $subscriber) {
-                $dispatcher->addSubscriberService(new Reference($module_path.'/'.$service));
+                $dispatcher->addSubscriberService(new Reference($module_path.'/'.$subscriber));
             }
         }
 
