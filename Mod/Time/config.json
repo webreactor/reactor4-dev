@@ -1,12 +1,18 @@
 {
+    "modules": {
+        "events": "\\Reactor\\Events\\Module\\SubscribersLoaderHelper"
+    },
+    "parameters": {
+        "events": {
+            "subscribers": [
+                "printer"
+            ]
+        }
+    },
 	"services": {
 		"time_shared": {
 			"shared": true,
-			"scenario": [
-				{
-					"create": "\\Mod\\Time\\Service"
-				}
-			]
+			"create": "\\Mod\\Time\\Service"
 		},
 		"time": {
 			"scenario": [
@@ -17,6 +23,9 @@
 					"factory": "get"
 				}
 			]
-		}
+		},
+        "printer": {
+            "create": "\\Mod\\Time\\Printer"
+        }
 	}
 }
