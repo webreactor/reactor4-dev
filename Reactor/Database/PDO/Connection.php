@@ -110,11 +110,11 @@ class Connection implements ConnectionInterface {
         $page = (int)$page;
 
         if($page == 0) {
-            $data = $this->sql($query, $parameters);
+            $data = $this->sql($query, $parameters)->matr();
         } else {
 
             $from = ($page - 1)  * $per_page;
-            $data = $this->sql($query . ' limit ' . $from . ', ' . $per_page, $parameters);
+            $data = $this->sql($query . ' limit ' . $from . ', ' . $per_page, $parameters)->matr();
         }
 
         if ($total_rows === null) {
