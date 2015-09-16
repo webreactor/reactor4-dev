@@ -2,7 +2,7 @@
 
 namespace Reactor\HTTP;
 
-use \Reator\Events\Event;
+use \Reactor\Events\Event;
 
 class HTTPController {
 

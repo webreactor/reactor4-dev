@@ -1,0 +1,8 @@
+{
+	"modules": {
+		"time_module": "\\Mod\\Time\\Module"
+	},
+	"parameters": {
+		"time": "%time_module/time%"
+	}
+}
