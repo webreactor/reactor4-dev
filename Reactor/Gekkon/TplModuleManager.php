@@ -21,5 +21,6 @@ class TplModuleManager {
         $module = array_pop($this->stack);
         $this->module = $module;
         $this->tplProvider->set_module($module);
+        return $module;
     }
 }
