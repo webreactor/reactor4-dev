@@ -4,7 +4,7 @@
     <target>vendor/tmp</target>
   </parser>
   <transformer>
-    <target>docs/</target>
+    <target>.docs-tmp/</target>
   </transformer>
   <transformations>
     <template name="xml" />
