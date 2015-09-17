@@ -2,25 +2,51 @@
 
 namespace Reactor\ServiceContainer;
 
+/**
+ * Service factory.
+ * Scenario based. Service is an object or value.
+ * Can cache instance to share it.
+ * If scenario steps arguments that implement ServiceProviderInterface - will be resolved when scenario is executed 
+ */
 class ServiceProvider implements ServiceProviderInterface {
 
     protected $scenario = array();
     protected $shared = false;
     protected $instance = null;
 
+    /**
+     * @param mixed $igniter classname or callable or ServiceProviderInterface object
+     * @param array $arguments list or arguments in case of $igniter is classname or callable
+     *  
+     */
     public function __construct($igniter = null, $arguments = array()) {
         $this->createScenario($igniter, $arguments);
     }
 
+    /**
+     * Cache result value after scenario has been execured
+     * @param bool $flag 
+     * @return $this
+     */
     public function shared($flag = true) {
         $this->shared = (bool) $flag;
         return $this;
     }
 
+    /**
+     * 
+     * @return bool
+     */
     public function isShared() {
         return $this->shared;
     }
 
+    /**
+     * Start new scenario
+     * @param mixed $igniter classname or callable or ServiceProviderInterface object
+     * @param array $arguments list or arguments in case of $igniter is classname or callable
+     * @return $this
+     */
     public function createScenario($igniter = null, $arguments = array()) {
         $this->scenario = array();
         $this->scenario[] = array(
@@ -31,6 +57,14 @@ class ServiceProvider implements ServiceProviderInterface {
         return $this;
     }
 
+    /**
+     * Add Factory call step in scenario
+     * @param mixed $factory callable or method name
+     *  $factory can be callable only if addFactory is the first step
+     *  Returned value will be used as service
+     * @param array $arguments list or arguments in case of $igniter is classname or callable
+     * @return $this
+     */
     public function addFactory($factory, $arguments = array()) {
         $this->scenario[] = array(
             'type' => 'factory',
@@ -105,10 +139,10 @@ class ServiceProvider implements ServiceProviderInterface {
     }
 
     protected function step_factory($instance, $igniter, $arguments) {
-        if (is_object($instance)) {
-            return call_user_func_array(array($instance, $igniter), $arguments);
-        } else {
+        if ($instance === null) {
             return call_user_func_array($igniter, $arguments);
+        } else {
+            return call_user_func_array(array($instance, $igniter), $arguments);
         }
     }
 

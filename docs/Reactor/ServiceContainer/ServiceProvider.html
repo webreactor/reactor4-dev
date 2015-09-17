@@ -80,6 +80,10 @@
         <a href="../../Reactor/ServiceContainer/ServiceProviderInterface.html"><abbr title="Reactor\ServiceContainer\ServiceProviderInterface">ServiceProviderInterface</abbr></a>
 </p>
 
+            <div class="description">
+            <p>Service factory. Scenario based.</p>            <p>Service is an object or value
+Can cache instance to share it.
+If scenario steps arguments that implement ServiceProviderInterface - will be resolved when scenario is executed</p>        </div>
     
     
     
@@ -93,7 +97,9 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>($igniter = null, $arguments = array())
+                    <a href="#method___construct">__construct</a>(
+    mixed $igniter = null, 
+    array $arguments = array())
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -101,18 +107,18 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     
-    
+    <abbr title="Reactor\ServiceContainer\$this">$this</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_shared">shared</a>($flag = true)
-                                            <p class="no-description">No description</p>
-                                    </div>
+                    <a href="#method_shared">shared</a>(
+    bool $flag = true)
+                                            <p>Cache result value after scenario has been execured</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     
-    
+    bool
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_isShared">isShared</a>()
@@ -123,23 +129,25 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     
-    
+    <abbr title="Reactor\ServiceContainer\$this">$this</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_createScenario">createScenario</a>($igniter = null, $arguments = array())
-                                            <p class="no-description">No description</p>
-                                    </div>
+                    <a href="#method_createScenario">createScenario</a>(
+    mixed $igniter = null, 
+    array $arguments = array())
+                                            <p>Start new scenario</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     
-    
+    <abbr title="Reactor\ServiceContainer\$this">$this</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_addFactory">addFactory</a>($factory, $arguments = array())
-                                            <p class="no-description">No description</p>
-                                    </div>
+                    <a href="#method_addFactory">addFactory</a>(
+    mixed $factory, 
+    array $arguments = array())
+                                            <p>Add Factory call step in scenario</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -216,10 +224,12 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line 11</div>
+        <div class="location">at line 22</div>
         <code>                    
     
-    <strong>__construct</strong>($igniter = null, $arguments = array())</code>
+    <strong>__construct</strong>(
+    mixed $igniter = null, 
+    array $arguments = array())</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -227,16 +237,16 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
-                <td>$igniter</td>
                 <td>
-</td>
+    mixed</td>
+                <td>$igniter</td>
+                <td>classname or callable or ServiceProviderInterface object</td>
             </tr>
                     <tr>
-                <td></td>
-                <td>$arguments</td>
                 <td>
-</td>
+    array</td>
+                <td>$arguments</td>
+                <td>list or arguments in case of $igniter is classname or callable</td>
             </tr>
             </table>
 
@@ -249,18 +259,22 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_shared">
-        <div class="location">at line 15</div>
+        <div class="location">at line 31</div>
         <code>                    
-    
-    <strong>shared</strong>($flag = true)</code>
+    <abbr title="Reactor\ServiceContainer\$this">$this</abbr>
+    <strong>shared</strong>(
+    bool $flag = true)</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Cache result value after scenario has been execured</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>
+    bool</td>
                 <td>$flag</td>
                 <td>
 </td>
@@ -268,6 +282,17 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Reactor\ServiceContainer\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -276,14 +301,25 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isShared">
-        <div class="location">at line 20</div>
+        <div class="location">at line 40</div>
         <code>                    
-    
+    bool
     <strong>isShared</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -292,31 +328,46 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createScenario">
-        <div class="location">at line 24</div>
+        <div class="location">at line 50</div>
         <code>                    
-    
-    <strong>createScenario</strong>($igniter = null, $arguments = array())</code>
+    <abbr title="Reactor\ServiceContainer\$this">$this</abbr>
+    <strong>createScenario</strong>(
+    mixed $igniter = null, 
+    array $arguments = array())</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Start new scenario</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
-                <td>$igniter</td>
                 <td>
-</td>
+    mixed</td>
+                <td>$igniter</td>
+                <td>classname or callable or ServiceProviderInterface object</td>
             </tr>
                     <tr>
-                <td></td>
-                <td>$arguments</td>
                 <td>
-</td>
+    array</td>
+                <td>$arguments</td>
+                <td>list or arguments in case of $igniter is classname or callable</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Reactor\ServiceContainer\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -325,31 +376,48 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addFactory">
-        <div class="location">at line 34</div>
+        <div class="location">at line 68</div>
         <code>                    
-    
-    <strong>addFactory</strong>($factory, $arguments = array())</code>
+    <abbr title="Reactor\ServiceContainer\$this">$this</abbr>
+    <strong>addFactory</strong>(
+    mixed $factory, 
+    array $arguments = array())</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Add Factory call step in scenario</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
-                <td>$factory</td>
                 <td>
-</td>
+    mixed</td>
+                <td>$factory</td>
+                <td>callable or method name
+ $factory can be callable only if addFactory is the first step
+ Returned value will be used as service</td>
             </tr>
                     <tr>
-                <td></td>
-                <td>$arguments</td>
                 <td>
-</td>
+    array</td>
+                <td>$arguments</td>
+                <td>list or arguments in case of $igniter is classname or callable</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Reactor\ServiceContainer\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -358,7 +426,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addCall">
-        <div class="location">at line 43</div>
+        <div class="location">at line 77</div>
         <code>                    
     
     <strong>addCall</strong>($method_name, $arguments = array())</code>
@@ -391,7 +459,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addConfigurator">
-        <div class="location">at line 52</div>
+        <div class="location">at line 86</div>
         <code>                    
     
     <strong>addConfigurator</strong>($configurator, $arguments = array())</code>
@@ -424,7 +492,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getService">
-        <div class="location">at line 61</div>
+        <div class="location">at line 95</div>
         <code>                    
     
     <strong>getService</strong>($container = null)</code>
@@ -451,7 +519,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createInstance">
-        <div class="location">at line 72</div>
+        <div class="location">at line 106</div>
         <code>                    
     
     <strong>createInstance</strong>($container)</code>
@@ -478,7 +546,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resolveProviders">
-        <div class="location">at line 82</div>
+        <div class="location">at line 116</div>
         <code>                    
     
     <strong>resolveProviders</strong>($data, $container)</code>
@@ -511,7 +579,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_reset">
-        <div class="location">at line 125</div>
+        <div class="location">at line 159</div>
         <code>                    
     
     <strong>reset</strong>()</code>
