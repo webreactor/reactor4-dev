@@ -10,8 +10,8 @@ class Dispatcher extends \Reactor\Application\Module {
 
     protected $dispatcher;
 
-    public function init() {
-        parent::init();
+    public function init($container = null) {
+        parent::init($container);
         $this->dispatcher = new ContainerAwareDispatcher();
     }
 
