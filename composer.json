@@ -12,5 +12,9 @@
             "Reactor\\": "Reactor/",
             "Mod\\": "mod/"
         }
+    },
+    "require-dev": {
+        "evert/phpdoc-md": "*",
+        "phpdocumentor/phpdocumentor": "*"
     }
 }
