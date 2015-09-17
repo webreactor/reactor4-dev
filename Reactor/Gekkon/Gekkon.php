@@ -60,8 +60,8 @@ class Gekkon {
     }
 
     function template($tpl_name) {
-        $tpl_full_name = $this->tplProvider->get_full_name($tpl_name);
         if (($template = $this->tplProvider->load($tpl_name)) === false) {
+            $tpl_full_name = $this->tplProvider->get_full_name($tpl_name);
             return $this->error('Template ' . $tpl_name . ' cannot be found at ' . $tpl_full_name, 'gekkon');
         }
         if ($this->settings['force_compile']) {
