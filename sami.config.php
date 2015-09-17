@@ -1,6 +1,7 @@
 <?php
 
 // https://github.com/FriendsOfPHP/Sami
+// curl -O http://get.sensiolabs.org/sami.phar
 
 use Sami\Sami;
 use Sami\RemoteRepository\GitHubRemoteRepository;
