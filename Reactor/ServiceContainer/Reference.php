@@ -11,6 +11,11 @@ class Reference implements ServiceProviderInterface {
         $this->path = $path;
     }
 
+    /**
+     * @param ServiceContainer $container
+     * @return ServiceContainer
+     * @throws Exceptions\CircularReferenceExeption
+     */
     public function getService($container = null) {
         if ($this->loading) {
             throw new Exceptions\CircularReferenceExeption($this->getPath());

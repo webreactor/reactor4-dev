@@ -7,6 +7,9 @@ class TplModuleManager {
     protected $tplProvider = null;
     public $module;
 
+    /**
+     * @param Gekkon $gekkon
+     */
     function __construct($gekkon) {
         $this->tplProvider = $gekkon->tplProvider;
     }

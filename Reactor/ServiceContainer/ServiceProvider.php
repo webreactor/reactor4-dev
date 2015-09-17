@@ -113,6 +113,11 @@ class ServiceProvider implements ServiceProviderInterface {
         return $instance;
     }
 
+    /**
+     * @param array|ServiceProviderInterface $data
+     * @param $container
+     * @return mixed
+     */
     public function resolveProviders($data, $container) {
         if (is_array($data)) {
             foreach ($data as $key => $value) {

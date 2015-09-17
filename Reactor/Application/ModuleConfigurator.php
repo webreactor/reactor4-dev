@@ -5,7 +5,9 @@ namespace Reactor\Application;
 use Reactor\ServiceContainer\ServiceContainerConfigurator;
 
 class ModuleConfigurator {
-
+    /**
+     * @var Module
+     */
     protected $module;
     protected $container_configurator;
 

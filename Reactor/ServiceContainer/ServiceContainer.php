@@ -11,6 +11,10 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
         return $this->data[$name] = $value;
     }
 
+    /**
+     * @param $path
+     * @return ServiceContainer
+     */
     public function getByPath($path) {
         if (!is_array($path)) {
             $path = explode('/', trim($path, '/'));
@@ -28,6 +32,7 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
             throw new Exceptions\ServiceNotFoundExeption($name);
         }
         $value = $this->data[$name];
+        /** @var ServiceProviderInterface $value */
         if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
             return $value->getService($this);
         }
@@ -40,6 +45,7 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
     }
 
     protected function _reset($data) {
+        /** @var ServiceProviderInterface $value */
         foreach ($data as $value) {
             if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
                 $value->reset();

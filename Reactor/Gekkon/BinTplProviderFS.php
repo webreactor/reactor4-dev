@@ -17,6 +17,10 @@ class BinTplProviderFS {
         return $bin_path . $bin_name . '.php';
     }
 
+    /**
+     * @param TemplateFS $template
+     * @return bool|binTemplate
+     */
     function load($template) {
         if (isset($this->loaded[$template->name])) {
             return new binTemplate($this->gekkon, $this->loaded[$template->name]);
@@ -33,12 +37,19 @@ class BinTplProviderFS {
         return false;
     }
 
+    /**
+     * @param TemplateFS $template
+     * @param  \Reactor\Gekkon\Compiler\BinTemplateCode $binTplCodeSet
+     */
     function save($template, $binTplCodeSet) {
         Gekkon::create_dir(dirname($file = $this->full_path($template->association())));
         unset($this->loaded[$template->name]);
         file_put_contents($file, '<?php return ' . $binTplCodeSet->code());
     }
 
+    /**
+     * @param TemplateFS $template
+     */
     function clear_cache($template) {
         if (is_file($file = $this->full_path($template->association())) !== false) {
             unlink($file);

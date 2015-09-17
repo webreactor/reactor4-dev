@@ -5,6 +5,9 @@ namespace Reactor\ServiceContainer;
 class ValueContainer implements \ArrayAccess {
 
     protected $data = array();
+    /**
+     * @var mixed
+     */
     protected $parent = null;
 
     public function setAll($data) {

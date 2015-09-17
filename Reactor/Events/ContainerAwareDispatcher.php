@@ -7,6 +7,9 @@ use Reactor\ServiceContainer\ServiceProvider;
 class ContainerAwareDispatcher extends Dispatcher {
 
     protected $container;
+    /**
+     * @var ServiceProvider
+     */
     protected $resolver;
 
     public function setContainer($container) {

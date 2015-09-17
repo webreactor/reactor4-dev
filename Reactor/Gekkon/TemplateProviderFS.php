@@ -22,6 +22,10 @@ class TemplateProviderFS {
         return $this->base_dir . $name;
     }
 
+    /**
+     * @param TemplateFS $template
+     * @return array
+     */
     function get_associated($template) {
         $association = $template->association();
         $rez = array();

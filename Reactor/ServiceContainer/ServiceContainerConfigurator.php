@@ -3,6 +3,9 @@
 namespace Reactor\ServiceContainer;
 
 class ServiceContainerConfigurator {
+    /**
+     * @var ValueContainer
+     */
     protected $container;
 
     public function __construct($container) {
@@ -53,6 +56,11 @@ class ServiceContainerConfigurator {
         return $provider;
     }
 
+    /**
+     * @param ServiceProvider $provider
+     * @param $scenario
+     * @throws Exceptions\ServiceConfiguratorExeption
+     */
     protected function loadScenario($provider, $scenario) {
         foreach ($scenario as $step) {
             if (!isset($step['arguments'])) {

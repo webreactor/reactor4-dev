@@ -7,7 +7,9 @@ use \Reactor\Application\Exceptions\ModuleConfiguratorExeption;
 use \Reactor\Events\ContainerAwareDispatcher;
 
 class Dispatcher extends \Reactor\Application\Module {
-
+    /**
+     * @var ContainerAwareDispatcher
+     */
     protected $dispatcher;
 
     public function init() {
