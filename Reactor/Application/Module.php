@@ -5,20 +5,14 @@ namespace Reactor\Application;
 use Reactor\ServiceContainer\ServiceContainerConfigurator;
 use Reactor\ServiceContainer\ServiceContainer;
 
-/**
- * Class Module
- * @package Reactor\Application
- * @var Module $parent
- */
 class Module extends ServiceContainer {
 
     protected $dir = null;
     protected $name;
     protected $path;
 
-    public function __construct($name = '', $container = null, $data = array()) {
-        $this->name = $name;
-        $this->setParent($container);
+    public function __construct($name = '', $data = array()) {
+        $this->path = $this->name = $name;
         $this->data = $data;
     }
 
