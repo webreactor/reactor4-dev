@@ -47,7 +47,7 @@ class Connection implements ConnectionInterface {
         return $this->getConnection()->lastInsertId($name);
     }
 
-    protected function wrapWrere($where) {
+    protected function wrapWhere($where) {
         if (trim($where) == '') {
             return ' ';
         }
@@ -59,7 +59,7 @@ class Connection implements ConnectionInterface {
             $where = $this->buildPairs(array_keys($where_data), 'and');
         }
         return $this->sql('select * from `' . $table . '`'
-            . $this->wrapWrere($where), $where_data);
+            . $this->wrapWhere($where), $where_data);
     }
 
     public function insert($table, $data) {
@@ -90,9 +90,9 @@ class Connection implements ConnectionInterface {
         if ($where === '') {
             $where = $this->buildPairs(array_keys($where_data), 'and');
         }
-        $query = $this->sql('update ' . $flags . ' `' . $table . '` set '
+        $query = $this->sql('update `' . $table . '` set '
             . $this->buildPairs(array_keys($data)) 
-            . $this->wrapWrere($where), array_merge($data, $where_data));
+            . $this->wrapWhere($where), array_merge($data, $where_data));
         return $query->rowCount();
     }
 
@@ -101,7 +101,7 @@ class Connection implements ConnectionInterface {
             $where = $this->buildPairs(array_keys($where_data), 'and');
         }
         $query = $this->sql('delete from `' . $table . '` '
-            . $this->wrapWrere($where), $where_data);
+            . $this->wrapWhere($where), $where_data);
         return $query->rowCount();
     }
 
@@ -109,12 +109,12 @@ class Connection implements ConnectionInterface {
         $per_page = (int)$per_page;
         $page = (int)$page;
 
-        if($p == 0) {
-            $this->sql($query, $parameters);    
+        if($page == 0) {
+            $data = $this->sql($query, $parameters)->matr();
         } else {
 
             $from = ($page - 1)  * $per_page;
-            $data = $this->sql($query . ' limit ' . $from . ', ' . $per_page, $parameters);
+            $data = $this->sql($query . ' limit ' . $from . ', ' . $per_page, $parameters)->matr();
         }
 
         if ($total_rows === null) {
@@ -128,7 +128,7 @@ class Connection implements ConnectionInterface {
             $total_rows = $this->sql('SELECT count(*) as `count` ' . $cnt_query)->line('count');
         }
 
-        $total_pages = ceil($total_rows / $by);
+        $total_pages = ceil($total_rows / $per_page);
         return array(
             'data' => $data,
             'total_rows' => $total_rows,
