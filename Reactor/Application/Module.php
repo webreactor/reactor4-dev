@@ -20,7 +20,7 @@ class Module extends ServiceContainer {
         return $this->path;
     }
 
-    public function init($container = null) {
+    public function init($container) {
         if ($container !== null) {
             $this->setParent($container);
             $this->path = $this->parent->getModulePath().'/'.$this->name;
