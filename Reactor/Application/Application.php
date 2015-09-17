@@ -6,7 +6,13 @@ use Reactor\ServiceContainer\Reference;
 
 class Application extends Module {
 
-    protected function init() {
+    public function __construct($name = '', $data = array()) {
+        $this->name = $name;
+        $this->data = $data;
+        $this->init();
+    }
+
+    public function init($container = null) {
         if (empty($this->name)) {
             $this->name = 'application';
         }
