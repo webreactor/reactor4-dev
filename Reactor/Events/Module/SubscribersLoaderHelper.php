@@ -7,7 +7,7 @@ use \Reactor\Application\Exceptions\ModuleConfiguratorExeption;
 
 class SubscribersLoaderHelper extends \Reactor\Application\Module {
 
-    protected function init() {
+    public function init() {
         $configurator = parent::init();
         $module_path = $this->getParent()->getModulePath();
         $dispatcher = $this->get('dispatcher');
