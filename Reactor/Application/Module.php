@@ -44,7 +44,7 @@ class Module extends ServiceContainer {
             }
         }
         $module = new $module_class($name, $data);
-        $container->set($name, $this);
+        $this->set($name, $module);
         $module->init($this);
         return $module;
     }
