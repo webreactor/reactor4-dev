@@ -10,6 +10,7 @@ class SubscribersLoaderHelper extends \Reactor\Application\Module {
     public function init($container) {
         $configurator = parent::init($container);
         $module_path = $this->getParent()->getModulePath();
+        /** @var  \Reactor\Events\ContainerAwareDispatcher $dispatcher */
         $dispatcher = $this->get('dispatcher');
 
         if ($this->hasDirect('listeners')) {

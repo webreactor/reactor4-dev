@@ -35,6 +35,12 @@ class Module extends ServiceContainer {
         return $configurator;
     }
 
+    /**
+     * @param string $name
+     * @param Module $module_class
+     * @return Module
+     * @throws \Reactor\ServiceContainer\Exceptions\ServiceNotFoundExeption
+     */
     public function loadModule($name, $module_class) {
         $data = array();
         if ($this->has($name)) {
@@ -43,6 +49,7 @@ class Module extends ServiceContainer {
                 $data = $existing_data;
             }
         }
+        /** @var Module $module */
         $module = new $module_class($name, $data);
         $this->set($name, $module);
         $module->init($this);
