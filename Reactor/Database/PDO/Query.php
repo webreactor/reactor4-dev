@@ -54,7 +54,7 @@ class Query implements QueryInterface {
         $data = array();
         if ($key === null) {
             if ($row == '*') {
-                $data = $this->statement->fetchAll();
+                $data = $this->statement->fetchAll(\PDO::FETCH_ASSOC);
             } else {
                 while ($line = $this->statement->fetch(\PDO::FETCH_ASSOC)) {
                     $data[] = $line[$row];
