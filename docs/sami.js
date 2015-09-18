@@ -47,7 +47,9 @@
             
             
             {"type": "Class", "fromName": "Reactor\\Application", "fromLink": "Reactor/Application.html", "link": "Reactor/Application/Application.html", "name": "Reactor\\Application\\Application", "doc": "&quot;\n&quot;"},
-                    
+                                                        {"type": "Method", "fromName": "Reactor\\Application\\Application", "fromLink": "Reactor/Application/Application.html", "link": "Reactor/Application/Application.html#method___construct", "name": "Reactor\\Application\\Application::__construct", "doc": "&quot;\n&quot;"},
+                    {"type": "Method", "fromName": "Reactor\\Application\\Application", "fromLink": "Reactor/Application/Application.html", "link": "Reactor/Application/Application.html#method_init", "name": "Reactor\\Application\\Application::init", "doc": "&quot;\n&quot;"},
+            
             {"type": "Class", "fromName": "Reactor\\Application", "fromLink": "Reactor/Application.html", "link": "Reactor/Application/ConfigurationReaderJSON.html", "name": "Reactor\\Application\\ConfigurationReaderJSON", "doc": "&quot;\n&quot;"},
                                                         {"type": "Method", "fromName": "Reactor\\Application\\ConfigurationReaderJSON", "fromLink": "Reactor/Application/ConfigurationReaderJSON.html", "link": "Reactor/Application/ConfigurationReaderJSON.html#method_load", "name": "Reactor\\Application\\ConfigurationReaderJSON::load", "doc": "&quot;\n&quot;"},
             
@@ -56,6 +58,7 @@
             {"type": "Class", "fromName": "Reactor\\Application", "fromLink": "Reactor/Application.html", "link": "Reactor/Application/Module.html", "name": "Reactor\\Application\\Module", "doc": "&quot;\n&quot;"},
                                                         {"type": "Method", "fromName": "Reactor\\Application\\Module", "fromLink": "Reactor/Application/Module.html", "link": "Reactor/Application/Module.html#method___construct", "name": "Reactor\\Application\\Module::__construct", "doc": "&quot;\n&quot;"},
                     {"type": "Method", "fromName": "Reactor\\Application\\Module", "fromLink": "Reactor/Application/Module.html", "link": "Reactor/Application/Module.html#method_getModulePath", "name": "Reactor\\Application\\Module::getModulePath", "doc": "&quot;\n&quot;"},
+                    {"type": "Method", "fromName": "Reactor\\Application\\Module", "fromLink": "Reactor/Application/Module.html", "link": "Reactor/Application/Module.html#method_init", "name": "Reactor\\Application\\Module::init", "doc": "&quot;\n&quot;"},
                     {"type": "Method", "fromName": "Reactor\\Application\\Module", "fromLink": "Reactor/Application/Module.html", "link": "Reactor/Application/Module.html#method_loadModule", "name": "Reactor\\Application\\Module::loadModule", "doc": "&quot;\n&quot;"},
                     {"type": "Method", "fromName": "Reactor\\Application\\Module", "fromLink": "Reactor/Application/Module.html", "link": "Reactor/Application/Module.html#method_getDir", "name": "Reactor\\Application\\Module::getDir", "doc": "&quot;\n&quot;"},
                     {"type": "Method", "fromName": "Reactor\\Application\\Module", "fromLink": "Reactor/Application/Module.html", "link": "Reactor/Application/Module.html#method_getName", "name": "Reactor\\Application\\Module::getName", "doc": "&quot;\n&quot;"},
@@ -148,7 +151,8 @@
                     {"type": "Method", "fromName": "Reactor\\Events\\Module\\Dispatcher", "fromLink": "Reactor/Events/Module/Dispatcher.html", "link": "Reactor/Events/Module/Dispatcher.html#method_reset", "name": "Reactor\\Events\\Module\\Dispatcher::reset", "doc": "&quot;\n&quot;"},
             
             {"type": "Class", "fromName": "Reactor\\Events\\Module", "fromLink": "Reactor/Events/Module.html", "link": "Reactor/Events/Module/SubscribersLoaderHelper.html", "name": "Reactor\\Events\\Module\\SubscribersLoaderHelper", "doc": "&quot;\n&quot;"},
-                    
+                                                        {"type": "Method", "fromName": "Reactor\\Events\\Module\\SubscribersLoaderHelper", "fromLink": "Reactor/Events/Module/SubscribersLoaderHelper.html", "link": "Reactor/Events/Module/SubscribersLoaderHelper.html#method_init", "name": "Reactor\\Events\\Module\\SubscribersLoaderHelper::init", "doc": "&quot;\n&quot;"},
+            
             {"type": "Class", "fromName": "Reactor\\Events", "fromLink": "Reactor/Events.html", "link": "Reactor/Events/SubscriberInterface.html", "name": "Reactor\\Events\\SubscriberInterface", "doc": "&quot;\n&quot;"},
                                                         {"type": "Method", "fromName": "Reactor\\Events\\SubscriberInterface", "fromLink": "Reactor/Events/SubscriberInterface.html", "link": "Reactor/Events/SubscriberInterface.html#method_getEventHandlers", "name": "Reactor\\Events\\SubscriberInterface::getEventHandlers", "doc": "&quot;\n&quot;"},
             
@@ -479,7 +483,7 @@
                     {"type": "Method", "fromName": "Reactor\\ServiceContainer\\ServiceContainerConfigurator", "fromLink": "Reactor/ServiceContainer/ServiceContainerConfigurator.html", "link": "Reactor/ServiceContainer/ServiceContainerConfigurator.html#method_load", "name": "Reactor\\ServiceContainer\\ServiceContainerConfigurator::load", "doc": "&quot;\n&quot;"},
                     {"type": "Method", "fromName": "Reactor\\ServiceContainer\\ServiceContainerConfigurator", "fromLink": "Reactor/ServiceContainer/ServiceContainerConfigurator.html", "link": "Reactor/ServiceContainer/ServiceContainerConfigurator.html#method_createProvider", "name": "Reactor\\ServiceContainer\\ServiceContainerConfigurator::createProvider", "doc": "&quot;\n&quot;"},
             
-            {"type": "Class", "fromName": "Reactor\\ServiceContainer", "fromLink": "Reactor/ServiceContainer.html", "link": "Reactor/ServiceContainer/ServiceProvider.html", "name": "Reactor\\ServiceContainer\\ServiceProvider", "doc": "&quot;Service factory. Scenario based.&quot;"},
+            {"type": "Class", "fromName": "Reactor\\ServiceContainer", "fromLink": "Reactor/ServiceContainer.html", "link": "Reactor/ServiceContainer/ServiceProvider.html", "name": "Reactor\\ServiceContainer\\ServiceProvider", "doc": "&quot;Service factory.&quot;"},
                                                         {"type": "Method", "fromName": "Reactor\\ServiceContainer\\ServiceProvider", "fromLink": "Reactor/ServiceContainer/ServiceProvider.html", "link": "Reactor/ServiceContainer/ServiceProvider.html#method___construct", "name": "Reactor\\ServiceContainer\\ServiceProvider::__construct", "doc": "&quot;\n&quot;"},
                     {"type": "Method", "fromName": "Reactor\\ServiceContainer\\ServiceProvider", "fromLink": "Reactor/ServiceContainer/ServiceProvider.html", "link": "Reactor/ServiceContainer/ServiceProvider.html#method_shared", "name": "Reactor\\ServiceContainer\\ServiceProvider::shared", "doc": "&quot;Cache result value after scenario has been execured&quot;"},
                     {"type": "Method", "fromName": "Reactor\\ServiceContainer\\ServiceProvider", "fromLink": "Reactor/ServiceContainer/ServiceProvider.html", "link": "Reactor/ServiceContainer/ServiceProvider.html#method_isShared", "name": "Reactor\\ServiceContainer\\ServiceProvider::isShared", "doc": "&quot;\n&quot;"},

@@ -34,7 +34,7 @@
         "tplModuleManager": {
             "scenario": [
                 {
-                    "create": "\\Reactor\\Gekkon\\Module\\TplModulemanager",
+                    "create": "\\Reactor\\Gekkon\\Module\\TplModuleManager",
                     "arguments": [ "%gekkon.raw%" ]
                 }
             ]

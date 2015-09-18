@@ -11,24 +11,19 @@ class Module extends ServiceContainer {
     protected $name;
     protected $path;
 
-    public function __construct($name = '', $container = null, $data = array()) {
-        $this->name = $name;
-        $this->setParent($container);
+    public function __construct($name = '', $data = array()) {
+        $this->path = $this->name = $name;
         $this->data = $data;
-        if ($container !== null) {
-            $container->set($name, $this);    
-        }
-        $this->init();
     }
 
     public function getModulePath() {
         return $this->path;
     }
 
-    protected function init() {
-        $this->path = $this->name;
-        if ($this->parent) {
-            $this->path = $this->parent->getModulePath().'/'.$this->path;
+    public function init($container) {
+        if ($container !== null) {
+            $this->setParent($container);
+            $this->path = $this->parent->getModulePath().'/'.$this->name;
         }
         $configurator = new ModuleConfigurator($this);
         $config_file = $this->getDir().'config.json';
@@ -48,7 +43,10 @@ class Module extends ServiceContainer {
                 $data = $existing_data;
             }
         }
-        $module = new $module_class($name, $this, $data);
+        $module = new $module_class($name, $data);
+        $this->set($name, $module);
+        $module->init($this);
+        return $module;
     }
 
     public function getDir() {

@@ -7,20 +7,18 @@ use Reactor\ServiceContainer\ServiceProvider;
 class ContainerAwareDispatcher extends Dispatcher {
 
     protected $container;
-    protected $resolver;
 
     public function setContainer($container) {
-        $this->resolver = new ServiceProvider();
         $this->container = $container;
     }
 
     protected function runCallback($callable, Event $event) {
-        $obj = $this->resolver->resolveProviders($callable[0], $this->container);
+        $obj = $this->container->resolveProviders($callable[0]);
         call_user_func(array($obj, $callable[1]), $event);
     }
 
     public function addSubscriberService($reference) {
-        $subscriber = $this->resolver->resolveProviders($reference, $this->container);
+        $subscriber = $this->container->resolveProviders($reference);
         if (!is_a($subscriber, "\\Reactor\\Events\\SubscriberInterface")) {
             throw new \Exception("Subscriber has to implement \\Reactor\\Events\\SubscriberInterface");
         }
