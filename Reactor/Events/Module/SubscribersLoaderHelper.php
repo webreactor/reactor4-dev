@@ -3,7 +3,7 @@
 namespace Reactor\Events\Module;
 
 use \Reactor\ServiceContainer\Reference;
-use \Reactor\Application\Exceptions\ModuleConfiguratorExeption;
+use \Reactor\Application\Exceptions\ModuleConfiguratorException;
 
 class SubscribersLoaderHelper extends \Reactor\Application\Module {
 

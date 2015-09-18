@@ -2,7 +2,7 @@
 
 namespace Reactor\Gekkon\Module;
 
-use \Reactor\Application\Exceptions\ModuleConfiguratorExeption;
+use \Reactor\Application\Exceptions\ModuleConfiguratorException;
 
 class Gekkon extends \Reactor\Application\Module {
 

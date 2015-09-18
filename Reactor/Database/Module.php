@@ -2,7 +2,7 @@
 
 namespace Reactor\Database;
 
-use Reactor\Application\Exceptions\ModuleConfiguratorExeption;
+use Reactor\Application\Exceptions\ModuleConfiguratorException;
 
 class Module extends \Reactor\Application\Module {
     function init() {
