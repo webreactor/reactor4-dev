@@ -4,57 +4,49 @@ namespace Reactor\HTTP;
 
 class Request {
 
-    protected $uri;
-    protected $method;
-    protected $host;
-    protected $post;
-    protected $get;
-    protected $body;
-    protected $headers;
-    protected $files;
-    protected $cookies;
+    public $post;
+    public $query;
+    public $content;
+    public $files;
+    public $cookies;
+    public $parameters;
+
+    public $attributes;
 
     public function __construct(
         $get = array(),
         $post = array(),
+        $content = null,
+        $files = array()
         $cookies = array(),
-        $files = array(),
-        $server = array(),
-        $content = null
+        $parameters = array(), // expects request related keys from $_SERVER
     ) {
-
-        $this->get = $get;
+        $this->query = new QueryParameters($query);
         $this->post = $post;
-
+        $this->content = $content;
+        $this->files = $files;
+        $this->cookies = $cookies;
+        $this->parameters = new RequestParameters($parameters);
     }
 
-    public function set($name, $value) {
-        $this->get[$name] = $value;
+    public function uri() {
+        return $this->parameters->get('REQUEST_URI');
     }
 
-    public function get($name, $default = null) {
-        if (!isset($this->get[$name])) {
-            return $default;
-        }
-        return trim($this->get[$name]);
+    public function method() {
+        return $this->parameters->get('REQUEST_METHOD');
     }
 
-    public function getInteger($name, $default = null) {
-        if (!isset($this->get[$name]) || "$name" !== "".intval($this->get[$name])) {
-            return $default;
-        }
-        return intval($this->get[$name]);
+    public function queryString() {
+        return $this->parameters->get('QUERY_STRING');
     }
 
-    public function getNumber($name, $default = null) {
-        if (!isset($this->get[$name]) || !is_numeric($this->get[$name])) {
-            return $default;
-        }
-        return 0 + $this->get[$name];
+    public function scheme() {
+        return $this->parameters->get('REQUEST_SCHEME');
     }
 
-    public function getAll() {
-        return $this->get;
+    public function headers() {
+        return $this->parameters->headers();
     }
 
 }
