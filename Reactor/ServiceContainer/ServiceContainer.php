@@ -54,4 +54,17 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
         return $this;
     }
 
+    public function resolveProviders($data) {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data[$key] = $this->resolveProviders($value);
+            }
+        } elseif (is_object($data)) {
+            if (is_a($data, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+                $data = $data->getService($this);
+            }
+        }
+        return $data;
+    }
+
 }
