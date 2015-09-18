@@ -2,7 +2,7 @@
 
 namespace Reactor\Events\Module;
 
-use \Reactor\Application\Exceptions\ModuleConfiguratorExeption;
+use \Reactor\Application\Exceptions\ModuleConfiguratorException;
 
 use \Reactor\Events\ContainerAwareDispatcher;
 
@@ -13,8 +13,9 @@ class Dispatcher extends \Reactor\Application\Module {
     protected $dispatcher;
 
     public function init($container) {
-        parent::init($container);
+        $configurator = parent::init($container);
         $this->dispatcher = new ContainerAwareDispatcher();
+        return $configurator;
     }
 
     public function getService($container = null) {
