@@ -104,31 +104,13 @@ class ServiceProvider implements ServiceProviderInterface {
     }
 
     public function createInstance($container) {
-        $scenario = $this->resolveProviders($this->scenario, $container);
+        $scenario = $container->resolveProviders($this->scenario);
         $instance = null;
         foreach($scenario as $step) {
             $instance = call_user_func_array(array($this, 'step_'.$step['type']), array($instance, $step['igniter'], $step['arguments']));
         }
 
         return $instance;
-    }
-
-    /**
-     * @param array|ServiceProviderInterface $data
-     * @param $container
-     * @return mixed
-     */
-    public function resolveProviders($data, $container) {
-        if (is_array($data)) {
-            foreach ($data as $key => $value) {
-                $data[$key] = $this->resolveProviders($value, $container);
-            }
-        } elseif (is_object($data)) {
-            if (is_a($data, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
-                $data = $data->getService($container);
-            }
-        }
-        return $data;
     }
 
     protected function step_create($instance, $igniter, $arguments) {
