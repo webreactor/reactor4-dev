@@ -2,7 +2,7 @@
 
 namespace Reactor\Events;
 
-use Reactor\ServiceContainer\ServiceProvider;
+//use Reactor\ServiceContainer\ServiceProvider;
 
 /**
  * Class ContainerAwareDispatcher
@@ -10,7 +10,7 @@ use Reactor\ServiceContainer\ServiceProvider;
  */
 class ContainerAwareDispatcher extends Dispatcher {
     /**
-     * @var \Reactor\Application\Module
+     * @var \Reactor\ServiceContainer\ServiceContainer
      */
     protected $container;
 

@@ -8,6 +8,7 @@ namespace Reactor\Events;
  */
 class DispatcherQueued extends Dispatcher {
 	/**
+	 * queue for events
 	 * @var array
      */
 	protected $events = array();
@@ -31,7 +32,7 @@ class DispatcherQueued extends Dispatcher {
 	}
 
 	/**
-	 * @return mixed
+	 * @return Event
      */
 	protected function loadEvent() {
 		return array_shift($this->events);

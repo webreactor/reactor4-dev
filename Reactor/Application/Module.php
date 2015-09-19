@@ -37,7 +37,7 @@ class Module extends ServiceContainer {
 
     /**
      * @param string $name
-     * @param Module $module_class
+     * @param string $module_class
      * @return Module
      * @throws \Reactor\ServiceContainer\Exceptions\ServiceNotFoundExeption
      */
