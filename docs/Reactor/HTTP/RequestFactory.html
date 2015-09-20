@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>Reactor\Gekkon\BinTplProviderFS | Reactor 4</title>
+    <title>Reactor\HTTP\RequestFactory | Reactor 4</title>
 
             <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:Reactor_Gekkon_BinTplProviderFS" data-root-path="../../">
+    <body id="class" data-name="class:Reactor_HTTP_RequestFactory" data-root-path="../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -64,20 +64,19 @@
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../Reactor.html">Reactor</a></li>
-                                        <li><a href="../../Reactor/Gekkon.html">Gekkon</a></li>
+                                        <li><a href="../../Reactor/HTTP.html">HTTP</a></li>
     
-                <li>BinTplProviderFS</li>
+                <li>RequestFactory</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>BinTplProviderFS</h1>
+        <h1>RequestFactory</h1>
     </div>
 
     <p>    class
-    <strong>BinTplProviderFS</strong>        implements
-        <a href="../../Reactor/Gekkon/Interfaces/BinTemplateProviderInterface.html"><abbr title="Reactor\Gekkon\Interfaces\BinTemplateProviderInterface">BinTemplateProviderInterface</abbr></a>
+    <strong>RequestFactory</strong>
 </p>
 
     
@@ -93,7 +92,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>($gekkon, $base)
+                    <a href="#method_create">create</a>()
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -104,29 +103,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_load">load</a>($template)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_save">save</a>($template, $binTplCodeSet)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_clear_cache">clear_cache</a>($template)
+                    <a href="#method_build">build</a>()
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -138,31 +115,14 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method___construct">
-        <div class="location">at line 11</div>
+                    <h3 id="method_create">
+        <div class="location">at line 8</div>
         <code>                    
     
-    <strong>__construct</strong>($gekkon, $base)</code>
+    <strong>create</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$gekkon</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$base</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
             
             
             
@@ -171,85 +131,14 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_load">
-        <div class="location">at line 23</div>
+                    <h3 id="method_build">
+        <div class="location">at line 17</div>
         <code>                    
     
-    <strong>load</strong>($template)</code>
+    <strong>build</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$template</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_save">
-        <div class="location">at line 42</div>
-        <code>                    
-    
-    <strong>save</strong>($template, $binTplCodeSet)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$template</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$binTplCodeSet</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_clear_cache">
-        <div class="location">at line 48</div>
-        <code>                    
-    
-    <strong>clear_cache</strong>($template)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$template</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
             
             
             

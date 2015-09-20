@@ -76,7 +76,8 @@
     </div>
 
     <p>    class
-    <strong>TemplateProviderFS</strong>
+    <strong>TemplateProviderFS</strong>        implements
+        <a href="../../Reactor/Gekkon/Interfaces/TemplateProviderInterface.html"><abbr title="Reactor\Gekkon\Interfaces\TemplateProviderInterface">TemplateProviderInterface</abbr></a>
 </p>
 
     
@@ -114,18 +115,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_set_module">set_module</a>($base_dir)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_get_full_name">get_full_name</a>($name)
+                    <a href="#method_set_module">set_module</a>($module)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -141,6 +131,17 @@
                                     </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_association_id">association_id</a>($template)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -149,7 +150,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line 8</div>
+        <div class="location">at line 11</div>
         <code>                    
     
     <strong>__construct</strong>($base_dir)</code>
@@ -176,7 +177,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_load">
-        <div class="location">at line 12</div>
+        <div class="location">at line 15</div>
         <code>                    
     
     <strong>load</strong>($short_name)</code>
@@ -203,10 +204,10 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_set_module">
-        <div class="location">at line 17</div>
+        <div class="location">at line 19</div>
         <code>                    
     
-    <strong>set_module</strong>($base_dir)</code>
+    <strong>set_module</strong>($module)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -215,34 +216,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$base_dir</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_get_full_name">
-        <div class="location">at line 21</div>
-        <code>                    
-    
-    <strong>get_full_name</strong>($name)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$name</td>
+                <td>$module</td>
                 <td>
 </td>
             </tr>
@@ -257,10 +231,37 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_get_associated">
-        <div class="location">at line 25</div>
+        <div class="location">at line 27</div>
         <code>                    
     
     <strong>get_associated</strong>($template)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$template</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_association_id">
+        <div class="location">at line 44</div>
+        <code>                    
+    
+    <strong>association_id</strong>($template)</code>
     </h3>
     <div class="details">
                 <div class="tags">

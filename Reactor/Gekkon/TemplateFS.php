@@ -35,8 +35,4 @@ class TemplateFS implements TemplateInterface {
         return $this->short_name;
     }
 
-    public function get_file() {
-        return $this->file;
-    }
-
 }

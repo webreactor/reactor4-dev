@@ -368,7 +368,19 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>($name = &#039;&#039;, $container = null, $data = array())
+                    <a href="#method_resolveProviders">resolveProviders</a>($data)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"><small>from&nbsp;
+    <a href="../../Reactor/ServiceContainer/ServiceContainer.html#method_resolveProviders"><abbr title="Reactor\ServiceContainer\ServiceContainer">ServiceContainer</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>($name = &#039;&#039;, $data = array())
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"><small>from&nbsp;
@@ -380,11 +392,35 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getModulePath">getModulePath</a>()
+                    <a href="#method_getFullName">getFullName</a>()
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"><small>from&nbsp;
-    <a href="../../Reactor/Application/Module.html#method_getModulePath"><abbr title="Reactor\Application\Module">Module</abbr></a></small></div>
+    <a href="../../Reactor/Application/Module.html#method_getFullName"><abbr title="Reactor\Application\Module">Module</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getName">getName</a>()
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"><small>from&nbsp;
+    <a href="../../Reactor/Application/Module.html#method_getName"><abbr title="Reactor\Application\Module">Module</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_init">init</a>($container)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"><small>from&nbsp;
+    <a href="../../Reactor/Application/Module.html#method_init"><abbr title="Reactor\Application\Module">Module</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -409,18 +445,6 @@
                                     </div>
                 <div class="col-md-2"><small>from&nbsp;
     <a href="../../Reactor/Application/Module.html#method_getDir"><abbr title="Reactor\Application\Module">Module</abbr></a></small></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getName">getName</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"><small>from&nbsp;
-    <a href="../../Reactor/Application/Module.html#method_getName"><abbr title="Reactor\Application\Module">Module</abbr></a></small></div>
             </div>
             </div>
 
@@ -1059,12 +1083,40 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_resolveProviders">
+        <div class="location">in 
+    <a href="../../Reactor/ServiceContainer/ServiceContainer.html#method_resolveProviders"><abbr title="Reactor\ServiceContainer\ServiceContainer">ServiceContainer</abbr></a> at line 57</div>
+        <code>                    
+    
+    <strong>resolveProviders</strong>($data)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$data</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method___construct">
         <div class="location">in 
     <a href="../../Reactor/Application/Module.html#method___construct"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 14</div>
         <code>                    
     
-    <strong>__construct</strong>($name = &#039;&#039;, $container = null, $data = array())</code>
+    <strong>__construct</strong>($name = &#039;&#039;, $data = array())</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -1074,12 +1126,6 @@
                     <tr>
                 <td></td>
                 <td>$name</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$container</td>
                 <td>
 </td>
             </tr>
@@ -1099,12 +1145,12 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getModulePath">
+                    <h3 id="method_getFullName">
         <div class="location">in 
-    <a href="../../Reactor/Application/Module.html#method_getModulePath"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 24</div>
+    <a href="../../Reactor/Application/Module.html#method_getFullName"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 19</div>
         <code>                    
     
-    <strong>getModulePath</strong>()</code>
+    <strong>getFullName</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -1116,9 +1162,54 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getName">
+        <div class="location">in 
+    <a href="../../Reactor/Application/Module.html#method_getName"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 23</div>
+        <code>                    
+    
+    <strong>getName</strong>()</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_init">
+        <div class="location">in 
+    <a href="../../Reactor/Application/Module.html#method_init"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 27</div>
+        <code>                    
+    
+    <strong>init</strong>($container)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$container</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_loadModule">
         <div class="location">in 
-    <a href="../../Reactor/Application/Module.html#method_loadModule"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 43</div>
+    <a href="../../Reactor/Application/Module.html#method_loadModule"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 42</div>
         <code>                    
     
     <strong>loadModule</strong>($name, $module_class)</code>
@@ -1152,27 +1243,10 @@
                     <div class="method-item">
                     <h3 id="method_getDir">
         <div class="location">in 
-    <a href="../../Reactor/Application/Module.html#method_getDir"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 54</div>
+    <a href="../../Reactor/Application/Module.html#method_getDir"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 56</div>
         <code>                    
     
     <strong>getDir</strong>()</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getName">
-        <div class="location">in 
-    <a href="../../Reactor/Application/Module.html#method_getName"><abbr title="Reactor\Application\Module">Module</abbr></a> at line 62</div>
-        <code>                    
-    
-    <strong>getName</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">

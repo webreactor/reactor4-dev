@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>Reactor\Gekkon\TemplateFS | Reactor 4</title>
+    <title>Reactor\HTTP\QueryParameters | Reactor 4</title>
 
             <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:Reactor_Gekkon_TemplateFS" data-root-path="../../">
+    <body id="class" data-name="class:Reactor_HTTP_QueryParameters" data-root-path="../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -64,20 +64,19 @@
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../Reactor.html">Reactor</a></li>
-                                        <li><a href="../../Reactor/Gekkon.html">Gekkon</a></li>
+                                        <li><a href="../../Reactor/HTTP.html">HTTP</a></li>
     
-                <li>TemplateFS</li>
+                <li>QueryParameters</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>TemplateFS</h1>
+        <h1>QueryParameters</h1>
     </div>
 
     <p>    class
-    <strong>TemplateFS</strong>        implements
-        <a href="../../Reactor/Gekkon/Interfaces/TemplateInterface.html"><abbr title="Reactor\Gekkon\Interfaces\TemplateInterface">TemplateInterface</abbr></a>
+    <strong>QueryParameters</strong>
 </p>
 
     
@@ -93,7 +92,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>($module, $short_name, $file)
+                    <a href="#method___construct">__construct</a>($data = array(), $override = array())
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -104,7 +103,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_get_id">get_id</a>()
+                    <a href="#method_set">set</a>($name, $value)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -115,7 +114,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_check_bin">check_bin</a>($bin_template)
+                    <a href="#method_has">has</a>($name)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -126,7 +125,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_source">source</a>()
+                    <a href="#method_get">get</a>($name, $default = null)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -137,7 +136,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_get_module">get_module</a>()
+                    <a href="#method_getInteger">getInteger</a>($name, $default = null)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -148,7 +147,51 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_get_short_name">get_short_name</a>()
+                    <a href="#method_getNumber">getNumber</a>($name, $default = null)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAll">getAll</a>()
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getOrigin">getOrigin</a>()
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_buildQueryString">buildQueryString</a>($override = array())
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_buildOriginQueryString">buildOriginQueryString</a>($override = array())
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -161,10 +204,10 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line 12</div>
+        <div class="location">at line 10</div>
         <code>                    
     
-    <strong>__construct</strong>($module, $short_name, $file)</code>
+    <strong>__construct</strong>($data = array(), $override = array())</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -173,19 +216,13 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$module</td>
+                <td>$data</td>
                 <td>
 </td>
             </tr>
                     <tr>
                 <td></td>
-                <td>$short_name</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$file</td>
+                <td>$override</td>
                 <td>
 </td>
             </tr>
@@ -199,27 +236,11 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_get_id">
-        <div class="location">at line 18</div>
+                    <h3 id="method_set">
+        <div class="location">at line 15</div>
         <code>                    
     
-    <strong>get_id</strong>()</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_check_bin">
-        <div class="location">at line 22</div>
-        <code>                    
-    
-    <strong>check_bin</strong>($bin_template)</code>
+    <strong>set</strong>($name, $value)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -228,7 +249,13 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$bin_template</td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$value</td>
                 <td>
 </td>
             </tr>
@@ -242,11 +269,137 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_source">
-        <div class="location">at line 26</div>
+                    <h3 id="method_has">
+        <div class="location">at line 19</div>
         <code>                    
     
-    <strong>source</strong>()</code>
+    <strong>has</strong>($name)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_get">
+        <div class="location">at line 23</div>
+        <code>                    
+    
+    <strong>get</strong>($name, $default = null)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$default</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getInteger">
+        <div class="location">at line 33</div>
+        <code>                    
+    
+    <strong>getInteger</strong>($name, $default = null)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$default</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNumber">
+        <div class="location">at line 41</div>
+        <code>                    
+    
+    <strong>getNumber</strong>($name, $default = null)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$default</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAll">
+        <div class="location">at line 49</div>
+        <code>                    
+    
+    <strong>getAll</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -258,11 +411,11 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_get_module">
-        <div class="location">at line 30</div>
+                    <h3 id="method_getOrigin">
+        <div class="location">at line 57</div>
         <code>                    
     
-    <strong>get_module</strong>()</code>
+    <strong>getOrigin</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -274,14 +427,52 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_get_short_name">
-        <div class="location">at line 34</div>
+                    <h3 id="method_buildQueryString">
+        <div class="location">at line 61</div>
         <code>                    
     
-    <strong>get_short_name</strong>()</code>
+    <strong>buildQueryString</strong>($override = array())</code>
     </h3>
     <div class="details">
                 <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$override</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_buildOriginQueryString">
+        <div class="location">at line 65</div>
+        <code>                    
+    
+    <strong>buildOriginQueryString</strong>($override = array())</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$override</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
             
             
             

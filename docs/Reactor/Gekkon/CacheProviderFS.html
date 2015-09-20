@@ -76,7 +76,8 @@
     </div>
 
     <p>    class
-    <strong>CacheProviderFS</strong>
+    <strong>CacheProviderFS</strong>        implements
+        <a href="../../Reactor/Gekkon/Interfaces/CacheProviderInterface.html"><abbr title="Reactor\Gekkon\Interfaces\CacheProviderInterface">CacheProviderInterface</abbr></a>
 </p>
 
     
@@ -103,7 +104,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_clear_cache">clear_cache</a>($binTemplate, $id = &#039;&#039;)
+                    <a href="#method_clear_cache">clear_cache</a>($binTemplate, $id = null)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -138,7 +139,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line 8</div>
+        <div class="location">at line 10</div>
         <code>                    
     
     <strong>__construct</strong>($baseDir)</code>
@@ -165,10 +166,10 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_clear_cache">
-        <div class="location">at line 21</div>
+        <div class="location">at line 23</div>
         <code>                    
     
-    <strong>clear_cache</strong>($binTemplate, $id = &#039;&#039;)</code>
+    <strong>clear_cache</strong>($binTemplate, $id = null)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -198,7 +199,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_save">
-        <div class="location">at line 32</div>
+        <div class="location">at line 34</div>
         <code>                    
     
     <strong>save</strong>($binTemplate, $content, $id)</code>
@@ -237,7 +238,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_load">
-        <div class="location">at line 37</div>
+        <div class="location">at line 39</div>
         <code>                    
     
     <strong>load</strong>($binTemplate, $id)</code>
