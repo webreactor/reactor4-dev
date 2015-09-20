@@ -4,21 +4,24 @@ namespace Reactor\Events;
 
 /**
  * Class Event
+ * base class for all events
  * @package Reactor\Events
  */
 class Event {
     /**
-     * @var
+     * event name
+     * @var string
      */
     protected $name;
     /**
-     * @var null
+     * event data
+     * @var mixed
      */
     protected $data;
 
     /**
-     * @param $name
-     * @param null $data
+     * @param string $name
+     * @param mixed $data
      */
     public function __construct($name, $data = null) {
         $this->name = $name;
@@ -26,14 +29,16 @@ class Event {
     }
 
     /**
-     * @return mixed
+     * get event name
+     * @return string
      */
     public function getName() {
         return $this->name;
     }
 
     /**
-     * @return null
+     * get event data
+     * @return mixed
      */
     public function getData() {
         return $this->data;

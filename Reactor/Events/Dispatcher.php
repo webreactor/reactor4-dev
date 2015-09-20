@@ -29,8 +29,8 @@ class Dispatcher {
     protected $cache = array();
 
     /**
-     * @param $wildcard
-     * @param $wordcard
+     * @param string $wildcard
+     * @param string $wordcard
      * @param string $divider
      */
     public function setTokens($wildcard, $wordcard, $divider = '.') {
@@ -40,8 +40,9 @@ class Dispatcher {
     }
 
     /**
-     * @param $event_name
-     * @param $callable
+     * add a new listener
+     * @param string $event_name
+     * @param callable $callable
      * @return $this
      */
     public function addListener($event_name, $callable) {
@@ -51,13 +52,14 @@ class Dispatcher {
     }
 
     /**
-     *
+     * reset an internal cache
      */
     public function resetCache() {
         $this->cache = array();
     }
 
     /**
+     * add a new subscriber
      * @param SubscriberInterface $subscriber
      * @return $this
      */
@@ -69,14 +71,16 @@ class Dispatcher {
     }
 
     /**
-     * @param $name
-     * @param null $data
+     * raise a new event with given event name and event data and notify all listeners about it
+     * @param string $name
+     * @param mixed $data
      */
     public function raise($name, $data = null) {
         $this->dispatch(new Event($name, $data));
     }
 
     /**
+     * use this function as chain call for notify all listeners about given event
      * @param Event $event
      * @return $this
      */
@@ -89,7 +93,7 @@ class Dispatcher {
     }
 
     /**
-     * @param $callable
+     * @param callable $callable
      * @param Event $event
      */
     protected function runCallback($callable, Event $event) {
@@ -97,7 +101,8 @@ class Dispatcher {
     }
 
     /**
-     * @param $event_name
+     * get list of listeners to needed event name
+     * @param string $event_name
      * @return array
      */
     public function getListeners($event_name) {
@@ -115,7 +120,7 @@ class Dispatcher {
     }
 
     /**
-     * @param $event_mask
+     * @param string $event_mask
      * @return string
      */
     protected function getPregMask($event_mask) {
@@ -129,7 +134,7 @@ class Dispatcher {
     }
 
     /**
-     * @param $event_name
+     * @param string $event_name
      * @return array
      */
     protected function getSuperEventNames($event_name) {

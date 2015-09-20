@@ -23,7 +23,7 @@ class DispatcherQueued extends Dispatcher {
 	}
 
 	/**
-	 *
+	 * use queue for get all event and notify all listeners
      */
 	public function process() {
 		while ( $event = $this->loadEvent() ) {

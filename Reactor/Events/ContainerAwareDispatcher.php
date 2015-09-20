@@ -15,7 +15,7 @@ class ContainerAwareDispatcher extends Dispatcher {
     protected $container;
 
     /**
-     * @param $container
+     * @param \Reactor\ServiceContainer\ServiceContainer $container
      */
     public function setContainer($container) {
         $this->container = $container;
