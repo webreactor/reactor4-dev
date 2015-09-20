@@ -9,21 +9,25 @@ class Module extends ServiceContainer {
 
     protected $dir = null;
     protected $name;
-    protected $path;
+    protected $full_name;
 
     public function __construct($name = '', $data = array()) {
-        $this->path = $this->name = $name;
+        $this->full_name = $this->name = $name;
         $this->data = $data;
     }
 
-    public function getModulePath() {
-        return $this->path;
+    public function getFullName() {
+        return $this->full_name;
+    }
+
+    public function getName() {
+        return $this->name;
     }
 
     public function init($container) {
         if ($container !== null) {
             $this->setParent($container);
-            $this->path = $this->parent->getModulePath().'/'.$this->name;
+            $this->full_name = $this->parent->getFullName().'/'.$this->name;
         }
         $configurator = new ModuleConfigurator($this);
         $config_file = $this->getDir().'config.json';
@@ -57,7 +61,4 @@ class Module extends ServiceContainer {
         return $this->dir;
     }
 
-    public function getName() {
-        return $this->name;
-    }
 }

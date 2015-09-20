@@ -2,25 +2,35 @@
 
 namespace Reactor\Gekkon;
 
-class TplModuleManager {
+use Reactor\Gekkon\Interfaces\ModuleManagerInterface;
+
+class TplModuleManager implements ModuleManagerInterface {
+
     protected $stack = array();
-    protected $tplProvider = null;
-    public $module;
+    protected $module = null;
+    protected $gekkon = null;
 
-    function __construct($gekkon) {
-        $this->tplProvider = $gekkon->tplProvider;
+    public function __construct($gekkon) {
+        $this->gekkon = $gekkon;
     }
 
-    function push($module) {
+    public function push($module) {
+        $module = rtrim($module.'/').'/';
         array_push($this->stack, $module);
-        $this->module = $module;
-        $this->tplProvider->set_module($module);
+        $this->register($module);
     }
 
-    function pop() {
+    public function pop() {
         $module = array_pop($this->stack);
-        $this->module = $module;
-        $this->tplProvider->set_module($module);
+        $this->register($module);
         return $module;
     }
+
+    protected function register($module) {
+        $this->module = $module;
+        $this->gekkon->tplProvider->set_module($module);
+        $this->gekkon->data['_module'] = $module;
+    }
+
+
 }

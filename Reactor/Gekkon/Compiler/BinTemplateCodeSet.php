@@ -3,10 +3,10 @@
 namespace Reactor\Gekkon\Compiler;
 
 class BinTemplateCodeSet extends \ArrayObject {
-    function code() {
+    public function code() {
         $rez = "array(\n";
-        foreach ($this as $name => $tplCode) {
-            $rez .= "'$name'=>" . $tplCode->code() . ',';
+        foreach ($this as $id => $tplCode) {
+            $rez .= "'$id'=>" . $tplCode->code() . ',';
         }
         $rez .= ");\n";
         return $rez;

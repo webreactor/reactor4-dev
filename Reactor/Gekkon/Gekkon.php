@@ -4,7 +4,6 @@ namespace Reactor\Gekkon;
 
 class Gekkon {
     var $version = '4.3';
-    var $gekkon_path;
     var $compiler;
     var $settings;
     var $data;
@@ -12,17 +11,16 @@ class Gekkon {
     var $binTplProvider;
     var $cacheProvider;
 
-    function __construct($tpl_path, $bin_path) {
-        $this->gekkon_path = dirname(__file__) . '/';
+    function __construct($base_path, $bin_path, $module = 'templates') {
         $this->compiler = null;
         $this->settings = DefaultSettings::get();
         $this->data = new \ArrayObject();
         $this->data['global'] = $this->data;
-        $this->tplProvider = new TemplateProviderFS('');
+        $this->tplProvider = new TemplateProviderFS($base_path);
         $this->binTplProvider = new BinTplProviderFS($this, $bin_path);
         $this->cacheProvider = new CacheProviderFS($bin_path);
         $this->tplModuleManager = new TplModuleManager($this);
-        $this->tplModuleManager->push($tpl_path);
+        $this->tplModuleManager->push($module);
     }
 
     function assign($name, $data) {
@@ -60,10 +58,7 @@ class Gekkon {
     }
 
     function template($tpl_name) {
-        if (($template = $this->tplProvider->load($tpl_name)) === false) {
-            $tpl_full_name = $this->tplProvider->get_full_name($tpl_name);
-            return $this->error('Template ' . $tpl_name . ' cannot be found at ' . $tpl_full_name, 'gekkon');
-        }
+        $template = $this->tplProvider->load($tpl_name);
         if ($this->settings['force_compile']) {
             $binTpl = false;
         } else {
@@ -71,18 +66,15 @@ class Gekkon {
         }
         if ($binTpl === false || !$template->check_bin($binTpl)) {
             if (($binTpl = $this->compile($template)) === false) {
-                return $this->error('Cannot compile ' . $tpl_name, 'gekkon');
+                return $this->error('Cannot compile ' . $template->get_id(), 'gekkon');
             }
             $this->cacheProvider->clear_cache($binTpl);
         }
         return $binTpl;
     }
 
-    function clear_cache($tpl_name, $id = '') {
-        if (($template = $this->tplProvider->load($tpl_name)) === false) {
-            $tpl_full_name = $this->tplProvider->get_full_name($tpl_name);
-            return $this->error('Template ' . $tpl_name . ' cannot be found at ' . $tpl_full_name, 'gekkon');
-        }
+    function clear_cache($tpl_name, $id = null) {
+        $template = $this->tplProvider->load($tpl_name);
         if (($binTpl = $this->binTplProvider->load($template)) !== false) {
             $this->cacheProvider->clear_cache($binTpl, $id);
         }

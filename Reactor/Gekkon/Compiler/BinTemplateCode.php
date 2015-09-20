@@ -3,21 +3,21 @@
 namespace Reactor\Gekkon\Compiler;
 
 class BinTemplateCode {
-    var $template;
-    var $meta = array();
-    var $blocks = array();
+    public $meta = array();
+    public $blocks = array();
+    public $template = array();
 
-    function __construct($compiler, $template) {
+    public function __construct($compiler, $template) {
         $this->template = $template;
         $this->blocks['__main'] = '';
         $this->blocks['__constructor'] = '';
         $this->meta['created'] = time();
-        $this->meta['name'] = $this->template->name;
-        $this->meta['association'] = $this->template->association();
+        $this->meta['id'] = $template->get_id();
+        $this->meta['association'] = $compiler->gekkon->tplProvider->association_id($template);
         $this->meta['gekkon_ver'] = $compiler->gekkon->version;
     }
 
-    function code() {
+    public function code() {
         $rez = "array(";
         foreach ($this->meta as $name => $value) {
             $rez .= "'$name'=>" . var_export($value, true) . ",\n";

@@ -11,12 +11,12 @@
                     "arguments": [ "tplModuleManager", "%tplModuleManager%" ]
                 },
                 {
-                    "call": "register",
-                    "arguments": [ "_application", "%application%" ]
+                    "call": "set_property",
+                    "arguments": [ "tplProvider", "%TplProviderReactorMod%" ]
                 },
                 {
-                    "call": "push_module",
-                    "arguments": [ "%application%" ]
+                    "call": "register",
+                    "arguments": [ "_application", "%application%" ]
                 }
             ]
             
@@ -26,7 +26,7 @@
             "scenario": [
                 {
                     "create": "\\Reactor\\Gekkon\\Gekkon",
-                    "arguments": [ "", "%tpl_bin%" ]
+                    "arguments": [ "%base_dir%", "%tpl_bin%" ]
                 }
 
             ]
@@ -36,6 +36,18 @@
                 {
                     "create": "\\Reactor\\Gekkon\\Module\\TplModuleManager",
                     "arguments": [ "%gekkon.raw%" ]
+                },
+                {
+                    "call": "push",
+                    "arguments": [ "%application%" ]
+                }
+            ]
+        },
+        "TplProviderReactorMod": {
+            "scenario": [
+                {
+                    "create": "\\Reactor\\Gekkon\\Module\\TplProviderReactorMod",
+                    "arguments": [ "%application%" ]
                 }
             ]
         }
