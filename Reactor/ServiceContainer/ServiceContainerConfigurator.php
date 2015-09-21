@@ -38,7 +38,7 @@ class ServiceContainerConfigurator {
             $this->loadScenario($provider, $config['scenario']);
         } else {
             if (!isset($config['create'])) {
-                throw new Exceptions\ServiceConfiguratorExeption('Nothing to create '.var_export($config, true));
+                throw new Exceptions\ServiceConfiguratorException('Nothing to create '.var_export($config, true));
             }
             if (!isset($config['arguments'])) {
                 $config['arguments'] = array();
@@ -67,7 +67,7 @@ class ServiceContainerConfigurator {
             } elseif (isset($step['configurator'])) {
                 $provider->addConfigurator($step['configurator'], $step['arguments']);
             } else {
-                throw new Exceptions\ServiceConfiguratorExeption('Cannot parse step '.var_export($step, true));
+                throw new Exceptions\ServiceConfiguratorException('Cannot parse step '.var_export($step, true));
             }
         }
     }
