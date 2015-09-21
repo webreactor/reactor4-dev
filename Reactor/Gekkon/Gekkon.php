@@ -3,15 +3,15 @@
 namespace Reactor\Gekkon;
 
 class Gekkon {
-    var $version = '4.3';
-    var $compiler;
-    var $settings;
-    var $data;
-    var $tplProvider;
-    var $binTplProvider;
-    var $cacheProvider;
+    public $version = '4.3';
+    public $compiler;
+    public $settings;
+    public $data;
+    public $tplProvider;
+    public $binTplProvider;
+    public $cacheProvider;
 
-    function __construct($base_path, $bin_path, $module = 'templates') {
+    public function __construct($base_path, $bin_path, $module = 'templates') {
         $this->compiler = null;
         $this->settings = DefaultSettings::get();
         $this->data = new \ArrayObject();
@@ -23,23 +23,23 @@ class Gekkon {
         $this->tplModuleManager->push($module);
     }
 
-    function assign($name, $data) {
+    public function assign($name, $data) {
         $this->data[$name] = $data;
     }
 
-    function register($name, $data) {
+    public function register($name, $data) {
         $this->data[$name] = $data;
     }
 
-    function push_module($module) {
+    public function push_module($module) {
         $this->tplModuleManager->push($module);
     }
 
-    function pop_module() {
+    public function pop_module() {
         return $this->tplModuleManager->pop();
     }
 
-    function display($tpl_name, $scope_data = false, $module = null) {
+    public function display($tpl_name, $scope_data = false, $module = null) {
         if ($module) {
             $this->push_module($module);
         }
@@ -51,13 +51,13 @@ class Gekkon {
         }
     }
 
-    function get_display($tpl_name, $scope_data = false) {
+    public function get_display($tpl_name, $scope_data = false) {
         ob_start();
         $this->display($tpl_name, $scope_data);
         return ob_get_clean();
     }
 
-    function template($tpl_name) {
+    public function template($tpl_name) {
         $template = $this->tplProvider->load($tpl_name);
         if ($this->settings['force_compile']) {
             $binTpl = false;
@@ -73,7 +73,7 @@ class Gekkon {
         return $binTpl;
     }
 
-    function clear_cache($tpl_name, $id = null) {
+    public function clear_cache($tpl_name, $id = null) {
         $template = $this->tplProvider->load($tpl_name);
         if (($binTpl = $this->binTplProvider->load($template)) !== false) {
             $this->cacheProvider->clear_cache($binTpl, $id);
@@ -81,7 +81,7 @@ class Gekkon {
         //$this->binTplProvider->clear_cache($template); // clear_bin_cache?
     }
 
-    function get_scope($data = false) {
+    public function get_scope($data = false) {
         if ($data !== false && $data !== $this->data) {
             $scope = new \ArrayObject($data);
             $scope['_global'] = $this->data;
@@ -91,7 +91,7 @@ class Gekkon {
         return $this->data;
     }
 
-    function compile($template) {
+    public function compile($template) {
         if (!$this->compiler) {
             $this->compiler = new Compiler\Compiler($this);
         }
@@ -99,7 +99,7 @@ class Gekkon {
         return $this->binTplProvider->load($template);
     }
 
-    function error($msg, $object = false) {
+    public function error($msg, $object = false) {
         $message = 'Gekkon:';
         if ($object !== false) {
             $message .= ' [' . $object . ']';
@@ -112,27 +112,27 @@ class Gekkon {
         return false;
     }
 
-    function settings_set_all($value) {
+    public function settings_set_all($value) {
         $this->settings = $value;
     }
 
-    function settings_set($name, $value) {
+    public function settings_set($name, $value) {
         $this->settings[$name] = $value;
     }
 
-    function set_property($name, $value) {
+    public function set_property($name, $value) {
         $this->$name = $value;
     }
 
-    function get_property($name) {
+    public function get_property($name) {
         return $this->$name;
     }
 
-    function add_tag_system($name, $open, $close) {
+    public function add_tag_system($name, $open, $close) {
         $this->settings['tag_systems'][$name] = array('open' => $open, 'close' => $close,);
     }
 
-    function remove_tag_system($name) {
+    public function remove_tag_system($name) {
         unset($this->settings['tag_systems'][$name]);
     }
 
