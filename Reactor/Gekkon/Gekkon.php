@@ -19,8 +19,8 @@ class Gekkon {
         $this->tpl_provider = new TemplateProviderFS($base_path);
         $this->bin_tpl_provider = new BinTplProviderFS($this, $bin_path);
         $this->cache_provider = new CacheProviderFS($bin_path);
-        $this->tplModuleManager = new TplModuleManager($this);
-        $this->tplModuleManager->push($module);
+        $this->tpl_module_manager = new TplModuleManager($this);
+        $this->tpl_module_manager->push($module);
     }
 
     public function assign($name, $data) {
@@ -32,11 +32,11 @@ class Gekkon {
     }
 
     public function push_module($module) {
-        $this->tplModuleManager->push($module);
+        $this->tpl_module_manager->push($module);
     }
 
     public function pop_module() {
-        return $this->tplModuleManager->pop();
+        return $this->tpl_module_manager->pop();
     }
 
     public function display($tpl_name, $scope_data = false, $module = null) {
@@ -85,7 +85,7 @@ class Gekkon {
         if ($data !== false && $data !== $this->data) {
             $scope = new \ArrayObject($data);
             $scope['_global'] = $this->data;
-            $scope['_module'] = $this->tplModuleManager->get_module();
+            $scope['_module'] = $this->tpl_module_manager->get_module();
             return $scope;
         }
         return $this->data;
