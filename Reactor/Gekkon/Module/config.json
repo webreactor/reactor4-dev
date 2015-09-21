@@ -8,15 +8,15 @@
                 },
                 {
                     "call": "set_property",
-                    "arguments": [ "tplModuleManager", "%tplModuleManager%" ]
+                    "arguments": [ "tpl_module_manager", "%tpl_module_manager%" ]
+                },
+                {
+                    "call": "set_property",
+                    "arguments": [ "tpl_provider", "%tpl_provider%" ]
                 },
                 {
                     "call": "register",
                     "arguments": [ "_application", "%application%" ]
-                },
-                {
-                    "call": "push_module",
-                    "arguments": [ "%application%" ]
                 }
             ]
             
@@ -26,16 +26,28 @@
             "scenario": [
                 {
                     "create": "\\Reactor\\Gekkon\\Gekkon",
-                    "arguments": [ "", "%tpl_bin%" ]
+                    "arguments": [ "%base_dir%", "%tpl_bin%" ]
                 }
 
             ]
         },
-        "tplModuleManager": {
+        "tpl_module_manager": {
             "scenario": [
                 {
                     "create": "\\Reactor\\Gekkon\\Module\\TplModuleManager",
                     "arguments": [ "%gekkon.raw%" ]
+                },
+                {
+                    "call": "push",
+                    "arguments": [ "%application%" ]
+                }
+            ]
+        },
+        "tpl_provider": {
+            "scenario": [
+                {
+                    "create": "\\Reactor\\Gekkon\\Module\\TplProviderReactorMod",
+                    "arguments": [ "%application%" ]
                 }
             ]
         }

@@ -2,27 +2,37 @@
 
 namespace Reactor\Gekkon;
 
-class TemplateFS {
-    var $name;
+use Reactor\Gekkon\Interfaces\TemplateInterface;
 
-    function __construct($name) {
-        $this->name = $name;
+class TemplateFS implements TemplateInterface {
+    protected $module;
+    protected $short_name;
+    protected $file;
+
+    public function __construct($module, $short_name, $file) {
+        $this->module = $module;
+        $this->short_name = $short_name;
+        $this->file = $file;
     }
 
-    function check_bin($binTemplate) {
-        return filemtime($this->name) < $binTemplate['created'];
+    public function get_id() {
+        return $this->module.'//'.$this->short_name;
     }
 
-    function source() {
-        return file_get_contents($this->name);
+    public function check_bin($bin_template) {
+        return filemtime($this->file) < $bin_template['created'];
     }
 
-    function association() {
-        $dir = dirname($this->name) . '/';
-        $name = basename($this->name);
-        if (preg_match('/-|_|\./', $name, $matched, PREG_OFFSET_CAPTURE)) {
-            $name = substr($name, 0, $matched[0][1]);
-        }
-        return $dir . $name . '.tpl';
+    public function source() {
+        return file_get_contents($this->file);
     }
+
+    public function get_module() {
+        return $this->module;
+    }
+
+    public function get_short_name() {
+        return $this->short_name;
+    }
+
 }

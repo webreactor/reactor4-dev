@@ -76,27 +76,13 @@
     </div>
 
     <p>    class
-    <strong>TemplateFS</strong>
+    <strong>TemplateFS</strong>        implements
+        <a href="../../Reactor/Gekkon/Interfaces/TemplateInterface.html"><abbr title="Reactor\Gekkon\Interfaces\TemplateInterface">TemplateInterface</abbr></a>
 </p>
 
     
     
     
-            <h2>Properties</h2>
-
-            <table class="table table-condensed">
-                    <tr>
-                <td class="type" id="property_name">
-                                                                                
-    
-                </td>
-                <td>$name</td>
-                <td class="last">
-</td>
-                <td></td>
-            </tr>
-            </table>
-
     
             <h2>Methods</h2>
 
@@ -107,7 +93,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>($name)
+                    <a href="#method___construct">__construct</a>($module, $short_name, $file)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -118,7 +104,18 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_check_bin">check_bin</a>($binTemplate)
+                    <a href="#method_get_id">get_id</a>()
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_check_bin">check_bin</a>($bin_template)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -140,7 +137,18 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_association">association</a>()
+                    <a href="#method_get_module">get_module</a>()
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_get_short_name">get_short_name</a>()
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -153,10 +161,10 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line 8</div>
+        <div class="location">at line 12</div>
         <code>                    
     
-    <strong>__construct</strong>($name)</code>
+    <strong>__construct</strong>($module, $short_name, $file)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -165,7 +173,19 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$name</td>
+                <td>$module</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$short_name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$file</td>
                 <td>
 </td>
             </tr>
@@ -179,11 +199,27 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_check_bin">
-        <div class="location">at line 12</div>
+                    <h3 id="method_get_id">
+        <div class="location">at line 18</div>
         <code>                    
     
-    <strong>check_bin</strong>($binTemplate)</code>
+    <strong>get_id</strong>()</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_check_bin">
+        <div class="location">at line 22</div>
+        <code>                    
+    
+    <strong>check_bin</strong>($bin_template)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -192,7 +228,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$binTemplate</td>
+                <td>$bin_template</td>
                 <td>
 </td>
             </tr>
@@ -207,7 +243,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_source">
-        <div class="location">at line 16</div>
+        <div class="location">at line 26</div>
         <code>                    
     
     <strong>source</strong>()</code>
@@ -222,11 +258,27 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_association">
-        <div class="location">at line 20</div>
+                    <h3 id="method_get_module">
+        <div class="location">at line 30</div>
         <code>                    
     
-    <strong>association</strong>()</code>
+    <strong>get_module</strong>()</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_get_short_name">
+        <div class="location">at line 34</div>
+        <code>                    
+    
+    <strong>get_short_name</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">

@@ -2,56 +2,51 @@
 
 namespace Reactor\Gekkon;
 
-class BinTplProviderFS {
+use Reactor\Gekkon\Interfaces\BinTemplateProviderInterface;
+
+class BinTplProviderFS implements BinTemplateProviderInterface {
     protected $base_dir;
     protected $loaded = array();
 
-    function __construct($gekkon, $base) {
-        $this->base_dir = $base;
+    public function __construct($gekkon, $base) {
+        $this->base_dir = rtrim($base, '/').'/';
         $this->gekkon = $gekkon;
     }
 
-    protected function full_path($association) {
+    protected function full_path($template) {
+        $association = $this->gekkon->tpl_provider->association_id($template);
         $bin_name = basename($association);
         $bin_path = $this->base_dir . abs(crc32($association)) . '/';
         return $bin_path . $bin_name . '.php';
     }
 
-    /**
-     * @param TemplateFS $template
-     * @return bool|binTemplate
-     */
-    function load($template) {
-        if (isset($this->loaded[$template->name])) {
-            return new binTemplate($this->gekkon, $this->loaded[$template->name]);
+    public function load($template) {
+        $template_id = $template->get_id();
+        if (isset($this->loaded[$template_id])) {
+            return $this->loaded[$template_id];
         }
-        $file = $this->full_path($template->association());
+        $file = $this->full_path($template);
         if (is_file($file)) {
             $bins = include($file);
-            $this->loaded = array_merge($this->loaded, $bins);
-            if (!isset($this->loaded[$template->name])) {
+            foreach ($bins as $id => $value) {
+                $this->loaded[$id] = new BinTemplate($this->gekkon, $value);
+            }
+            if (!isset($this->loaded[$template_id])) {
                 return false;
             }
-            return new binTemplate($this->gekkon, $this->loaded[$template->name]);
+            return $this->loaded[$template_id];
         }
         return false;
     }
 
-    /**
-     * @param TemplateFS $template
-     * @param  \Reactor\Gekkon\Compiler\BinTemplateCode $binTplCodeSet
-     */
-    function save($template, $binTplCodeSet) {
-        Gekkon::create_dir(dirname($file = $this->full_path($template->association())));
-        unset($this->loaded[$template->name]);
+    public function save($template, $binTplCodeSet) {
+        Gekkon::create_dir(dirname($file = $this->full_path($template)));
+        unset($this->loaded[$template->get_id()]);
         file_put_contents($file, '<?php return ' . $binTplCodeSet->code());
     }
 
-    /**
-     * @param TemplateFS $template
-     */
-    function clear_cache($template) {
-        if (is_file($file = $this->full_path($template->association())) !== false) {
+    public function clear_cache($template) {
+        if (is_file($file = $this->full_path($template)) !== false) {
             unlink($file);
         }
     }

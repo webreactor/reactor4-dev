@@ -96,16 +96,6 @@
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_gekkon_path">
-                                                                                
-    
-                </td>
-                <td>$gekkon_path</td>
-                <td class="last">
-</td>
-                <td></td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_compiler">
                                                                                 
     
@@ -177,7 +167,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>($tpl_path, $bin_path)
+                    <a href="#method___construct">__construct</a>($base_path, $bin_path, $module = &#039;templates&#039;)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -265,7 +255,7 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_clear_cache">clear_cache</a>($tpl_name, $id = &#039;&#039;)
+                    <a href="#method_clear_cache">clear_cache</a>($tpl_name, $id = null)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -399,10 +389,10 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line 15</div>
+        <div class="location">at line 14</div>
         <code>                    
     
-    <strong>__construct</strong>($tpl_path, $bin_path)</code>
+    <strong>__construct</strong>($base_path, $bin_path, $module = &#039;templates&#039;)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -411,13 +401,19 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$tpl_path</td>
+                <td>$base_path</td>
                 <td>
 </td>
             </tr>
                     <tr>
                 <td></td>
                 <td>$bin_path</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$module</td>
                 <td>
 </td>
             </tr>
@@ -432,7 +428,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_assign">
-        <div class="location">at line 28</div>
+        <div class="location">at line 26</div>
         <code>                    
     
     <strong>assign</strong>($name, $data)</code>
@@ -465,7 +461,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_register">
-        <div class="location">at line 32</div>
+        <div class="location">at line 30</div>
         <code>                    
     
     <strong>register</strong>($name, $data)</code>
@@ -498,7 +494,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_push_module">
-        <div class="location">at line 36</div>
+        <div class="location">at line 34</div>
         <code>                    
     
     <strong>push_module</strong>($module)</code>
@@ -525,7 +521,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_pop_module">
-        <div class="location">at line 40</div>
+        <div class="location">at line 38</div>
         <code>                    
     
     <strong>pop_module</strong>()</code>
@@ -541,7 +537,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_display">
-        <div class="location">at line 44</div>
+        <div class="location">at line 42</div>
         <code>                    
     
     <strong>display</strong>($tpl_name, $scope_data = false, $module = null)</code>
@@ -580,7 +576,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_get_display">
-        <div class="location">at line 56</div>
+        <div class="location">at line 54</div>
         <code>                    
     
     <strong>get_display</strong>($tpl_name, $scope_data = false)</code>
@@ -613,7 +609,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_template">
-        <div class="location">at line 62</div>
+        <div class="location">at line 60</div>
         <code>                    
     
     <strong>template</strong>($tpl_name)</code>
@@ -640,10 +636,10 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_clear_cache">
-        <div class="location">at line 81</div>
+        <div class="location">at line 76</div>
         <code>                    
     
-    <strong>clear_cache</strong>($tpl_name, $id = &#039;&#039;)</code>
+    <strong>clear_cache</strong>($tpl_name, $id = null)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -673,7 +669,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_get_scope">
-        <div class="location">at line 92</div>
+        <div class="location">at line 84</div>
         <code>                    
     
     <strong>get_scope</strong>($data = false)</code>
@@ -700,7 +696,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_compile">
-        <div class="location">at line 102</div>
+        <div class="location">at line 94</div>
         <code>                    
     
     <strong>compile</strong>($template)</code>
@@ -727,7 +723,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_error">
-        <div class="location">at line 110</div>
+        <div class="location">at line 102</div>
         <code>                    
     
     <strong>error</strong>($msg, $object = false)</code>
@@ -760,7 +756,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_settings_set_all">
-        <div class="location">at line 123</div>
+        <div class="location">at line 115</div>
         <code>                    
     
     <strong>settings_set_all</strong>($value)</code>
@@ -787,7 +783,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_settings_set">
-        <div class="location">at line 127</div>
+        <div class="location">at line 119</div>
         <code>                    
     
     <strong>settings_set</strong>($name, $value)</code>
@@ -820,7 +816,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_set_property">
-        <div class="location">at line 131</div>
+        <div class="location">at line 123</div>
         <code>                    
     
     <strong>set_property</strong>($name, $value)</code>
@@ -853,7 +849,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_get_property">
-        <div class="location">at line 135</div>
+        <div class="location">at line 127</div>
         <code>                    
     
     <strong>get_property</strong>($name)</code>
@@ -880,7 +876,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_add_tag_system">
-        <div class="location">at line 139</div>
+        <div class="location">at line 131</div>
         <code>                    
     
     <strong>add_tag_system</strong>($name, $open, $close)</code>
@@ -919,7 +915,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_remove_tag_system">
-        <div class="location">at line 143</div>
+        <div class="location">at line 135</div>
         <code>                    
     
     <strong>remove_tag_system</strong>($name)</code>
@@ -946,7 +942,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_clear_dir">
-        <div class="location">at line 147</div>
+        <div class="location">at line 139</div>
         <code>        static            
     
     <strong>clear_dir</strong>($path)</code>
@@ -973,7 +969,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_create_dir">
-        <div class="location">at line 162</div>
+        <div class="location">at line 154</div>
         <code>        static            
     
     <strong>create_dir</strong>($path)</code>

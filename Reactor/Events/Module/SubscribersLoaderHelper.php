@@ -18,21 +18,20 @@ class SubscribersLoaderHelper extends \Reactor\Application\Module {
      */
     public function init($container) {
         $configurator = parent::init($container);
-        $module_path = $this->getParent()->getModulePath();
-        /** @var  \Reactor\Events\ContainerAwareDispatcher $dispatcher */
+        $module_full_name = $this->getParent()->getFullName();
         $dispatcher = $this->get('dispatcher');
 
         if ($this->hasDirect('listeners')) {
             foreach ($this->getDirect('listeners') as $event => $subscribers) {
                 foreach ($subscribers as $service => $method) {
-                    $dispatcher->addListener($event, array(new Reference($module_path.'/'.$service), $method));
+                    $dispatcher->addListener($event, array(new Reference($module_full_name.'/'.$service), $method));
                 }
             }
         }
 
         if ($this->hasDirect('subscribers')) {
             foreach ($this->getDirect('subscribers') as $subscriber) {
-                $dispatcher->addSubscriberService(new Reference($module_path.'/'.$subscriber));
+                $dispatcher->addSubscriberService(new Reference($module_full_name.'/'.$subscriber));
             }
         }
 

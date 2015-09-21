@@ -6,7 +6,7 @@ use Reactor\Gekkon\Tags\Common\Tag_static;
 
 //version 2.1
 class Compiler {
-    function __construct(&$gekkon) {
+    function __construct($gekkon) {
         $this->errors = array();
         $this->gekkon = $gekkon;
         $this->uid = 0;
@@ -44,11 +44,11 @@ class Compiler {
 
     function compile($template) {
         $this->error = array();
-        $templateList = $this->gekkon->tplProvider->get_associated($template);
+        $templateList = $this->gekkon->tpl_provider->get_associated($template);
         $rez = new BinTemplateCodeSet();
         foreach ($templateList as $tpl) {
             if (($binTpl = $this->compile_one($tpl)) !== false) {
-                $rez[$tpl->name] = $binTpl;
+                $rez[$tpl->get_id()] = $binTpl;
             }
         }
         return $rez;
@@ -167,7 +167,7 @@ class Compiler {
         $message .= $msg . ' ';
         if ($line !== false) {
             if ($this->binTplCode !== false) {
-                $message .= 'in <b>"' . $this->binTplCode->template->name . '"</b> ';
+                $message .= 'in <b>"' . $this->binTplCode->template->get_id() . '"</b> ';
             }
             $message .= 'on line ' . $line . ' ';
         }

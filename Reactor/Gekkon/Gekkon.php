@@ -3,45 +3,43 @@
 namespace Reactor\Gekkon;
 
 class Gekkon {
-    var $version = '4.3';
-    var $gekkon_path;
-    var $compiler;
-    var $settings;
-    var $data;
-    var $tplProvider;
-    var $binTplProvider;
-    var $cacheProvider;
+    public $version = '4.3';
+    public $compiler;
+    public $settings;
+    public $data;
+    public $tpl_provider;
+    public $bin_tpl_provider;
+    public $cache_provider;
 
-    function __construct($tpl_path, $bin_path) {
-        $this->gekkon_path = dirname(__file__) . '/';
+    public function __construct($base_path, $bin_path, $module = 'templates') {
         $this->compiler = null;
         $this->settings = DefaultSettings::get();
         $this->data = new \ArrayObject();
         $this->data['global'] = $this->data;
-        $this->tplProvider = new TemplateProviderFS('');
-        $this->binTplProvider = new BinTplProviderFS($this, $bin_path);
-        $this->cacheProvider = new CacheProviderFS($bin_path);
-        $this->tplModuleManager = new TplModuleManager($this);
-        $this->tplModuleManager->push($tpl_path);
+        $this->tpl_provider = new TemplateProviderFS($base_path);
+        $this->bin_tpl_provider = new BinTplProviderFS($this, $bin_path);
+        $this->cache_provider = new CacheProviderFS($bin_path);
+        $this->tpl_module_manager = new TplModuleManager($this);
+        $this->tpl_module_manager->push($module);
     }
 
-    function assign($name, $data) {
+    public function assign($name, $data) {
         $this->data[$name] = $data;
     }
 
-    function register($name, $data) {
+    public function register($name, $data) {
         $this->data[$name] = $data;
     }
 
-    function push_module($module) {
-        $this->tplModuleManager->push($module);
+    public function push_module($module) {
+        $this->tpl_module_manager->push($module);
     }
 
-    function pop_module() {
-        return $this->tplModuleManager->pop();
+    public function pop_module() {
+        return $this->tpl_module_manager->pop();
     }
 
-    function display($tpl_name, $scope_data = false, $module = null) {
+    public function display($tpl_name, $scope_data = false, $module = null) {
         if ($module) {
             $this->push_module($module);
         }
@@ -53,61 +51,55 @@ class Gekkon {
         }
     }
 
-    function get_display($tpl_name, $scope_data = false) {
+    public function get_display($tpl_name, $scope_data = false) {
         ob_start();
         $this->display($tpl_name, $scope_data);
         return ob_get_clean();
     }
 
-    function template($tpl_name) {
-        if (($template = $this->tplProvider->load($tpl_name)) === false) {
-            $tpl_full_name = $this->tplProvider->get_full_name($tpl_name);
-            return $this->error('Template ' . $tpl_name . ' cannot be found at ' . $tpl_full_name, 'gekkon');
-        }
+    public function template($tpl_name) {
+        $template = $this->tpl_provider->load($tpl_name);
         if ($this->settings['force_compile']) {
             $binTpl = false;
         } else {
-            $binTpl = $this->binTplProvider->load($template);
+            $binTpl = $this->bin_tpl_provider->load($template);
         }
         if ($binTpl === false || !$template->check_bin($binTpl)) {
             if (($binTpl = $this->compile($template)) === false) {
-                return $this->error('Cannot compile ' . $tpl_name, 'gekkon');
+                return $this->error('Cannot compile ' . $template->get_id(), 'gekkon');
             }
-            $this->cacheProvider->clear_cache($binTpl);
+            $this->cache_provider->clear_cache($binTpl);
         }
         return $binTpl;
     }
 
-    function clear_cache($tpl_name, $id = '') {
-        if (($template = $this->tplProvider->load($tpl_name)) === false) {
-            $tpl_full_name = $this->tplProvider->get_full_name($tpl_name);
-            return $this->error('Template ' . $tpl_name . ' cannot be found at ' . $tpl_full_name, 'gekkon');
+    public function clear_cache($tpl_name, $id = null) {
+        $template = $this->tpl_provider->load($tpl_name);
+        if (($binTpl = $this->bin_tpl_provider->load($template)) !== false) {
+            $this->cache_provider->clear_cache($binTpl, $id);
         }
-        if (($binTpl = $this->binTplProvider->load($template)) !== false) {
-            $this->cacheProvider->clear_cache($binTpl, $id);
-        }
-        //$this->binTplProvider->clear_cache($template); // clear_bin_cache?
+        //$this->bin_tpl_provider->clear_cache($template); // clear_bin_cache?
     }
 
-    function get_scope($data = false) {
+    public function get_scope($data = false) {
         if ($data !== false && $data !== $this->data) {
             $scope = new \ArrayObject($data);
             $scope['_global'] = $this->data;
-            $scope['_module'] = $this->tplModuleManager->module;
+            $scope['_module'] = $this->tpl_module_manager->get_module();
             return $scope;
         }
         return $this->data;
     }
 
-    function compile($template) {
+    public function compile($template) {
         if (!$this->compiler) {
             $this->compiler = new Compiler\Compiler($this);
         }
-        $this->binTplProvider->save($template, $this->compiler->compile($template));
-        return $this->binTplProvider->load($template);
+        $this->bin_tpl_provider->save($template, $this->compiler->compile($template));
+        return $this->bin_tpl_provider->load($template);
     }
 
-    function error($msg, $object = false) {
+    public function error($msg, $object = false) {
         $message = 'Gekkon:';
         if ($object !== false) {
             $message .= ' [' . $object . ']';
@@ -120,27 +112,27 @@ class Gekkon {
         return false;
     }
 
-    function settings_set_all($value) {
+    public function settings_set_all($value) {
         $this->settings = $value;
     }
 
-    function settings_set($name, $value) {
+    public function settings_set($name, $value) {
         $this->settings[$name] = $value;
     }
 
-    function set_property($name, $value) {
+    public function set_property($name, $value) {
         $this->$name = $value;
     }
 
-    function get_property($name) {
+    public function get_property($name) {
         return $this->$name;
     }
 
-    function add_tag_system($name, $open, $close) {
+    public function add_tag_system($name, $open, $close) {
         $this->settings['tag_systems'][$name] = array('open' => $open, 'close' => $close,);
     }
 
-    function remove_tag_system($name) {
+    public function remove_tag_system($name) {
         unset($this->settings['tag_systems'][$name]);
     }
 
