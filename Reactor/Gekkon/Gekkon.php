@@ -7,20 +7,20 @@ class Gekkon {
     public $compiler;
     public $settings;
     public $data;
-    public $tplProvider;
-    public $binTplProvider;
-    public $cacheProvider;
+    public $tpl_provider;
+    public $bin_tpl_provider;
+    public $cache_provider;
 
     public function __construct($base_path, $bin_path, $module = 'templates') {
         $this->compiler = null;
         $this->settings = DefaultSettings::get();
         $this->data = new \ArrayObject();
         $this->data['global'] = $this->data;
-        $this->tplProvider = new TemplateProviderFS($base_path);
-        $this->binTplProvider = new BinTplProviderFS($this, $bin_path);
-        $this->cacheProvider = new CacheProviderFS($bin_path);
-        $this->tplModuleManager = new TplModuleManager($this);
-        $this->tplModuleManager->push($module);
+        $this->tpl_provider = new TemplateProviderFS($base_path);
+        $this->bin_tpl_provider = new BinTplProviderFS($this, $bin_path);
+        $this->cache_provider = new CacheProviderFS($bin_path);
+        $this->tpl_module_manager = new TplModuleManager($this);
+        $this->tpl_module_manager->push($module);
     }
 
     public function assign($name, $data) {
@@ -32,11 +32,11 @@ class Gekkon {
     }
 
     public function push_module($module) {
-        $this->tplModuleManager->push($module);
+        $this->tpl_module_manager->push($module);
     }
 
     public function pop_module() {
-        return $this->tplModuleManager->pop();
+        return $this->tpl_module_manager->pop();
     }
 
     public function display($tpl_name, $scope_data = false, $module = null) {
@@ -58,34 +58,34 @@ class Gekkon {
     }
 
     public function template($tpl_name) {
-        $template = $this->tplProvider->load($tpl_name);
+        $template = $this->tpl_provider->load($tpl_name);
         if ($this->settings['force_compile']) {
             $binTpl = false;
         } else {
-            $binTpl = $this->binTplProvider->load($template);
+            $binTpl = $this->bin_tpl_provider->load($template);
         }
         if ($binTpl === false || !$template->check_bin($binTpl)) {
             if (($binTpl = $this->compile($template)) === false) {
                 return $this->error('Cannot compile ' . $template->get_id(), 'gekkon');
             }
-            $this->cacheProvider->clear_cache($binTpl);
+            $this->cache_provider->clear_cache($binTpl);
         }
         return $binTpl;
     }
 
     public function clear_cache($tpl_name, $id = null) {
-        $template = $this->tplProvider->load($tpl_name);
-        if (($binTpl = $this->binTplProvider->load($template)) !== false) {
-            $this->cacheProvider->clear_cache($binTpl, $id);
+        $template = $this->tpl_provider->load($tpl_name);
+        if (($binTpl = $this->bin_tpl_provider->load($template)) !== false) {
+            $this->cache_provider->clear_cache($binTpl, $id);
         }
-        //$this->binTplProvider->clear_cache($template); // clear_bin_cache?
+        //$this->bin_tpl_provider->clear_cache($template); // clear_bin_cache?
     }
 
     public function get_scope($data = false) {
         if ($data !== false && $data !== $this->data) {
             $scope = new \ArrayObject($data);
             $scope['_global'] = $this->data;
-            $scope['_module'] = $this->tplModuleManager->module;
+            $scope['_module'] = $this->tpl_module_manager->get_module();
             return $scope;
         }
         return $this->data;
@@ -95,8 +95,8 @@ class Gekkon {
         if (!$this->compiler) {
             $this->compiler = new Compiler\Compiler($this);
         }
-        $this->binTplProvider->save($template, $this->compiler->compile($template));
-        return $this->binTplProvider->load($template);
+        $this->bin_tpl_provider->save($template, $this->compiler->compile($template));
+        return $this->bin_tpl_provider->load($template);
     }
 
     public function error($msg, $object = false) {

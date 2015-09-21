@@ -14,7 +14,7 @@ class BinTplProviderFS implements BinTemplateProviderInterface {
     }
 
     protected function full_path($template) {
-        $association = $this->gekkon->tplProvider->association_id($template);
+        $association = $this->gekkon->tpl_provider->association_id($template);
         $bin_name = basename($association);
         $bin_path = $this->base_dir . abs(crc32($association)) . '/';
         return $bin_path . $bin_name . '.php';
