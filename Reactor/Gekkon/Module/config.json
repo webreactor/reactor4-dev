@@ -8,11 +8,11 @@
                 },
                 {
                     "call": "set_property",
-                    "arguments": [ "tplModuleManager", "%tplModuleManager%" ]
+                    "arguments": [ "tpl_module_manager", "%tplModuleManager%" ]
                 },
                 {
                     "call": "set_property",
-                    "arguments": [ "tplProvider", "%TplProviderReactorMod%" ]
+                    "arguments": [ "tpl_provider", "%TplProviderReactorMod%" ]
                 },
                 {
                     "call": "register",

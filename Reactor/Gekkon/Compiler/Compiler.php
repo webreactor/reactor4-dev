@@ -44,7 +44,7 @@ class Compiler {
 
     function compile($template) {
         $this->error = array();
-        $templateList = $this->gekkon->tplProvider->get_associated($template);
+        $templateList = $this->gekkon->tpl_provider->get_associated($template);
         $rez = new BinTemplateCodeSet();
         foreach ($templateList as $tpl) {
             if (($binTpl = $this->compile_one($tpl)) !== false) {
