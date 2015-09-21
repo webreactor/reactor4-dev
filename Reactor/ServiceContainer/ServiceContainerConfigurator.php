@@ -2,13 +2,28 @@
 
 namespace Reactor\ServiceContainer;
 
+/**
+ * configurator for service containers
+ * @package Reactor\ServiceContainer
+ */
 class ServiceContainerConfigurator {
+    /**
+     * @var ValueContainer
+     */
     protected $container;
 
+    /**
+     * @param ValueContainer $container
+     */
     public function __construct($container) {
         $this->container = $container;
     }
 
+    /**
+     * @param array $config
+     * @throws Exceptions\ServiceConfiguratorExeption
+     * @throws Exceptions\ServiceNotFoundExeption
+     */
     public function load($config) {
         $config = $this->createReferences($config);
 
@@ -30,6 +45,11 @@ class ServiceContainerConfigurator {
         }
     }
 
+    /**
+     * @param array $config
+     * @return ServiceProvider
+     * @throws Exceptions\ServiceConfiguratorExeption
+     */
     public function createProvider($config) {
 
         $provider = new ServiceProvider();
@@ -53,6 +73,12 @@ class ServiceContainerConfigurator {
         return $provider;
     }
 
+    /**
+     * load a scenario for given provider by scenario keys
+     * @param ServiceProvider $provider
+     * @param array $scenario
+     * @throws Exceptions\ServiceConfiguratorExeption
+     */
     protected function loadScenario($provider, $scenario) {
         foreach ($scenario as $step) {
             if (!isset($step['arguments'])) {
@@ -72,6 +98,11 @@ class ServiceContainerConfigurator {
         }
     }
 
+    /**
+     * create references by specified config
+     * @param array $config
+     * @return array
+     */
     protected function createReferences($config) {
         $data = array();
         foreach($config as $key => $value) {
@@ -88,6 +119,17 @@ class ServiceContainerConfigurator {
         return $data;
     }
 
+    /**
+     * handle a value and get reference or direct service for it through special template
+     * %service_name% - reference to given service
+     * $name$ - refernce to environment variable by given name
+     * !name! - reference to constant by given name
+     * if first character after begining doubled special symbols is '*' than return value by reference
+     * for example !*name! means a value of constant by name
+     * @param string $value
+     * @return mixed|ConstantReference|EnvironmentReference|Reference|ServiceContainer|string
+     * @throws Exceptions\CircularReferenceExeption
+     */
     protected function handleValue($value) {
         if (strlen($value) > 0) {
             $start = $value[0];
