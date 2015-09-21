@@ -8,11 +8,11 @@
                 },
                 {
                     "call": "set_property",
-                    "arguments": [ "tpl_module_manager", "%tplModuleManager%" ]
+                    "arguments": [ "tpl_module_manager", "%tpl_module_manager%" ]
                 },
                 {
                     "call": "set_property",
-                    "arguments": [ "tpl_provider", "%TplProviderReactorMod%" ]
+                    "arguments": [ "tpl_provider", "%tpl_provider%" ]
                 },
                 {
                     "call": "register",
@@ -31,7 +31,7 @@
 
             ]
         },
-        "tplModuleManager": {
+        "tpl_module_manager": {
             "scenario": [
                 {
                     "create": "\\Reactor\\Gekkon\\Module\\TplModuleManager",
@@ -43,7 +43,7 @@
                 }
             ]
         },
-        "TplProviderReactorMod": {
+        "tpl_provider": {
             "scenario": [
                 {
                     "create": "\\Reactor\\Gekkon\\Module\\TplProviderReactorMod",
