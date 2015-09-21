@@ -25,7 +25,7 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
 
     public function getDirect($name) {
         if (!isset($this->data[$name])) {
-            throw new Exceptions\ServiceNotFoundExeption($name);
+            throw new Exceptions\ServiceNotFoundException($name);
         }
         $value = $this->data[$name];
         if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {

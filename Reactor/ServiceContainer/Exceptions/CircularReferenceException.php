@@ -2,4 +2,4 @@
 
 namespace Reactor\ServiceContainer\Exceptions;
 
-class CircularReferenceExeption extends \Exception {}
+class CircularReferenceException extends \Exception {}

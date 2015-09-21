@@ -46,7 +46,7 @@ class ValueContainer implements \ArrayAccess {
             if ($this->parent !== null) {
                 return $this->parent->get($name);
             }
-            throw new Exceptions\ServiceNotFoundExeption($name);
+            throw new Exceptions\ServiceNotFoundException($name);
         }
         return $this->getDirect($name);
     }
