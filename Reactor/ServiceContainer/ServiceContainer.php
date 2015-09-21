@@ -2,8 +2,18 @@
 
 namespace Reactor\ServiceContainer;
 
+/**
+ * Class ServiceContainer
+ * a main class for all services
+ * @package Reactor\ServiceContainer
+ */
 class ServiceContainer extends ValueContainer implements ServiceProviderInterface {
-
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param array $arguments
+     * @return ServiceProviderInterface
+     */
     public function createService($name, $value = null, $arguments = array()) {
         if (!is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
             $value = new ServiceProvider($value, $arguments);
@@ -12,7 +22,7 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
     }
 
     /**
-     * @param $path
+     * @param string|array $path
      * @return ServiceContainer
      */
     public function getByPath($path) {
@@ -27,6 +37,11 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
         return $value;
     }
 
+    /**
+     * @param string $name
+     * @return ServiceProviderInterface
+     * @throws Exceptions\ServiceNotFoundExeption
+     */
     public function getDirect($name) {
         if (!isset($this->data[$name])) {
             throw new Exceptions\ServiceNotFoundExeption($name);
@@ -39,15 +54,21 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
         return $value;
     }
 
+    /**
+     * function for reset
+     */
     public function reset() {
         $this->_reset($this->data);
         $this->setParent(null);
     }
 
+    /**
+     * @param array $data
+     */
     protected function _reset($data) {
-        /** @var ServiceProviderInterface $value */
         foreach ($data as $value) {
             if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+                /** @var ServiceProviderInterface $value */
                 $value->reset();
             } elseif (is_array($value)) {
                 $this->_reset($value);
@@ -55,11 +76,19 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
         }
     }
 
+    /**
+     * @param ServiceContainer $container
+     * @return $this
+     */
     public function getService($container = null) {
         $this->setParent($container);
         return $this;
     }
 
+    /**
+     * @param mixed $data
+     * @return mixed
+     */
     public function resolveProviders($data) {
         if (is_array($data)) {
             foreach ($data as $key => $value) {

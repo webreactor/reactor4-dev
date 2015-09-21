@@ -2,11 +2,23 @@
 
 namespace Reactor\ServiceContainer;
 
+/**
+ * Class Reference
+ * @package Reactor\ServiceContainer
+ */
 class Reference implements ServiceProviderInterface {
-
+    /**
+     * @var array
+     */
     protected $path;
+    /**
+     * @var bool
+     */
     protected $loading = false;
 
+    /**
+     * @param array $path
+     */
     public function __construct($path = array()) {
         $this->path = $path;
     }
@@ -26,8 +38,14 @@ class Reference implements ServiceProviderInterface {
         return $val;
     }
 
+    /**
+     * function for reset
+     */
     public function reset() {}
 
+    /**
+     * @return string
+     */
     public function getPath() {
         return implode('/', (array)$this->path);
     }
