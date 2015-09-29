@@ -2,7 +2,9 @@
 
 namespace Reactor\ServiceContainer;
 
-class ServiceContainer extends ValueContainer implements ServiceProviderInterface {
+use Reactor\Common\ValueScope\ValueScope;
+
+class ServiceContainer extends ValueScope implements ServiceProviderInterface {
 
     public function createService($name, $value = null, $arguments = array()) {
         if (!is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
@@ -65,6 +67,22 @@ class ServiceContainer extends ValueContainer implements ServiceProviderInterfac
             }
         }
         return $data;
+    }
+
+    public function __get($name) {
+        return $this->get($name);
+    }
+
+    public function __set($name, $value) {
+        return $this->set($name, $value);
+    }
+
+    public function __isset($name) {
+        return $this->has($name);
+    }
+
+    public function __unset($name) {
+        $this->remove($name);
     }
 
 }

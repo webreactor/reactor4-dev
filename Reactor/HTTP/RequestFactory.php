@@ -3,21 +3,21 @@
 namespace Reactor\HTTP;
 
 class RequestFactory {
-    
 
-    function create() {
-    // $_GET,
-    // $_POST,
-    // array(),
-    // $_COOKIE,
-    // $_FILES,
-    // $_SERVER
+    function buildFromGlobals() {
+        return new Request(
+            $_GET,
+            $_POST,
+            null,
+            $_FILES,
+            $_COOKIE,
+            $_SERVER
+        );
     }
 
     function build() {
         $request = new Request();
         $request->GET = new ParamenterBag();
-
     }
 
 }

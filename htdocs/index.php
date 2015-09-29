@@ -1,7 +1,12 @@
 <?php
+$_start = microtime(true);
 $app = include '../bootstrap.php';
 $app->reset();
 
+$factory = new \Reactor\HTTP\RequestFactory();
+$request = $factory->buildFromGlobals();
+print_r($request->query->getString('query'));
+//die();
 // phpinfo();
 // print_r(getallheaders());
 
@@ -11,3 +16,4 @@ $app->dispatcher->dispatch( new \Reactor\Events\Event("user.deleted") );
 
 $app->view->register('time', time());
 $app->view->display('test.tpl');
+echo "\n<br>Total:".(microtime(true) - $_start);

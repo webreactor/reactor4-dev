@@ -1,29 +1,12 @@
 <?php
 
 namespace Reactor\HTTP;
+use Reactor\Common\ValueScope\ValueScopeArray;
 
-class RequestParameters {
+class RequestParameters  extends ValueScopeArray {
 
-    protected $data; // expects request related keys from $_SERVER
-
-    public function __construct($data = array()) {
-        $this->data = $data;
-    }
-
-    public function has($name, $value) {
-        return isset($this->data[$name]);
-    }    
-
-    public function set($name, $value) {
-        $this->data[$name] = $value;
-    }
-
-    public function get($name, $default = null) {
-        if (isset($this->data[$name])) {
-            return $this->data[$name];    
-        }
-        return $default;
-    }
+    // expects request related keys from $_SERVER
+    protected $headers;
 
     public function headers() {
         if ($this->headers === null) {
