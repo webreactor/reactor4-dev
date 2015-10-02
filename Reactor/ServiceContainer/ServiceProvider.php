@@ -143,8 +143,19 @@ class ServiceProvider implements ServiceProviderInterface {
         return $instance;
     }
 
-    public function reset() {
+    public function __sleep() {
         $this->instance = null;
+    }
+
+    public function setScenario($scenario) {
+        $this->scenario = $scenario;
+    }
+
+    public static function __set_state($state) {
+        $obj = new ServiceProvider();
+        $obj->setScenario($state['scenario']);
+        $obj->shared($state['shared']);
+        return $obj;
     }
 
 }

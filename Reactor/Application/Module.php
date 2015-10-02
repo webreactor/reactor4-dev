@@ -61,4 +61,9 @@ class Module extends ServiceContainer {
         return $this->dir;
     }
 
+    public function __sleep() {
+        parent::__sleep();
+        $this->dir = null;
+    }
+
 }

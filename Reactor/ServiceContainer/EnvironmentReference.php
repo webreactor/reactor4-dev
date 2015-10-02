@@ -14,6 +14,10 @@ class EnvironmentReference implements ServiceProviderInterface {
         return getenv($this->name);
     }
 
-    public function reset() {}
+    public function __sleep() {}
+
+    public static function __set_state($state) {
+        return new EnvironmentReference($state['name']);
+    }
 
 }

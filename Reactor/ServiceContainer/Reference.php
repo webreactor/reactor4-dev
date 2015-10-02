@@ -21,10 +21,14 @@ class Reference implements ServiceProviderInterface {
         return $val;
     }
 
-    public function reset() {}
+    public function __sleep() {}
 
     public function getPath() {
         return implode('/', (array)$this->path);
+    }
+
+    public static function __set_state($state) {
+        return new Reference($state['path']);
     }
 
 }

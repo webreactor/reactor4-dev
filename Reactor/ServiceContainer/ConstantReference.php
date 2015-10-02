@@ -14,6 +14,10 @@ class ConstantReference implements ServiceProviderInterface {
         return constant($this->name);
     }
 
-    public function reset() {}
+    public function __sleep() {}
+
+    public static function __set_state($state) {
+        return new ConstantReference($state['name']);
+    }
 
 }

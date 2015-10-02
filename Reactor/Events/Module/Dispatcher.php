@@ -22,8 +22,8 @@ class Dispatcher extends \Reactor\Application\Module {
         return $this->dispatcher;
     }
 
-    public function reset() {
-        parent::reset();
+    public function __sleep() {
+        parent::__sleep();
         $this->dispatcher->setContainer(null);
     }
 

@@ -2,9 +2,12 @@
 
 namespace Reactor\ServiceContainer;
 
-use Reactor\Common\ValueScope\ValueScope;
+use \Reactor\Common\ValueScope\ValueScope;
+use \Reactor\Common\Traits\Exportable;
 
 class ServiceContainer extends ValueScope implements ServiceProviderInterface {
+
+    use Exportable;
 
     public function createService($name, $value = null, $arguments = array()) {
         if (!is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
@@ -36,17 +39,17 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface {
         return $value;
     }
 
-    public function reset() {
-        $this->_reset($this->data);
+    public function __sleep() {
         $this->setParent(null);
+        $this->sleepProviders($this->data);
     }
 
-    protected function _reset($data) {
+    protected function sleepProviders($data) {
         foreach ($data as $value) {
             if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
-                $value->reset();
+                $value->__sleep();
             } elseif (is_array($value)) {
-                $this->_reset($value);
+                $this->sleepProviders($value);
             }
         }
     }

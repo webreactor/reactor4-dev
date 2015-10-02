@@ -7,6 +7,8 @@ use Reactor\ServiceContainer\ServiceProvider;
 class ContainerAwareDispatcher extends Dispatcher {
 
     protected $container;
+    
+    use \Reactor\Common\Traits\Exportable;
 
     public function setContainer($container) {
         $this->container = $container;
