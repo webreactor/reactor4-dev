@@ -93,7 +93,7 @@ class Connection implements ConnectionInterface {
         $query = $this->sql('update `' . $table . '` set '
             . $this->buildPairs(array_keys($data)) 
             . $this->wrapWhere($where), array_merge($data, $where_data));
-        return $query->rowCount();
+        return $query->count();
     }
 
     public function delete($table, $where_data = array(), $where = '') {
@@ -102,7 +102,7 @@ class Connection implements ConnectionInterface {
         }
         $query = $this->sql('delete from `' . $table . '` '
             . $this->wrapWhere($where), $where_data);
-        return $query->rowCount();
+        return $query->count();
     }
 
     public function pages($query, $parameters, $page, $per_page, $total_rows = null) {
