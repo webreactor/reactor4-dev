@@ -40,37 +40,21 @@ class Connection implements ConnectionInterface {
             $this->getConnection()->commit();
             return true;
         } catch (\Exception $exception) {
-            try {
-                $this->getConnection()->rollBack();
-            } catch (\Exception $exception) {
-                throw new Exceptions\DatabaseException($exception->getMessage(), $this);
-            }
-            return false;
+            $this->getConnection()->rollBack();
+            throw new Exceptions\DatabaseException($exception->getMessage(), $this);
         }
     }
 
     public function beginTransaction() {
-        try {
-            return $this->getConnection()->beginTransaction();
-        } catch (\Exception $exception) {
-            return false;
-        }
+        return $this->getConnection()->beginTransaction();
     }
 
     public function commit() {
-        try {
-            return $this->getConnection()->commit();
-        } catch (\Exception $exception) {
-            return false;
-        }
+        return $this->getConnection()->commit();
     }
 
     public function rollBack() {
-        try {
-            return $this->getConnection()->rollBack();
-        } catch (\Exception $exception) {
-            return false;
-        }
+        return $this->getConnection()->rollBack();
     }
 
     public function sql($query, $arguments = array()) {
