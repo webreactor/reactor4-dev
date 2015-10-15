@@ -30,7 +30,7 @@ class Connection implements ConnectionInterface {
         return $this->connection;
     }
 
-    public function transactFunc($func, $param = array()) {
+    public function transaction($func, $param = array()) {
         if (!is_callable($func) || !is_array($param)) {
             return false;
         }
@@ -39,12 +39,36 @@ class Connection implements ConnectionInterface {
             call_user_func_array($func, $param);
             $this->getConnection()->commit();
             return true;
-        } catch (\PDOException $exception) {
+        } catch (\Exception $exception) {
             try {
                 $this->getConnection()->rollBack();
-            } catch (\PDOException $exception) {
+            } catch (\Exception $exception) {
                 throw new Exceptions\DatabaseException($exception->getMessage(), $this);
             }
+            return false;
+        }
+    }
+
+    public function beginTransaction() {
+        try {
+            return $this->getConnection()->beginTransaction();
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    public function commit() {
+        try {
+            return $this->getConnection()->commit();
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    public function rollBack() {
+        try {
+            return $this->getConnection()->rollBack();
+        } catch (\Exception $exception) {
             return false;
         }
     }
