@@ -37,8 +37,7 @@ class Connection implements ConnectionInterface {
         try {
             $this->beginTransaction();
             call_user_func_array($func, $param);
-            $this->commit();
-            return true;
+            return $this->commit();
         } catch (\Exception $exception) {
             $this->rollBack();
             throw new Exceptions\DatabaseException('Transaction failed - ' . $exception->getMessage(), $this);
