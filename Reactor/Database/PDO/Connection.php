@@ -30,6 +30,44 @@ class Connection implements ConnectionInterface {
         return $this->connection;
     }
 
+    public function transaction($func, $param = array()) {
+        if (!is_callable($func) || !is_array($param)) {
+            return false;
+        }
+        try {
+            $this->beginTransaction();
+            call_user_func_array($func, $param);
+            return $this->commit();
+        } catch (\Exception $exception) {
+            $this->rollBack();
+            throw new Exceptions\DatabaseException('Transaction failed - ' . $exception->getMessage(), $this);
+        }
+    }
+
+    public function beginTransaction() {
+        try {
+            return $this->getConnection()->beginTransaction();
+        } catch (\Exception $exception) {
+            throw new Exceptions\DatabaseException($exception->getMessage(), $this);
+        }
+    }
+
+    public function commit() {
+        try {
+            return $this->getConnection()->commit();
+        } catch (\Exception $exception) {
+            throw new Exceptions\DatabaseException($exception->getMessage(), $this);
+        }
+    }
+
+    public function rollBack() {
+        try {
+            return $this->getConnection()->rollBack();
+        } catch (\Exception $exception) {
+            throw new Exceptions\DatabaseException($exception->getMessage(), $this);
+        }
+    }
+
     public function sql($query, $arguments = array()) {
         echo "\n$query ".json_encode($arguments)."<br>";
         $statement = $this->getConnection()->prepare($query);
