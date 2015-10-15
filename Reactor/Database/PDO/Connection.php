@@ -30,6 +30,25 @@ class Connection implements ConnectionInterface {
         return $this->connection;
     }
 
+    public function transactFunc($func, $param = array()) {
+        if (!is_callable($func) || !is_array($param)) {
+            return false;
+        }
+        try {
+            $this->getConnection()->beginTransaction();
+            call_user_func_array($func, $param);
+            $this->getConnection()->commit();
+            return true;
+        } catch (\PDOException $exception) {
+            try {
+                $this->getConnection()->rollBack();
+            } catch (\PDOException $exception) {
+                throw new Exceptions\DatabaseException($exception->getMessage(), $this);
+            }
+            return false;
+        }
+    }
+
     public function sql($query, $arguments = array()) {
         echo "\n$query ".json_encode($arguments)."<br>";
         $statement = $this->getConnection()->prepare($query);
