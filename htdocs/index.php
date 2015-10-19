@@ -1,15 +1,15 @@
 <?php
+
 $_start = microtime(true);
-
 $app = include '../bootstrap.php';
-//$app->reset();
 
-// file_put_contents(__dir__.'/cached-app.php', 
-// "<?php
-// return ".var_export($app, true).';');
-// $app = include __dir__.'/cached-app.php';
+print_r($app);
+$app->view;
+die('ok');
+
 
 // die('ok');
+echo "\n<br>Total:".(microtime(true) - $_start)."<br>";
 $factory = new \Reactor\HTTP\RequestFactory();
 $request = $factory->buildFromGlobals();
 print_r($request->query->getString('query'));
@@ -19,10 +19,10 @@ print_r($request->query->getString('query'));
 
 // $gekkon = new \Reactor\Gekkon\Gekkon(BASE_DIR, BASE_DIR.'tpl_bin', 'Mod/News/tpl/');
 // $gekkon->display('news.tpl');
-
+echo "\n<br>Total:".(microtime(true) - $_start)."<br>";
 $app->dispatcher->dispatch( new \Reactor\Events\Event("user.deleted") );
-
+echo "\n<br>Total:".(microtime(true) - $_start)."<br>";
 $app->view->register('time', time());
-
+echo "\n<br>Total:".(microtime(true) - $_start)."<br>";
 $app->view->display('test.tpl');
 echo "\n<br>Total:".(microtime(true) - $_start)."<br>";

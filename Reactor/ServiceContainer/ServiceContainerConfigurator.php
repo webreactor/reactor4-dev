@@ -3,120 +3,67 @@
 namespace Reactor\ServiceContainer;
 
 class ServiceContainerConfigurator {
-    protected $container;
+
+    public $value_processors = array();
+    public $processors = array();
+    public $container;
+    public $resource_loader;
+    public $expression_processor;
 
     public function __construct($container) {
         $this->container = $container;
     }
 
     public function load($config) {
-        $config = $this->createReferences($config);
-
-        if (isset($config['parameters'])) {
-            foreach($config['parameters'] as $name => $value) {
-                if ($this->container->has($name)) {
-                    $data = $this->container->get($name);
-                    if (is_array($data) && is_array($value)) {
-                        $value = array_merge_recursive($value, $data);    
-                    }
-                }
-                $this->container->set($name, $value);
+        foreach ($this->processors as $key => $processor) {
+            if (!isset($config[$key])) {
+                $config[$key] = array();
             }
-        }
-        if (isset($config['services'])) {
-            foreach($config['services'] as $name => $service_config) {
-                $this->container->set($name, $this->createProvider($service_config));
-            }
+            $processor->process($this->handleValues($config[$key]));
         }
     }
 
-    public function createProvider($config) {
-
-        $provider = new ServiceProvider();
-
-        if (isset($config['scenario'])) {
-            $this->loadScenario($provider, $config['scenario']);
-        } else {
-            if (!isset($config['create'])) {
-                throw new Exceptions\ServiceConfiguratorException('Nothing to create '.var_export($config, true));
-            }
-            if (!isset($config['arguments'])) {
-                $config['arguments'] = array();
-            }
-            $provider->createScenario($config['create'], $config['arguments']);
+    public function loadPath($path) {
+        $this->config_context = $path;
+        $config = $this->loadResource($path);
+        if ($config) {
+            $this->load($config);
         }
-
-        if (isset($config['shared'])) {
-            $provider->shared($config['shared']);
-        }
-
-        return $provider;
+        $this->config_context = null;
     }
 
-    protected function loadScenario($provider, $scenario) {
-        foreach ($scenario as $step) {
-            if (!isset($step['arguments'])) {
-                $step['arguments'] = array();
-            }
-            if (isset($step['create'])) {
-                $provider->createScenario($step['create'], $step['arguments']);
-            } elseif (isset($step['factory'])) {
-                $provider->addFactory($step['factory'], $step['arguments']);
-            } elseif (isset($step['call'])) {
-                $provider->addCall($step['call'], $step['arguments']);
-            } elseif (isset($step['configurator'])) {
-                $provider->addConfigurator($step['configurator'], $step['arguments']);
-            } else {
-                throw new Exceptions\ServiceConfiguratorException('Cannot parse step '.var_export($step, true));
-            }
-        }
+    public function loadResource($path) {
+        return $this->resource_loader->load($path);
     }
 
-    protected function createReferences($config) {
-        $data = array();
-        foreach($config as $key => $value) {
-            if (is_array($value)) {
-                $data[$key] = $this->createReferences($value);
-            } else {
-                if (is_string($value)) {
-                    $data[$key] = $this->handleValue($value);
-                } else {
-                    $data[$key] = $value;
-                }
-            }
+    public function handleValues($config) {
+        foreach ($this->value_processors as $processor) {
+            $config = $processor->process($config);
         }
-        return $data;
+        return $config;
     }
 
-    protected function handleValue($value) {
-        if (strlen($value) > 0) {
-            $start = $value[0];
-            $stop = substr($value, -1, 1);
-            $inner_value = substr($value, 1, -1);
-            if ($start == '%' && $start == $stop) {
-                if (strlen($inner_value) > 0 && $inner_value[0] == '*') {
-                    $inner_value = substr($inner_value, 1);
-                    return (new Reference($inner_value))->getService($this->container);    
-                }
-                return new Reference($inner_value);
-            }
-            if ($start == '$' && $start == $stop) {
-                if ($inner_value[0] == '*') {
-                    $inner_value = substr($inner_value, 1);
-                    return (new EnvironmentReference($inner_value))->getService();    
-                }
-                return new EnvironmentReference($inner_value);
-            }
-            if ($start == '!' && $start == $stop) {
-                if ($inner_value[0] == '*') {
-                    $inner_value = substr($inner_value, 1);
-                    return (new ConstantReference($inner_value))->getService();    
-                }
-                return new ConstantReference($inner_value);
-            }
-        }
+    public function addProcessor($name, $processor) {
+        $this->processors[$name] = $processor;
+    }
 
-        return $value;
+    public function addValueProcessor($name, $processor) {
+        $this->value_processors[$name] = $processor;
+    }
+
+    static function factory($container) {
+        $configurator = new self($container);
+
+        $configurator->resource_loader = new Configurator\ResourceLoader\ResourceLoaderManager();
+        $configurator->resource_loader
+            ->addLoader('.json', new Configurator\ResourceLoader\ResourceLoaderJSON());
+
+        $configurator->addValueProcessor('expressions', new Configurator\ExpressionProcessor($configurator));
+
+        $configurator->addProcessor('parameters', new Configurator\ParametersProcessor($configurator));
+        $configurator->addProcessor('import', new Configurator\ImportProcessor($configurator));
+        $configurator->addProcessor('services', new Configurator\ServicesProcessor($configurator));
+        return $configurator;
     }
 
 }

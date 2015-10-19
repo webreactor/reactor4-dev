@@ -29,12 +29,11 @@ class Module extends ServiceContainer {
             $this->setParent($container);
             $this->full_name = $this->parent->getFullName().'/'.$this->name;
         }
-        $configurator = new ModuleConfigurator($this);
+        $configurator = ServiceContainerConfigurator::factory($this);
+        $configurator->addProcessor('modules', new ModulesProcessor($configurator));
         $config_file = $this->getDir().'config.json';
         if (is_file($config_file)) {
-            $config_loader = new ConfigurationReaderJSON();
-            $config = $config_loader->load($config_file);
-            $configurator->load($config);
+            $configurator->loadPath($config_file);
         }
         return $configurator;
     }

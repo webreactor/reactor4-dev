@@ -1,6 +1,6 @@
 {
     "parameters": {
-        "folders.base_dir": "!BASE_DIR!"
+        "folders.base_dir": "!BASE_DIR"
     },
     "services" : {
         "folders.gekkon.tpl_bin": {
@@ -8,7 +8,7 @@
             "scenario": [
                 {
                     "factory": "implode",
-                    "arguments": [ "", [ "%folders.base_dir%", "tpl_bin/" ] ]
+                    "arguments": [ "", [ "@folders.base_dir", "tpl_bin/" ] ]
                 }
             ]
         }

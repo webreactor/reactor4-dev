@@ -29,9 +29,6 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface {
     }
 
     public function getDirect($name) {
-        if (!isset($this->data[$name])) {
-            throw new Exceptions\ServiceNotFoundException($name);
-        }
         $value = $this->data[$name];
         if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
             return $value->getService($this);

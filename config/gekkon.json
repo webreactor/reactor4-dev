@@ -4,8 +4,8 @@
     },
     "parameters": {
         "view": {
-            "base_dir": "%folders.base_dir%",
-            "tpl_bin": "%folders.gekkon.tpl_bin%"
+            "base_dir": "@folders.base_dir",
+            "tpl_bin": "@folders.gekkon.tpl_bin"
         }
     }
 }

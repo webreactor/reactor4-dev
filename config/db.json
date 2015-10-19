@@ -10,6 +10,6 @@
                 "link": "mysql:dbname=catalog-service;host=localhost"
             }
         },
-        "db": "%db.connections/local%"
+        "db": "@db.connections/local"
     }
 }

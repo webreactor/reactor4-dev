@@ -1,6 +1,6 @@
 {
     "parameters": {
         "test": "test_value",
-        "test2": "!*BASE_DIR!"
+        "test2": "!*BASE_DIR"
     }
 }

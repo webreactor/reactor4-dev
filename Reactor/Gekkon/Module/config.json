@@ -4,19 +4,19 @@
             "shared": true,
             "scenario": [
                 {
-                    "create": "%gekkon.raw%"        
+                    "create": "@gekkon.raw"        
                 },
                 {
                     "call": "set_property",
-                    "arguments": [ "tpl_module_manager", "%tpl_module_manager%" ]
+                    "arguments": [ "tpl_module_manager", "@tpl_module_manager" ]
                 },
                 {
                     "call": "set_property",
-                    "arguments": [ "tpl_provider", "%tpl_provider%" ]
+                    "arguments": [ "tpl_provider", "@tpl_provider" ]
                 },
                 {
                     "call": "register",
-                    "arguments": [ "_application", "%application%" ]
+                    "arguments": [ "_application", "@application" ]
                 }
             ]
             
@@ -26,7 +26,7 @@
             "scenario": [
                 {
                     "create": "\\Reactor\\Gekkon\\Gekkon",
-                    "arguments": [ "%base_dir%", "%tpl_bin%" ]
+                    "arguments": [ "@base_dir", "@tpl_bin" ]
                 }
 
             ]
@@ -35,11 +35,11 @@
             "scenario": [
                 {
                     "create": "\\Reactor\\Gekkon\\Module\\TplModuleManager",
-                    "arguments": [ "%gekkon.raw%" ]
+                    "arguments": [ "@gekkon.raw" ]
                 },
                 {
                     "call": "push",
-                    "arguments": [ "%application%" ]
+                    "arguments": [ "@application" ]
                 }
             ]
         },
@@ -47,7 +47,7 @@
             "scenario": [
                 {
                     "create": "\\Reactor\\Gekkon\\Module\\TplProviderReactorMod",
-                    "arguments": [ "%application%" ]
+                    "arguments": [ "@application" ]
                 }
             ]
         }
