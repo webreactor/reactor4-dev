@@ -9,6 +9,7 @@ class ServiceContainerConfigurator {
     public $container;
     public $resource_loader;
     public $expression_processor;
+    public $config_context = null;
 
     public function __construct($container) {
         $this->container = $container;
@@ -25,15 +26,12 @@ class ServiceContainerConfigurator {
 
     public function loadPath($path) {
         $this->config_context = $path;
-        $config = $this->loadResource($path);
-        if ($config) {
-            $this->load($config);
-        }
+        $this->readResource($path, array($this, 'load'));
         $this->config_context = null;
     }
 
-    public function loadResource($path) {
-        return $this->resource_loader->load($path);
+    public function readResource($path, $callback = null) {
+        return $this->resource_loader->load($path, $callback);
     }
 
     public function handleValues($config) {
@@ -60,9 +58,11 @@ class ServiceContainerConfigurator {
 
         $configurator->addValueProcessor('expressions', new Configurator\ExpressionProcessor($configurator));
 
+        $configurator->addProcessor('dynamic', new Configurator\DynamicProcessor($configurator));
         $configurator->addProcessor('parameters', new Configurator\ParametersProcessor($configurator));
         $configurator->addProcessor('import', new Configurator\ImportProcessor($configurator));
         $configurator->addProcessor('services', new Configurator\ServicesProcessor($configurator));
+
         return $configurator;
     }
 

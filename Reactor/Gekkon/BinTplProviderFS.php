@@ -5,7 +5,7 @@ namespace Reactor\Gekkon;
 use Reactor\Gekkon\Interfaces\BinTemplateProviderInterface;
 
 class BinTplProviderFS implements BinTemplateProviderInterface {
-    protected $base_dir;
+    public $base_dir;
     protected $loaded = array();
 
     public function __construct($gekkon, $base) {

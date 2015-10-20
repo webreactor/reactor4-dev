@@ -3,10 +3,11 @@
 $_start = microtime(true);
 $app = include '../bootstrap.php';
 
-print_r($app);
-$app->view;
-die('ok');
+//print_r($app);
+//$app->view;
+//die('ok');
 
+echo $app->view->bin_tpl_provider->base_dir;
 
 // die('ok');
 echo "\n<br>Total:".(microtime(true) - $_start)."<br>";

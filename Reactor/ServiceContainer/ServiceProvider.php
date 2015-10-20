@@ -152,7 +152,7 @@ class ServiceProvider implements ServiceProviderInterface {
     }
 
     public static function __set_state($state) {
-        $obj = new ServiceProvider();
+        $obj = new self();
         $obj->setScenario($state['scenario']);
         $obj->shared($state['shared']);
         return $obj;

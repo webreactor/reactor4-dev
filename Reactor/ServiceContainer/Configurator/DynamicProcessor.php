@@ -4,7 +4,7 @@ namespace Reactor\ServiceContainer\Configurator;
 
 use Reactor\Common\Tools\ArrayTools;
 
-class ParametersProcessor implements ConfigProcessorInterface {
+class DynamicProcessor implements ConfigProcessorInterface {
 
     protected $container;
 
@@ -14,7 +14,7 @@ class ParametersProcessor implements ConfigProcessorInterface {
 
     public function process($config) {
         foreach ($config as $name => $value) {
-            $this->container->set($name, $this->container->resolveProviders($value));
+            $this->container->set($name, new DynamicParametersProvider($value));
         }
     }
 

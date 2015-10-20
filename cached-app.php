@@ -14,6 +14,14 @@ return Mod\Application\Application::__set_state(array(
     )),
     'test' => 'test_value',
     'test2' => 'D:\\famp\\htdocs\\reactor4/',
+    'db' => 
+    Reactor\ServiceContainer\Configurator\DynamicParametersProvider::__set_state(array(
+       'data' => 
+      Reactor\ServiceContainer\Reference::__set_state(array(
+         'path' => 'db.connections/local',
+         'loading' => false,
+      )),
+    )),
     'db.connections' => 
     Reactor\Database\Module::__set_state(array(
        'dir' => NULL,
@@ -43,13 +51,82 @@ return Mod\Application\Application::__set_state(array(
       ),
        'parent' => NULL,
     )),
-    'db' => 
-    array (
-      'user' => 'root',
-      'password' => 'anabios',
-      'link' => 'mysql:dbname=catalog-service;host=localhost',
-    ),
-    'folders.base_dir' => 'D:\\famp\\htdocs\\reactor4/',
+    'dispatcher' => 
+    Reactor\Events\Module\Dispatcher::__set_state(array(
+       'dispatcher' => 
+      Reactor\Events\ContainerAwareDispatcher::__set_state(array(
+         'container' => NULL,
+         'wildcard' => '#',
+         'wordcard' => '\\*',
+         'divider' => '\\.',
+         'listeners' => 
+        array (
+          '/^user\\.deleted$/' => 
+          array (
+            0 => 
+            array (
+              0 => 
+              Reactor\ServiceContainer\Reference::__set_state(array(
+                 'path' => 'application/news/printer',
+                 'loading' => false,
+              )),
+              1 => 'display',
+            ),
+          ),
+        ),
+         'cache' => 
+        array (
+        ),
+      )),
+       'dir' => NULL,
+       'name' => 'dispatcher',
+       'full_name' => 'application/dispatcher',
+       'data' => 
+      array (
+      ),
+       'parent' => NULL,
+    )),
+    'folders.base_dir' => 
+    Reactor\ServiceContainer\Configurator\DynamicParametersProvider::__set_state(array(
+       'data' => 
+      Reactor\ServiceContainer\ConstantReference::__set_state(array(
+         'name' => 'BASE_DIR',
+      )),
+    )),
+    'folders.gekkon.tpl_bin' => 
+    Reactor\ServiceContainer\ServiceProvider::__set_state(array(
+       'scenario' => 
+      array (
+        0 => 
+        array (
+          'type' => 'create',
+          'igniter' => NULL,
+          'arguments' => 
+          array (
+          ),
+        ),
+        1 => 
+        array (
+          'type' => 'factory',
+          'igniter' => 'implode',
+          'arguments' => 
+          array (
+            0 => '',
+            1 => 
+            array (
+              0 => 
+              Reactor\ServiceContainer\Reference::__set_state(array(
+                 'path' => 'folders.base_dir',
+                 'loading' => false,
+              )),
+              1 => 'tpl_bin/',
+            ),
+          ),
+        ),
+      ),
+       'shared' => true,
+       'instance' => NULL,
+    )),
     'view' => 
     Reactor\Gekkon\Module\Gekkon::__set_state(array(
        'dir' => NULL,
@@ -57,8 +134,22 @@ return Mod\Application\Application::__set_state(array(
        'full_name' => 'application/view',
        'data' => 
       array (
-        'base_dir' => 'D:\\famp\\htdocs\\reactor4/',
-        'tpl_bin' => NULL,
+        'base_dir' => 
+        Reactor\ServiceContainer\Configurator\DynamicParametersProvider::__set_state(array(
+           'data' => 
+          Reactor\ServiceContainer\Reference::__set_state(array(
+             'path' => 'folders.base_dir',
+             'loading' => false,
+          )),
+        )),
+        'tpl_bin' => 
+        Reactor\ServiceContainer\Configurator\DynamicParametersProvider::__set_state(array(
+           'data' => 
+          Reactor\ServiceContainer\Reference::__set_state(array(
+             'path' => 'folders.gekkon.tpl_bin',
+             'loading' => false,
+          )),
+        )),
         'gekkon' => 
         Reactor\ServiceContainer\ServiceProvider::__set_state(array(
            'scenario' => 
@@ -202,75 +293,6 @@ return Mod\Application\Application::__set_state(array(
            'shared' => false,
            'instance' => NULL,
         )),
-      ),
-       'parent' => NULL,
-    )),
-    'folders.gekkon.tpl_bin' => 
-    Reactor\ServiceContainer\ServiceProvider::__set_state(array(
-       'scenario' => 
-      array (
-        0 => 
-        array (
-          'type' => 'create',
-          'igniter' => NULL,
-          'arguments' => 
-          array (
-          ),
-        ),
-        1 => 
-        array (
-          'type' => 'factory',
-          'igniter' => 'implode',
-          'arguments' => 
-          array (
-            0 => '',
-            1 => 
-            array (
-              0 => 
-              Reactor\ServiceContainer\Reference::__set_state(array(
-                 'path' => 'folders.base_dir',
-                 'loading' => false,
-              )),
-              1 => 'tpl_bin/',
-            ),
-          ),
-        ),
-      ),
-       'shared' => true,
-       'instance' => NULL,
-    )),
-    'dispatcher' => 
-    Reactor\Events\Module\Dispatcher::__set_state(array(
-       'dispatcher' => 
-      Reactor\Events\ContainerAwareDispatcher::__set_state(array(
-         'container' => NULL,
-         'wildcard' => '#',
-         'wordcard' => '\\*',
-         'divider' => '\\.',
-         'listeners' => 
-        array (
-          '/^user\\.deleted$/' => 
-          array (
-            0 => 
-            array (
-              0 => 
-              Reactor\ServiceContainer\Reference::__set_state(array(
-                 'path' => 'application/news/printer',
-                 'loading' => false,
-              )),
-              1 => 'display',
-            ),
-          ),
-        ),
-         'cache' => 
-        array (
-        ),
-      )),
-       'dir' => NULL,
-       'name' => 'dispatcher',
-       'full_name' => 'application/dispatcher',
-       'data' => 
-      array (
       ),
        'parent' => NULL,
     )),

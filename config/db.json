@@ -1,15 +1,19 @@
 {
     "modules": {
-        "db.connections": "\\Reactor\\Database\\Module"
-    },
-    "parameters": {
         "db.connections": {
-            "local": {
-                "user": "root",
-                "password": "anabios",
-                "link": "mysql:dbname=catalog-service;host=localhost"
+            "class" :"\\Reactor\\Database\\Module",
+            "config": {
+                "parameters": {
+                    "local": {
+                        "user": "root",
+                        "password": "anabios",
+                        "link": "mysql:dbname=catalog-service;host=localhost"
+                    }
+                }
             }
-        },
+        }
+    },
+    "dynamic": {
         "db": "@db.connections/local"
     }
 }

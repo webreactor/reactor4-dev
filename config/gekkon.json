@@ -1,11 +1,13 @@
 {
     "modules": {
-        "view": "\\Reactor\\Gekkon\\Module\\Gekkon"
-    },
-    "parameters": {
         "view": {
-            "base_dir": "@folders.base_dir",
-            "tpl_bin": "@folders.gekkon.tpl_bin"
+            "class": "\\Reactor\\Gekkon\\Module\\Gekkon",
+            "config": {
+                "dynamic": {
+                    "base_dir": "@folders.base_dir",
+                    "tpl_bin": "@folders.gekkon.tpl_bin"
+                }
+            }
         }
     }
 }

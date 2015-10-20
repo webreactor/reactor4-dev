@@ -7,8 +7,8 @@ use \Reactor\Application\Exceptions\ModuleConfiguratorException;
 
 class SubscribersLoaderHelper extends \Reactor\Application\Module {
 
-    public function init($container) {
-        $configurator = parent::init($container);
+    public function init($container, $config = array()) {
+        $configurator = parent::init($container, $config);
         $module_full_name = $this->getParent()->getFullName();
         $dispatcher = $this->get('dispatcher');
 

@@ -8,38 +8,50 @@ class ResourceLoaderManager implements ResourceLoaderInterface {
 
     public $loaders = array();
     public $loaded = array();
+    public $callback = null;
+    public $data = array();
 
-    public function load($path) {
+    public function load($path, $callback = null) {
+        $this->data = array();
+        if ($callback == null) {
+            $callback = array($this, 'dataCollector');
+        }
         if (in_array($path, $this->loaded)) {
             throw new ModuleConfiguratorException("Reccursive config loading on $path");
         }
         $this->loaded[] = $path;
         if (is_dir($path)) {
             $path = realpath($path).'/';
-            return $this->loadFolder($path);
+            $this->loadFolder($path, $callback);
+        } else {
+            $this->loadFile($path, $callback);   
         }
-        return $this->loadFile($path);
+        return $this->data;
     }
 
-    protected function loadFolder($path) {
-        $data = array();
+    public function dataCollector($data) {
+        $this->data = ArrayTools::mergeRecursive($this->data, $data);
+    }
+
+    protected function loadFolder($path, $callback) {
         if ($dh = opendir($path)) {
             while (($file = readdir($dh)) !== false) {
                 if (isset($this->loaders[$this->getExtention($file)])) {
-                    $data = ArrayTools::mergeRecursive($data, $this->loadFile($path . $file));
+                    $this->loadFile($path . $file, $callback);  
                 }
             }
             closedir($dh);
         }
-        return $data;
     }
 
-    protected function loadFile($link) {
+    protected function loadFile($link, $callback) {
         $ext = $this->getExtention($link);
         if (isset($this->loaders[$ext])) {
-            return $this->loaders[$ext]->load($link);
+            $data = $this->loaders[$ext]->load($link);
+            call_user_func_array($callback, array($data));
+        } else {
+            throw new \Exception("Cannot find proper loader for [{$link}]", 1);    
         }
-        throw new \Exception("Cannot find proper loader for [{$link}]", 1);
     }
 
     public function addLoader($ext, ResourceLoaderInterface $loader) {

@@ -6,7 +6,7 @@ use Reactor\ServiceContainer\Configurator\Configurator;
 use Reactor\ServiceContainer\Configurator\ConfigProcessorInterface;
 
 
-class ModulesProcessor implements ConfigProcessorInterface {
+class ModulesConfigProcessor implements ConfigProcessorInterface {
 
     protected $container;
 
@@ -15,8 +15,12 @@ class ModulesProcessor implements ConfigProcessorInterface {
     }
 
     public function process($config) {
-        foreach ($config as $name => $module_class) {
-            $this->container->loadModule($name, $module_class);
+        foreach ($config as $name => $module) {
+            if (is_string($module)) {
+                $this->container->loadModule($name, $module);
+            } else {
+                $this->container->loadModule($name, $module['class'], $module['config']);
+            }
         }
     }
 

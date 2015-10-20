@@ -1,5 +1,5 @@
 {
-    "parameters": {
+    "dynamic": {
         "folders.base_dir": "!BASE_DIR"
     },
     "services" : {
