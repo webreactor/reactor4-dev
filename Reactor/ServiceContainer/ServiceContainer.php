@@ -38,15 +38,15 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface {
 
     public function __sleep() {
         $this->setParent(null);
-        $this->sleepProviders($this->data);
+        ServiceContainer::sleepProviders($this->data);
     }
 
-    protected function sleepProviders($data) {
+    static function sleepProviders($data) {
         foreach ((array)$data as $value) {
             if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
                 $value->__sleep();
             } elseif (is_array($value)) {
-                $this->sleepProviders($value);
+                self::sleepProviders($value);
             }
         }
     }

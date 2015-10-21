@@ -3,6 +3,7 @@
 namespace Reactor\ServiceContainer\Configurator;
 
 use Reactor\ServiceContainer\ServiceProviderInterface;
+use Reactor\ServiceContainer\ServiceContainer;
 
 class DynamicParametersProvider implements ServiceProviderInterface {
 
@@ -21,17 +22,7 @@ class DynamicParametersProvider implements ServiceProviderInterface {
     }
 
     public function __sleep() {
-        $this->sleepProviders($this->data);
-    }
-
-    protected function sleepProviders($data) {
-        foreach ((array)$data as $value) {
-            if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
-                $value->__sleep();
-            } elseif (is_array($value)) {
-                $this->sleepProviders($value);
-            }
-        }
+        ServiceContainer::sleepProviders($this->data);
     }
 
 }
