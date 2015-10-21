@@ -84,8 +84,8 @@ class Gekkon {
     public function get_scope($data = false) {
         if ($data !== false && $data !== $this->data) {
             $scope = new \ArrayObject($data);
-            $scope['_global'] = $this->data;
-            $scope['_module'] = $this->tpl_module_manager->get_module();
+            $scope['global'] = $this->data;
+            $scope['module'] = $this->tpl_module_manager->get_module();
             return $scope;
         }
         return $this->data;

@@ -8,10 +8,10 @@ use Reactor\ServiceContainer\ServiceProvider;
 
 class TemplateExpression extends PrefixedExpression {
 
-    protected $exp_manager;
+    protected $exp_compiler;
 
-    public function __construct($exp_manager) {
-        $this->exp_manager = $exp_manager;
+    public function __construct($exp_compiler) {
+        $this->exp_compiler = $exp_compiler;
         $this->token = '=';
     }
 
@@ -23,7 +23,7 @@ class TemplateExpression extends PrefixedExpression {
                 $parsed[$key] = $value['value'];
             } else {
                 $is_provider = true;
-                $parsed[$key] = $this->exp_manager->compile($value['value']);
+                $parsed[$key] = $this->exp_compiler->compile($value['value']);
             }
         }
         if ($is_provider) {

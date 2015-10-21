@@ -42,7 +42,7 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface {
     }
 
     protected function sleepProviders($data) {
-        foreach ($data as $value) {
+        foreach ((array)$data as $value) {
             if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
                 $value->__sleep();
             } elseif (is_array($value)) {

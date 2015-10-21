@@ -16,7 +16,7 @@
                 },
                 {
                     "call": "register",
-                    "arguments": [ "_application", "@application" ]
+                    "arguments": [ "application", "@application" ]
                 }
             ]
             

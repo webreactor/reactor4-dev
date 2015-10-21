@@ -8,8 +8,8 @@ $app = null;
 $_start = microtime(true);
 
 // $app = new \Mod\Application\Application();
-// // // echo "\n<br>Full app:".(microtime(true) - $_start)."<br>";
-// // // // // print_r($app);
+//echo "\n<br>Full app:".(microtime(true) - $_start)."<br>";
+// // print_r($app);
 // $app->__sleep();
 // file_put_contents(__dir__.'/cached-app.php', 
 // "<?php

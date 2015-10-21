@@ -12,8 +12,17 @@ return Mod\Application\Application::__set_state(array(
       ),
        'loading' => false,
     )),
-    'test' => 'test_value',
-    'test2' => 'D:\\famp\\htdocs\\reactor4/',
+    'test' => 
+    Reactor\ServiceContainer\Configurator\DynamicParametersProvider::__set_state(array(
+       'data' => 'test_value',
+    )),
+    'test2' => 
+    Reactor\ServiceContainer\Configurator\DynamicParametersProvider::__set_state(array(
+       'data' => 
+      Reactor\ServiceContainer\ConstantReference::__set_state(array(
+         'name' => 'BASE_DIR',
+      )),
+    )),
     'db' => 
     Reactor\ServiceContainer\Configurator\DynamicParametersProvider::__set_state(array(
        'data' => 
@@ -200,7 +209,7 @@ return Mod\Application\Application::__set_state(array(
               'igniter' => 'register',
               'arguments' => 
               array (
-                0 => '_application',
+                0 => 'application',
                 1 => 
                 Reactor\ServiceContainer\Reference::__set_state(array(
                    'path' => 'application',
