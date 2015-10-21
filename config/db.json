@@ -7,7 +7,9 @@
                     "local": {
                         "user": "root",
                         "password": "anabios",
-                        "link": "mysql:dbname=catalog-service;host=localhost"
+                        "database": "anabios",
+                        "host": "anabios",
+                        "link": "=mysql:dbname={@local.database};host={@local.host}"
                     }
                 }
             }
