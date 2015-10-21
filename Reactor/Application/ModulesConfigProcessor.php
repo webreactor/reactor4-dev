@@ -19,6 +19,9 @@ class ModulesConfigProcessor implements ConfigProcessorInterface {
             if (is_string($module)) {
                 $this->container->loadModule($name, $module);
             } else {
+                if (!isset($module['config'])) {
+                    $module['config'] = array();
+                }
                 $this->container->loadModule($name, $module['class'], $module['config']);
             }
         }

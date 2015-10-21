@@ -14,6 +14,7 @@ class ImportProcessor implements ConfigProcessorInterface {
 
     public function process($config) {
         $context = dirname($this->configurator->config_context) . '/';
+        $config = $this->container->resolveProviders($config);
         foreach ($config as $path) {
             $this->configurator->loadPath(realpath($context.$path));
         }
