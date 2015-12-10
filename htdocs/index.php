@@ -6,7 +6,8 @@ $app = include '../bootstrap.php';
 //print_r($app);
 //$app->view;
 //die('ok');
-
+$app->cache->set('aaa', 60);
+echo $app->cache->get('aaa');
 echo $app->view->bin_tpl_provider->base_dir;
 
 // die('ok');
