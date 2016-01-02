@@ -2,6 +2,8 @@
 
 namespace Reactor\ServiceContainer;
 
+use Reactor\Common\Tools\ArrayTools;
+
 class ServiceContainerConfigurator {
 
     public $value_processors = array();
@@ -9,13 +11,19 @@ class ServiceContainerConfigurator {
     public $container;
     public $resource_loader;
     public $expression_processor;
-    public $config_context = null;
+    public $config = array();
 
     public function __construct($container) {
         $this->container = $container;
+        $this->init();
     }
 
-    public function load($config) {
+    // merges only first two levels or config array
+    public function addConfig($config) {
+        $this->config = ArrayTools::mergeRecursive($this->config, $config);
+    }
+
+    public function loadConfig($config) {
         foreach ($this->processors as $key => $processor) {
             if (!isset($config[$key])) {
                 $config[$key] = array();
@@ -24,14 +32,12 @@ class ServiceContainerConfigurator {
         }
     }
 
-    public function loadPath($path) {
-        $this->config_context = $path;
-        $this->readResource($path, array($this, 'load'));
-        $this->config_context = null;
+    public function load() {
+        $this->loadConfig($this->config);
     }
 
-    public function readResource($path, $callback = null) {
-        return $this->resource_loader->load($path, $callback);
+    public function addPath($path) {
+        $this->addConfig($this->resource_loader->load($path));
     }
 
     public function handleValues($config) {
@@ -49,21 +55,16 @@ class ServiceContainerConfigurator {
         $this->value_processors[$name] = $processor;
     }
 
-    static function factory($container) {
-        $configurator = new self($container);
-
-        $configurator->resource_loader = new Configurator\ResourceLoader\ResourceLoaderManager();
-        $configurator->resource_loader
+    public function init() {
+        $this->resource_loader = new Configurator\ResourceLoader\ResourceLoaderManager();
+        $this->resource_loader
             ->addLoader('.json', new Configurator\ResourceLoader\ResourceLoaderJSON());
 
-        $configurator->addValueProcessor('expressions', new Configurator\ExpressionProcessor($configurator));
+        $this->addValueProcessor('expressions', new Configurator\ExpressionProcessor($this));
 
-        $configurator->addProcessor('dynamic', new Configurator\DynamicProcessor($configurator));
-        $configurator->addProcessor('parameters', new Configurator\ParametersProcessor($configurator));
-        $configurator->addProcessor('import', new Configurator\ImportProcessor($configurator));
-        $configurator->addProcessor('services', new Configurator\ServicesProcessor($configurator));
-
-        return $configurator;
+        $this->addProcessor('dynamic', new Configurator\DynamicProcessor($this));
+        $this->addProcessor('parameters', new Configurator\ParametersProcessor($this));
+        $this->addProcessor('services', new Configurator\ServicesProcessor($this));
     }
 
 }

@@ -15,7 +15,7 @@ class Application extends Module {
 
     public function init($container = null, $config = array()) {
         $this->createService($this->name, new Reference());
-        $configurator = parent::init($container, $config);
+        return parent::init($container, $config);
     }
 
     public static function __set_state($state) {

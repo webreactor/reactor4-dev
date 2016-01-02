@@ -24,6 +24,9 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
 
     public function get($name, $default = null) {
         if (!isset($this->data[$name])) {
+            if ($name === '') {
+                return $this;
+            }
             if ($this->parent !== null) {
                 $val = $this->parent->get($name);
                 if ($val === null) {

@@ -1,3 +1,11 @@
 {
-    
+    "services": {
+        "handler": {
+            "create": "\\Reactor\\HTTP\\Handler",
+            "arguments": [ "@" ]
+        },
+        "request_factory": {
+            "create": "\\Reactor\\HTTP\\RequestFactory"
+        }
+    }
 }
