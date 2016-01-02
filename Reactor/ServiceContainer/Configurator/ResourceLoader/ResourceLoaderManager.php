@@ -8,7 +8,7 @@ class ResourceLoaderManager {
 
     public $loaders = array();
     public $loaded = array();
-    public $data = array();
+    public $processors = array();
 
     public function load($path) {
         if (in_array($path, $this->loaded)) {
@@ -23,8 +23,8 @@ class ResourceLoaderManager {
         }
     }
 
-    public function dataCollector($data) {
-        $data = ArrayTools::mergeRecursive($data, $imported_data);
+    public function setProcessor($name, ResourceProcessorInterface $processor) {
+        $this->processors[$name] = $processor;
     }
 
     protected function loadFolder($path) {
@@ -52,7 +52,7 @@ class ResourceLoaderManager {
         return $data;
     }
 
-    public function addLoader($ext, ResourceLoaderInterface $loader) {
+    public function setLoader($ext, ResourceLoaderInterface $loader) {
         $this->loaders[$ext] = $loader;
         return $this;
     }
@@ -61,33 +61,11 @@ class ResourceLoaderManager {
         return strtolower(strstr($link, '.'));
     }
 
-    protected function process($link, $data) {
-        $context = dirname($link) . '/';
-        $data = $this->handleInlineImports($context, $data);
-        if (isset($data['import'])) {
-            foreach ($data['import'] as $import) {
-                $loaded_data = $this->load($context.$import);
-                $data = ArrayTools::mergeRecursive($data, $loaded_data);
-            }
+    protected function process($source, $data) {
+        foreach ($this->processors as $processor) {
+            $data = $processor->process($source, $data);
         }
         return $data;
     }
 
-    protected function handleInlineImports($context, $data) {
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                if (count($value) == 1 && isset($value['import'])) {
-                    $imported_data = array();
-                    foreach ((array)$value['import'] as $value) {
-                        $loaded_data = $this->load($value);
-                        $imported_data = ArrayTools::mergeRecursive($imported_data, $loaded_data);
-                    }
-                    $data[$key] = $imported_data;
-                } else {
-                    $data[$key] = $this->handleInlineImports($context, $value);
-                }
-            }
-        }
-        return $data;
-    }
 }

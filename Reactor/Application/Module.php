@@ -30,7 +30,7 @@ class Module extends ServiceContainer {
             $this->full_name = $this->parent->getFullName().'/'.$this->name;
         }
         $configurator = new ServiceContainerConfigurator($this);
-        $configurator->addProcessor('modules', new ModulesConfigProcessor($configurator));
+        $configurator->setProcessor('modules', new ModulesConfigProcessor($configurator));
 
         $config_file = $this->getDir().'config.json';
         if (is_file($config_file)) {

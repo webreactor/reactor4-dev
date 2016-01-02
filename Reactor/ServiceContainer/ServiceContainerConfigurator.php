@@ -47,24 +47,32 @@ class ServiceContainerConfigurator {
         return $config;
     }
 
-    public function addProcessor($name, $processor) {
+    public function setProcessor($name, $processor) {
         $this->processors[$name] = $processor;
     }
 
-    public function addValueProcessor($name, $processor) {
+    public function setValueProcessor($name, $processor) {
         $this->value_processors[$name] = $processor;
     }
 
     public function init() {
         $this->resource_loader = new Configurator\ResourceLoader\ResourceLoaderManager();
+
         $this->resource_loader
-            ->addLoader('.json', new Configurator\ResourceLoader\ResourceLoaderJSON());
+            ->setLoader('.json', new Configurator\ResourceLoader\ResourceLoaderJSON());
 
-        $this->addValueProcessor('expressions', new Configurator\ExpressionProcessor($this));
+        $this->resource_loader
+            ->setProcessor('inline_import', new Configurator\ResourceLoader\InlineImportProcessor($this->resource_loader));
 
-        $this->addProcessor('dynamic', new Configurator\DynamicProcessor($this));
-        $this->addProcessor('parameters', new Configurator\ParametersProcessor($this));
-        $this->addProcessor('services', new Configurator\ServicesProcessor($this));
+        $this->resource_loader
+            ->setProcessor('import', new Configurator\ResourceLoader\ImportProcessor($this->resource_loader));
+
+
+        $this->setValueProcessor('expressions', new Configurator\ExpressionProcessor($this));
+
+        $this->setProcessor('dynamic', new Configurator\DynamicProcessor($this));
+        $this->setProcessor('parameters', new Configurator\ParametersProcessor($this));
+        $this->setProcessor('services', new Configurator\ServicesProcessor($this));
     }
 
 }
