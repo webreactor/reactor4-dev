@@ -14,15 +14,19 @@ class ApplicationCacher {
         return call_user_func_array($callable, array());
     }
 
-    public function store($cache_path, $application) {
+    public function store($cache_file, $application) {
+        $dir = dirname($cache_file).'/';
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
         $application->__sleep();
         $dump = "<?php\n // Generated ".date("r")."\n return ";
         $dump .= var_export($application, true);
         $dump .= ";\n";
-        $tmp_file = $cache_path.'.tmp';
+        $tmp_file = $cache_file.'.tmp';
         file_put_contents($tmp_file, $dump);
         if ($this->checkPHPSyntax($tmp_file, $details)) {
-            rename($tmp_file, $cache_path);
+            rename($tmp_file, $cache_file);
         } else {
             throw new Exception("Error creating application cache. ".print_r($details, true));
         }
