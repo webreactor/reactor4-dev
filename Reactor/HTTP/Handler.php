@@ -9,10 +9,11 @@ class Handler {
     public function __construct($module) {
         $this->module = $module;
         $this->dispatcher = $module->get('dispatcher');
+        $this->router = $module->get('router');
     }
 
     public function handleGlobalRequest() {
-        $this->handleRequest($this->module->get('global_request'));
+        $this->handleRequest($this->module->get('request_factory')->buildFromGlobals());
     }
 
     public function handleRequest($request) {
@@ -20,14 +21,14 @@ class Handler {
             $request_response = new RequestResponse($request);
             $this->dispatcher->raise('http.request', $request_response);
 
-            $handler = array($this->router, 'getHandler');
+            $handler = array($this->router, 'handleRequest');
             $this->process($handler, $request_response);
 
-            $this->response_sender->send($request_response->response);
+            //$this->response_sender->send($request_response->response);
+            // print_r($request_response);
             $this->dispatcher->raise('http.sent', $request_response);
         } catch (\Exception $e) { // Not finished run default handler
-            print_r($exchange);
-            die('Caught exception: '.  $e->getMessage(). "\n");
+            die('Caught exception: '. $e->getMessage(). "\n");
         }
     }
 

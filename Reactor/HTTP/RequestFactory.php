@@ -15,9 +15,4 @@ class RequestFactory {
         );
     }
 
-    function build() {
-        $request = new Request();
-        $request->GET = new ParamenterBag();
-    }
-
 }

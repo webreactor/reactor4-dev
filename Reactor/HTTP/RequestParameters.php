@@ -3,14 +3,14 @@
 namespace Reactor\HTTP;
 use Reactor\Common\ValueScope\ValueScopeArray;
 
-class RequestParameters  extends ValueScopeArray {
+// expects request related keys from $_SERVER
+class RequestParameters extends ValueScopeArray {
 
-    // expects request related keys from $_SERVER
-    protected $headers;
+    protected $headers = null;
 
     public function headers() {
         if ($this->headers === null) {
-            $this->headers = $this->parseHeaders($this->data);
+            $this->headers = new ValueScopeArray($this->parseHeaders($this));
         }
         return $this->headers;
     }

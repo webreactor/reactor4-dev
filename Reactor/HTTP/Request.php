@@ -2,6 +2,8 @@
 
 namespace Reactor\HTTP;
 
+use Reactor\Common\ValueScope\ValueScope;
+
 class Request {
 
     public $post;
@@ -12,6 +14,7 @@ class Request {
     public $parameters;
 
     public $data;
+    public $metadata;
 
     public function __construct(
         $get = array(),
@@ -27,6 +30,7 @@ class Request {
         $this->files = $files;
         $this->cookies = $cookies;
         $this->parameters = new RequestParameters($parameters);
+        $this->metadata = new ValueScope();
     }
 
     public function uri() {
