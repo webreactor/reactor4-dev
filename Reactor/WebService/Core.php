@@ -1,19 +1,16 @@
 <?php
 
-namespace Reactor\HTTP;
+namespace Reactor\WebService;
 
-class Handler {
+class Core {
+
     protected $request_factory;
     protected $response_sender;
 
-    public function __construct($module) {
-        $this->module = $module;
-        $this->dispatcher = $module->get('dispatcher');
-        $this->router = $module->get('router');
-    }
-
-    public function handleGlobalRequest() {
-        $this->handleRequest($this->module->get('request_factory')->buildFromGlobals());
+    public function __construct($dispatcher, $router, $render) {
+        $this->dispatcher = $dispatcher;
+        $this->router = $router;
+        $this->render = $render;
     }
 
     public function handleRequest($request) {
@@ -24,8 +21,7 @@ class Handler {
             $handler = array($this->router, 'handleRequest');
             $this->process($handler, $request_response);
 
-            //$this->response_sender->send($request_response->response);
-            // print_r($request_response);
+            $this->render->render($request_response);
             $this->dispatcher->raise('http.sent', $request_response);
         } catch (\Exception $e) { // Not finished run default handler
             die('Caught exception: '. $e->getMessage(). "\n");

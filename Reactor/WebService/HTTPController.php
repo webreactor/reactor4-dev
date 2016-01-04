@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\HTTP;
+namespace Reactor\WebService;
 
 use \Reator\Events\Event;
 

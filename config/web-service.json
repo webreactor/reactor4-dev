@@ -1,0 +1,18 @@
+{
+    "modules": {
+        "web_service": "\\Reactor\\WebService\\Module"
+    },
+    "parameters": {
+        "site_tree": {
+            "root": { 
+                "hander": "handler1",
+                "method": "method1",
+                "nodes": {
+                    "news" : {
+
+                    }
+                }
+            }
+        }
+    }
+}

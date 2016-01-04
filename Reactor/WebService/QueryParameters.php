@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\HTTP;
+namespace Reactor\WebService;
 
 use Reactor\Common\Tools\StringTools;
 use Reactor\Common\ValueScope\ValueScopeArray;

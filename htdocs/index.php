@@ -3,4 +3,4 @@
 $_start = microtime(true);
 $app = include '../bootstrap.php';
 
-$app->http->handler->handleGlobalRequest();
+$app->web_service->handleGlobalRequest();
