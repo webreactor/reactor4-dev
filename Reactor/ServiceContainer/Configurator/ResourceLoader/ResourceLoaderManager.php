@@ -2,25 +2,28 @@
 
 namespace Reactor\ServiceContainer\Configurator\ResourceLoader;
 
+use Reactor\ServiceContainer\Exceptions\ServiceConfiguratorException;
 use Reactor\Common\Tools\ArrayTools;
 
 class ResourceLoaderManager {
 
     public $loaders = array();
-    public $loaded = array();
+    public $loading = array();
     public $processors = array();
 
     public function load($path) {
-        if (in_array($path, $this->loaded)) {
-            throw new ModuleConfiguratorException("Reccursive config loading on $path");
+        if (in_array($path, $this->loading)) {
+            throw new ServiceConfiguratorException("Reccursive config loading on $path");
         }
-        $this->loaded[] = $path;
+        array_push($this->loading, $path);
         if (is_dir($path)) {
             $path = realpath($path).'/';
-            return $this->loadFolder($path);
+            $data = $this->loadFolder($path);
         } else {
-            return $this->loadFile($path);   
+            $data = $this->loadFile($path);
         }
+        array_pop($this->loading);
+        return $data;
     }
 
     public function setProcessor($name, ResourceProcessorInterface $processor) {
