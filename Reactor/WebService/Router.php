@@ -11,102 +11,36 @@ class Router {
     }
 
     public function handleRequest($request_responce) {
+        echo "<pre>".print_r($this->config, true)."</pre>";
         $rez = $this->parseUrl($request_responce->request->uri());
         echo "<pre>".print_r($rez, true)."</pre>";
     }
 
     public function parseUrl($url) {
-        echo "<pre>".print_r($this->config, true)."</pre>";
-    }
-
-    function parseUrLegacy($str)
-    {
-        $_languages = array();
-        $_reactor = array();
-        $_site_tree = $this->config;
-
-        $r = array();
-        $tree_i = &$_site_tree['index'];
-        $_reactor['path'] = array();
-        $_reactor['path'][] = $_site_tree['nodes'][$tree_i['#key']];
-        $_reactor['path_url'] = '';
-
-        if($str=='' || $str=='index')
-        {
-            $_reactor['show'] = $_site_tree['nodes'][$tree_i['#key']];
-            return $r;
-        }
-
-
-        $i = 0;
-        $str = explode('/',$str);
-
-        if(isset($_languages[$str[0]]))
-        {
-            $r['lng'] = $str[0];
-            $i = 1;
-        }
-
-        $j = 0;
-        $c = count($str);
-        for(;$i<$c;$i++)
-        {
-            if(isset($tree_i[$str[$i]]))
-            {
-                $j = 0;
-
-                $tree_i = &$tree_i[$str[$i]];
-                $_reactor['path_url'] .= $str[$i].'/';
-                $_reactor['path'][] = $_site_tree['nodes'][$tree_i['#key']]; //did #key points on node with minimal parameters set or what?
+        $url_words = explode('/', 'root'.$url);
+        $tree = $this->config;
+        $path = array();
+        $variables = array();
+        foreach ($url_words as $word) {
+            echo "Word: $word<br>";
+            $assign = $word;
+            if (!isset($tree[$word])) {
+                $word = '_default';
+            } 
+            if (!isset($tree[$word])) {
+                return 'fault';
             }
-            else
-            {
-                $param_pool = &$_site_tree['param']['/'.$_reactor['path_url']];
-
-                $param = $param_pool[$param_pool['max']];
-                $cnt = $param_pool['max'];
-
-                if($j >= $cnt)
-                {
-                    $_reactor['show'] = $_site_tree['nodes'][$_site_tree['index']['404']['#key']];
-                    stop('404');
-                }
-
-                $r[$param[$j]] = $str[$i];
-                if($param[$j][0]=='_')
-                {
-                    $r[$param[$j]] = array();
-                    for(;$i<$c;$i++)
-                    {
-                        // since array url part ending cant be marked just in url
-                        // here parser will greedly take whole url ending as array
-                        // we need find a way to parce arrays proper without any marks in url
-                        if($str[$i][0]!='_')
-                            $r[$param[$j]][]=$str[$i];
-                        else
-                        {
-                            //$str[$i] = substr($str[$i],1);
-                            //$i--;
-                            break;
-                        }
-                    }
-                }
-                $j++;
+            $tree = $tree[$word];
+            
+            if (isset($tree['_node']['variable'])) {
+                $word = $tree['_node']['variable'];
+                $variables[$word] = $assign;
             }
+            $path[$word] = $tree['_node'];
         }
-
-
-        $r['show'] = $_reactor['path_url'];
-
-        $param_pool = &$_site_tree['param']['/'.$_reactor['path_url']];
-
-        while(!isset($param_pool[$j]) && $j<$param_pool['max']) $j++;
-        if(!isset($param_pool[$j])) $j = $param_pool['min'];
-
-        $_reactor['show'] = $_site_tree['nodes'][$param_pool[$j]['key']];
-        $_reactor['path'][] = $_reactor['show'];
-
-        return $r;
+        echo "<pre>".print_r($variables, true)."</pre>";
+        echo "<pre>".print_r($path, true)."</pre>";
+        
     }
 
 
