@@ -59,7 +59,8 @@ class ServiceContainerConfigurator {
         $this->resource_loader = new Configurator\ResourceLoader\ResourceLoaderManager();
 
         $this->resource_loader
-            ->setLoader('.json', new Configurator\ResourceLoader\ResourceLoaderJSON());
+            ->setLoader('.json', new Configurator\ResourceLoader\ResourceLoaderJSON())
+            ->setLoader('.yml', new Configurator\ResourceLoader\ResourceLoaderYAML());
 
         $this->resource_loader
             ->setProcessor('inline_import', new Configurator\ResourceLoader\InlineImportProcessor($this->resource_loader));

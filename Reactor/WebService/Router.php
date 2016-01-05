@@ -12,11 +12,11 @@ class Router {
 
     public function handleRequest($request_responce) {
         $rez = $this->parseUrl($request_responce->request->uri());
-        print_r($rez);
+        echo "<pre>".print_r($rez, true)."</pre>";
     }
 
     public function parseUrl($url) {
-        print_r($this->config);
+        echo "<pre>".print_r($this->config, true)."</pre>";
     }
 
     function parseUrLegacy($str)

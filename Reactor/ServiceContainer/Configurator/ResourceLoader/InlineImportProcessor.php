@@ -2,6 +2,8 @@
 
 namespace Reactor\ServiceContainer\Configurator\ResourceLoader;
 
+use Reactor\Common\Tools\ArrayTools;
+
 class InlineImportProcessor implements ResourceProcessorInterface {
 
     protected $loader;

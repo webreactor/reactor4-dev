@@ -58,7 +58,7 @@ class ResourceLoaderManager {
     }
 
     public function getExtention($link) {
-        return strtolower(strstr($link, '.'));
+        return strtolower(strrchr($link, '.'));
     }
 
     protected function process($source, $data) {
