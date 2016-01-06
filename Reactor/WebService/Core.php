@@ -4,8 +4,9 @@ namespace Reactor\WebService;
 
 class Core {
 
-    protected $request_factory;
-    protected $response_sender;
+    protected $dispatcher;
+    protected $router;
+    protected $render;
 
     public function __construct($dispatcher, $router, $render) {
         $this->dispatcher = $dispatcher;
@@ -15,25 +16,28 @@ class Core {
 
     public function handleRequest($request) {
         try {
+            $request->metadata['render_task'] = new RenderTask();
             $request_response = new RequestResponse($request);
-            $this->dispatcher->raise('http.request', $request_response);
-
-            $handler = array($this->router, 'handleRequest');
-            $this->process($handler, $request_response);
+            $this->dispatcher->raise('web-app.received', $request_response);
+            
+            $this->route($this->router, $request_response);
+            $this->dispatcher->raise('web-app.routed', $request_response);
 
             $this->render->render($request_response);
-            $this->dispatcher->raise('http.sent', $request_response);
+            $this->dispatcher->raise('web-app.rendered', $request_response);
         } catch (\Exception $e) { // Not finished run default handler
-            die('Caught exception: '. $e->getMessage(). "\n");
+            die('WebApplication Core caught exception: '. $e->getMessage(). "\n");
         }
     }
 
-    public function process($handler, $request_response) {
-        do {
-            $this->dispatcher->raise('http.handler', array('handler' => $handler, 'request_response' => $request_response));
-            $handler = call_user_func($handler, $request_response);
-        } while (!empty($handler));
-        $this->dispatcher->raise('http.processed', $request_response);
+    public function route($router, $request_response) {
+        $render_task = $request_response->request->metadata['render_task'];
+        while (is_a($router, "Reactor\\WebService\\RouterInterface") && $render_task->routable) {
+            $router_class = get_class($router);
+            $this->dispatcher->raise('web-app.router.before', array('router' => $router_class, 'request_response' => $request_response));
+            $router = $router->route($request_response);
+            $this->dispatcher->raise('web-app.router.after', array('router' => $router_class, 'request_response' => $request_response));
+        };
     }
 
 }

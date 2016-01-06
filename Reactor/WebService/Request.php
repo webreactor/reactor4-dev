@@ -37,6 +37,10 @@ class Request {
         return $this->parameters->get('REQUEST_URI');
     }
 
+    public function setUri($set) {
+        return $this->parameters->set('REQUEST_URI', $set);
+    }
+
     public function method() {
         return $this->parameters->get('REQUEST_METHOD');
     }
