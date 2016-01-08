@@ -6,73 +6,69 @@ use Reactor\Common\ValueScope\ValueScope;
 
 class Request {
 
-    public $post;
-    public $query;
-    public $content;
-    public $files;
+    public $link;
+
+    public $method;
+
+    public $headers;
+
     public $cookies;
-    public $parameters;
+    public $get;
+    public $post;
+    public $files;
 
-    public $data;
-    public $metadata;
+    protected $body;
+    public $metadata = array();
 
-    public function __construct(
-        $get = array(),
-        $post = array(),
-        $content = null,
-        $files = array(),
-        $cookies = array(),
-        $parameters = array() // expects request related keys from $_SERVER
-    ) {
-        $this->query = new QueryParameters($get);
-        $this->post = $post;
-        $this->content = $content;
-        $this->files = $files;
-        $this->cookies = $cookies;
-        $this->parameters = new RequestParameters($parameters);
-        $this->metadata = new ValueScope();
+    public function __construct() {
+        $this->link = new WebLink();
+        $this->get = new QueryParameters();
+        $this->post = new QueryParameters();
+        $this->headers = new QueryParameters();
+        $this->files = new QueryParameters();
+        $this->cookies = new QueryParameters();
     }
 
-    public function uri() {
-        return $this->parameters->get('REQUEST_URI');
-    }
-
-    public function setUri($set) {
-        return $this->parameters->set('REQUEST_URI', $set);
-    }
-
-    public function method() {
-        return $this->parameters->get('REQUEST_METHOD');
-    }
-
-    public function queryString() {
-        return $this->parameters->get('QUERY_STRING');
-    }
-
-    public function scheme() {
-        return $this->parameters->get('REQUEST_SCHEME');
-    }
-
-    public function headers() {
-        return $this->parameters->headers();
+    public function setBody($body) {
+        $this->body = $body;
     }
 
     public function body() {
-        if ($this->content === null) {
-            $this->content = file_get_contents("php://input");
-            if (!$this->content) {
-                $this->content = '';
+        if ($this->body === null) {
+            $this->body = file_get_contents("php://input");
+            if (!$this->body) {
+                $this->body = '';
             }
         }
-        return $this->content;
+        return $this->body;
     }
 
-    public function getData() {
-        return $this->data;
+    public function __clone() {
+        $this->link = clone $this->link;
+        $this->cookies = clone $this->cookies;
+        $this->get = clone $this->get;
+        $this->files = clone $this->files;
+        $this->headers = clone $this->headers;
     }
 
-    public function setData($data) {
-        $this->data = $data;
+    public function setGet($post) {
+        $this->get = new QueryParameters($post);
+    }
+
+    public function setPost($post) {
+        $this->post = new QueryParameters($post);
+    }
+
+    public function setCookies($cookies) {
+        $this->cookies = new QueryParameters($cookies);
+    }
+
+    public function setFiles($files) {
+        $this->files = new QueryParameters($files);
+    }
+
+    public function setHeaders($headers) {
+        $this->headers = new QueryParameters($headers);
     }
 
 }

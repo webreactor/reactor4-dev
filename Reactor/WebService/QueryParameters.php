@@ -3,9 +3,13 @@
 namespace Reactor\WebService;
 
 use Reactor\Common\Tools\StringTools;
-use Reactor\Common\ValueScope\ValueScopeArray;
+use Reactor\Common\ValueScope\ValueScope;
 
-class QueryParameters extends ValueScopeArray {
+class QueryParameters extends ValueScope {
+
+    public function __construct($data = array()) {
+        $this->data = $data;
+    }
 
     public function getInteger($name, $default = null) {
         $value = $this->get($name, $default);
@@ -33,10 +37,6 @@ class QueryParameters extends ValueScopeArray {
 
     public function buildQueryString($override = array()) {
         return http_build_query(array_merge($this->getAll(), $override));
-    }
-
-    public function buildOriginQueryString($override = array()) {
-        return http_build_query(array_merge($this->data, $override));
     }
 
 }
