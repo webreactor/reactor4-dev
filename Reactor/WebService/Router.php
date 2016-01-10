@@ -11,12 +11,6 @@ class Router implements RouterInterface {
     }
 
     public function route($request_responce) {
-        echo "<pre>".print_r($this->config, true)."</pre>";
-        echo "<pre>".print_r($request_responce->request, true)."</pre>";
-        return $this->parseUrl($request_responce);
-    }
-
-    public function parseUrl($request_responce) {
         $request = $request_responce->request;
         $path_words = explode('/', rtrim('root'.$request->link->path, '/'));
         $tree = $this->config;
@@ -38,13 +32,20 @@ class Router implements RouterInterface {
                 $request->get[$word] = $assign;
             }
 
-            if (isset($path_step['router'])) {
-                $request->link->path = '/'.implode('/', $path_words);;
-                return $this->application->get($path_step['router']);
+            if (isset($path_step['variable_path'])) {
+                $word = $path_step['variable_path'];
+                $assign = array_merge([$assign], $path_words);
+                $path_words = array();
+                $request->get[$word] = $assign;
             }
 
             $path_step['name'] = $word;
             $task->registerStep($path_step);
+
+            if (isset($path_step['router'])) {
+                $request->link->path = '/'.implode('/', $path_words);
+                return $this->application->get($path_step['router']);
+            }
         }
         return true;
     }
