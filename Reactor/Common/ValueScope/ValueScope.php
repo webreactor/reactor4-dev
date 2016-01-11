@@ -22,12 +22,12 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
         $this->parent = $parent;
     }
 
-    public function get($name, $default = null) {
+    public function get($name, $default = '_throw_exception_') {
         if (!isset($this->data[$name])) {
             if ($this->parent !== null) {
                 $val = $this->parent->get($name, $default);
             } else {
-                if ($default == null) {
+                if ($default === '_throw_exception_') {
                     throw new ValueNotFoundException("Not existing in the scope key [$name] ", 1);
                 } else {
                     $val = $default;

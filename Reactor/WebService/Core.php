@@ -25,7 +25,7 @@ class Core {
 
             $this->render->render($request_response);
             $this->dispatcher->raise('web-app.rendered', $request_response);
-        } catch (\Exception $e) { // Not finished run default handler
+        } catch (\Exception $e) { // Not finished pass to exception router
             die('WebApplication Core caught exception: '. $e->getMessage(). "\n");
         }
     }

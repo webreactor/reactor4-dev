@@ -26,7 +26,7 @@ class StandardRouter implements RouterInterface {
     }
 
     public function parseUrl($context) {
-        while ($word = array_shift($context->words)) {
+        while (($word = array_shift($context->words)) !== null) {
             $this->parseStep($word, $context);
             $this->assignVariable($word, $context);
             $router = $this->getRouter($word, $context);
