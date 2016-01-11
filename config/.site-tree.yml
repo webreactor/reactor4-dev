@@ -1,12 +1,14 @@
 root:
-    _node: { service: news, method: getList, module: news, template: list.tpl }
-    test2: { _node: { service: news, action: getList, module: news, template: list.tpl } }
+    _node: { service: site, method: getOne, template: main_page.tpl }
+    about: { _node: { service: site, variable: article, action: getArticle, template: about.tpl } }
     api: 
-        _node: { router: another_router }
-        _default: { _node: { variable: test_var2, service: news, action: getList, module: news, template: list.tpl } }
-    _default: 
-        _node: { variable: test_var1, service: news, action: getList, module: news, template: list.tpl }
-        news: { _node: { router: web_service/router } }
+        _node: { router: rest_api_router }
+    news: 
+        _node: { service: news, action: getList, template: list.tpl }
         _default: 
-            _node: { variable: test_var2, greedy: true, service: news, action: getList, module: news, template: list.tpl }
+            _node: { variable: pk_news, greedy: true, service: news, action: getList, template: list.tpl }
+    catalog: 
+        _node: { service: catalog, action: getList, template: tree.tpl }
+        _default: 
+            _node: { variable: catalog_path, greedy: true, service: catalog, action: getNode, template: list.tpl }
 
