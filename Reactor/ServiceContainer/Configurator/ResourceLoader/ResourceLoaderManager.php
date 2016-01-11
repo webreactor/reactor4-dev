@@ -34,9 +34,11 @@ class ResourceLoaderManager {
         $data = array();
         if ($dh = opendir($path)) {
             while (($file = readdir($dh)) !== false) {
-                if (isset($this->loaders[$this->getExtention($file)])) {
-                    $loaded_data = $this->loadFile($path . $file);
-                    $data = ArrayTools::mergeRecursive($data, $loaded_data);
+                if ($file[0] != '.') {
+                    if (isset($this->loaders[$this->getExtention($file)])) {
+                        $loaded_data = $this->loadFile($path . $file);
+                        $data = ArrayTools::mergeRecursive($data, $loaded_data);
+                    }
                 }
             }
             closedir($dh);

@@ -24,16 +24,14 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
 
     public function get($name, $default = null) {
         if (!isset($this->data[$name])) {
-            if ($name === '') {
-                return $this;
-            }
             if ($this->parent !== null) {
-                $val = $this->parent->get($name);
-                if ($val === null) {
+                $val = $this->parent->get($name, $default);
+            } else {
+                if ($default == null) {
+                    throw new ValueNotFoundException("Not existing in the scope key [$name] ", 1);
+                } else {
                     $val = $default;
                 }
-            } else {
-                $val = $default;
             }
             return $val;
         }
@@ -87,7 +85,7 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
     }
 
     public function offsetExists($name) {
-        return $this->get($name) !== null;
+        return $this->has($name);
     }
 
     public function offsetGet($name) {

@@ -9,13 +9,13 @@ class Application extends Module {
     public function __construct($name = 'application', $data = array()) {
         parent::__construct($name, $data);
         if ($name !== null) {
-            $this->init();    
+            $this->configure();
         }
     }
 
-    public function init($container = null, $config = array()) {
+    public function configure($container = null, $config = array()) {
         $this->createService($this->name, new Reference());
-        return parent::init($container, $config);
+        return parent::configure($container, $config);
     }
 
     public static function __set_state($state) {

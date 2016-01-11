@@ -24,7 +24,7 @@ class Module extends ServiceContainer {
         return $this->name;
     }
 
-    public function init($container, $config = array()) {
+    public function configure($container, $config = array()) {
         if ($container !== null) {
             $this->setParent($container);
             $this->full_name = $this->parent->getFullName().'/'.$this->name;
@@ -46,7 +46,7 @@ class Module extends ServiceContainer {
         $data = array();
         $module = new $module_class($name);
         $this->set($name, $module);
-        $module->init($this, $config);
+        $module->configure($this, $config);
         return $module;
     }
 

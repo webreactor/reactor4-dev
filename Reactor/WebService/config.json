@@ -8,7 +8,7 @@
             "create": "\\Reactor\\WebService\\RequestFactory"
         },
         "router": {
-            "create": "\\Reactor\\WebService\\Router",
+            "create": "\\Reactor\\WebService\\StandardRouter",
             "arguments": [ "@application", "@site_tree" ]
         },
         "render": {

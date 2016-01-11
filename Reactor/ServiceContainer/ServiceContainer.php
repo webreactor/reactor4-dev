@@ -5,7 +5,7 @@ namespace Reactor\ServiceContainer;
 use \Reactor\Common\ValueScope\ValueScope;
 use \Reactor\Common\Traits\Exportable;
 
-class ServiceContainer extends ValueScope implements ServiceProviderInterface {
+class ServiceContainer extends ValueScope implements ServiceProviderInterface, SupportsGetByPathInterface {
 
     use Exportable;
 
@@ -16,24 +16,30 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface {
         return $this->data[$name] = $value;
     }
 
-    public function getByPath($path) {
-        if (!is_array($path)) {
-            $path = explode('/', trim($path, '/'));
+    public function getByPath($path = '', $default = null) {
+        //echo "getByPath($path)\n";
+        if ($path == '') {
+            return $this->getService();
         }
-        $value = $this;
-        $cnt = count($path);
-        for ($i = 0; $i < $cnt; $i++) {
-            $value = $value[$path[$i]];
+        $path_words = explode('/', trim($path, '/'));
+        $value = $this->data;
+        while (($word = array_shift($path_words)) !== null) {
+            if (is_array($value) && isset($value[$word])) {
+                $value = $value[$word];
+            } elseif ($this->parent !== null) {
+                return $this->parent->getByPath($word.'/'.implode('/', $path_words));
+            } else {
+                throw new \Exception("Missing path: [$path]");
+            }
+            if (is_a($value, 'Reactor\\ServiceContainer\\SupportsGetByPathInterface')) {
+                return $value->getByPath(implode('/', $path_words));
+            }
         }
-        return $value;
+        return $this->resolveProviders($value);
     }
 
     public function getDirect($name) {
-        $value = $this->data[$name];
-        if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
-            return $value->getService($this);
-        }
-        return $value;
+        return $this->resolveProviders($this->data[$name]);
     }
 
     public function __sleep() {
@@ -52,7 +58,9 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface {
     }
 
     public function getService($container = null) {
-        $this->setParent($container);
+        if ($container !== null) {
+            $this->setParent($container);
+        }
         return $this;
     }
 

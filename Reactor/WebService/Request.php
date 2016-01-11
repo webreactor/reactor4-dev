@@ -45,10 +45,11 @@ class Request {
 
     public function __clone() {
         $this->link = clone $this->link;
+        $this->headers = clone $this->headers;
         $this->cookies = clone $this->cookies;
         $this->get = clone $this->get;
+        $this->post = clone $this->post;
         $this->files = clone $this->files;
-        $this->headers = clone $this->headers;
     }
 
     public function setGet($post) {

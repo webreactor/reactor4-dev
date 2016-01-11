@@ -14,7 +14,7 @@ class DynamicProcessor implements ConfigProcessorInterface {
 
     public function process($config) {
         foreach ($config as $name => $value) {
-            $this->container->set($name, new DynamicParametersProvider($value));
+            $this->container->set($name, $value);
         }
     }
 

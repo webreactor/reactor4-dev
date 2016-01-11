@@ -3,13 +3,16 @@
         "db.connections": {
             "class" :"\\Reactor\\Database\\Module",
             "config": {
-                "parameters": {
-                    "local": {
-                        "user": "root",
-                        "password": "anabios",
-                        "database": "anabios",
-                        "host": "anabios",
-                        "link": "=mysql:dbname={@local.database};host={@local.host}"
+                "dynamic": {
+                    "connections": {
+                        "local": {
+                            "user": "root",
+                            "password": "anabios",
+                            "database": "anabios",
+                            "link2": "=mysql:dbname={@connections/local/database};host={@connections/local/host}+++{@connections/local/link}",
+                            "link": "=mysql:dbname={@connections/local/database};host={@connections/local/host}",
+                            "host": "anabios"
+                        }
                     }
                 }
             }
