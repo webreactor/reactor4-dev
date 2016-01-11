@@ -54,15 +54,14 @@ class StandardRouter implements RouterInterface {
     public function assignVariable($word, $context) {
         if (isset($context->step['variable'])) {
             $key = $context->step['variable'];
-            $context->request->get[$key] = $word;
-            $context->assigned = true;
-        }
 
-        if (isset($context->step['variable_path'])) {
-            $key = $context->step['variable_path'];
-            $assign = array_merge([$word], $context->words);
-            $context->words = array();
-            $context->request->get[$key] = $assign;
+            if (empty($context->step['greedy'])) {
+                $context->request->get[$key] = $word;
+            } else {
+                $context->request->get[$key] = array_merge([$word], $context->words);
+                $context->words = array();
+            }
+
             $context->assigned = true;
         }
     }

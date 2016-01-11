@@ -8,5 +8,5 @@ root:
         _node: { variable: test_var1, service: news, action: getList, module: news, template: list.tpl }
         news: { _node: { router: web_service/router } }
         _default: 
-            _node: { variable_path: test_var2, service: news, action: getList, module: news, template: list.tpl }
+            _node: { variable: test_var2, greedy: true, service: news, action: getList, module: news, template: list.tpl }
 
