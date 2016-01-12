@@ -16,26 +16,37 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
         return $this->data[$name] = $value;
     }
 
-    public function getByPath($path = '', $default = null) {
+    public function getByPath($path = '', $default = '_throw_exception_') {
         //echo "getByPath($path)\n";
         if ($path == '') {
             return $this->getService();
         }
         $path_words = explode('/', trim($path, '/'));
         $value = $this->data;
+        $resolve = true;
         while (($word = array_shift($path_words)) !== null) {
             if (is_array($value) && isset($value[$word])) {
                 $value = $value[$word];
             } elseif ($this->parent !== null) {
                 return $this->parent->getByPath($word.'/'.implode('/', $path_words));
             } else {
-                throw new \Exception("Missing path: [$path]");
+                if ($default == '_throw_exception_') {
+                    throw new \Exception("Missing path: [$path]");    
+                } else {
+                    return $default;
+                }
             }
             if (is_a($value, 'Reactor\\ServiceContainer\\SupportsGetByPathInterface')) {
                 return $value->getByPath(implode('/', $path_words));
+            } elseif (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+                $value = $value->getService($this);
+                $resolve = false;
             }
         }
-        return $this->resolveProviders($value);
+        if ($resolve) {
+            return $value = $this->resolveProviders($value);    
+        }
+        return $value;
     }
 
     public function getDirect($name) {
