@@ -21,11 +21,11 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
         if ($path == '') {
             return $this->getService();
         }
-        $path_words = explode('/', trim($path, '/'));
+        $path_words = explode('/', $path);
         $value = $this->data;
-        $resolve = true;
+        $local_context = true;
         while (($word = array_shift($path_words)) !== null) {
-            if (is_array($value) && isset($value[$word])) {
+            if ((is_array($value) || $value instanceof '\ArrayAccess') && isset($value[$word])) {
                 $value = $value[$word];
             } elseif ($this->parent !== null) {
                 return $this->parent->getByPath($word.'/'.implode('/', $path_words));
@@ -36,14 +36,15 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
                     return $default;
                 }
             }
-            if (is_a($value, 'Reactor\\ServiceContainer\\SupportsGetByPathInterface')) {
+            if ($value instanceof 'Reactor\\ServiceContainer\\SupportsGetByPathInterface') {
                 return $value->getByPath(implode('/', $path_words));
-            } elseif (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+            }
+            if ($resolve == false && $value instanceof 'Reactor\\ServiceContainer\\ServiceProviderInterface') {
                 $value = $value->getService($this);
-                $resolve = false;
+                $local_context = false;
             }
         }
-        if ($resolve) {
+        if ($local_context) {
             return $value = $this->resolveProviders($value);    
         }
         return $value;
