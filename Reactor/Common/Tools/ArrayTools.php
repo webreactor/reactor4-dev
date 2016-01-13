@@ -5,7 +5,7 @@ namespace Reactor\Common\Tools;
 class ArrayTools {
     
     static function walkRecursive($data, $callback) {
-        if (is_array($data) || is_a($data, 'Traversable')) {
+        if (is_array($data)) {
             foreach ($data as $key => $value) {
                 $data[$key] = self::walkRecursive($value, $callback);
             }

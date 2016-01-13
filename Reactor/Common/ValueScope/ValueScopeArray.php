@@ -6,7 +6,7 @@ class ValueScopeArray extends ValueScope {
 
     public function __construct($data = null) {
         if ($data !== null) {
-            if (!is_a($data, 'Reactor\\Common\\ValueScope')) {
+            if (!($data instanceof ValueScope)) {
                 $class = get_class($this);
                 $parent = new $class();
                 $parent->setAll($data);

@@ -10,7 +10,7 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
     use Exportable;
 
     public function createService($name, $value = null, $arguments = array()) {
-        if (!is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+        if (!($value instanceof ServiceProviderInterface)) {
             $value = new ServiceProvider($value, $arguments);
         }
         return $this->data[$name] = $value;
@@ -21,11 +21,11 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
         if ($path == '') {
             return $this->getService();
         }
-        $path_words = explode('/', $path);
+        $path_words = explode('/', trim($path,'/'));
         $value = $this->data;
         $local_context = true;
         while (($word = array_shift($path_words)) !== null) {
-            if ((is_array($value) || $value instanceof '\ArrayAccess') && isset($value[$word])) {
+            if ((is_array($value) || $value instanceof \ArrayAccess) && isset($value[$word])) {
                 $value = $value[$word];
             } elseif ($this->parent !== null) {
                 return $this->parent->getByPath($word.'/'.implode('/', $path_words));
@@ -36,10 +36,10 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
                     return $default;
                 }
             }
-            if ($value instanceof 'Reactor\\ServiceContainer\\SupportsGetByPathInterface') {
+            if ($value instanceof SupportsGetByPathInterface) {
                 return $value->getByPath(implode('/', $path_words));
             }
-            if ($resolve == false && $value instanceof 'Reactor\\ServiceContainer\\ServiceProviderInterface') {
+            if (!$local_context && $value instanceof ServiceProviderInterface) {
                 $value = $value->getService($this);
                 $local_context = false;
             }
@@ -61,7 +61,7 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
 
     static function sleepProviders($data) {
         foreach ((array)$data as $value) {
-            if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+            if ($value instanceof ServiceProviderInterface) {
                 $value->__sleep();
             } elseif (is_array($value)) {
                 self::sleepProviders($value);
@@ -82,7 +82,7 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
                 $data[$key] = $this->resolveProviders($value);
             }
         } elseif (is_object($data)) {
-            if (is_a($data, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+            if ($data instanceof ServiceProviderInterface) {
                 $data = $data->getService($this);
             }
         }

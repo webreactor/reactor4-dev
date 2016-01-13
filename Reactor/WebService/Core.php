@@ -32,7 +32,7 @@ class Core {
 
     public function route($router, $request_response) {
         $render_task = $request_response->request->metadata['render_task'];
-        while (is_a($router, "Reactor\\WebService\\RouterInterface") && $render_task->routable) {
+        while ($router instanceof RouterInterface && $render_task->routable) {
             $router_class = get_class($router);
             $this->dispatcher->raise('web-app.router.before', array('router' => $router_class, 'request_response' => $request_response));
             $router = $router->route($request_response);
