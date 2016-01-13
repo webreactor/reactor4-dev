@@ -18,19 +18,23 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
 
     public function getByPath($path = '', $default = '_throw_exception_') {
         //echo "getByPath($path)\n";
+        $path = trim($path,'/');
         if ($path == '') {
             return $this->getService();
         }
-        $path_words = explode('/', trim($path,'/'));
+        $path_words = explode('/', $path);
         $value = $this->data;
         $local_context = true;
-        while (($word = array_shift($path_words)) !== null) {
+        while (($word = current($path_words)) !== false) {
+            if ($value instanceof SupportsGetByPathInterface) {
+                return $value->getByPath(implode('/', $path_words));
+            }
             if ((is_array($value) || $value instanceof \ArrayAccess) && isset($value[$word])) {
                 $value = $value[$word];
             } elseif ($this->parent !== null) {
-                return $this->parent->getByPath($word.'/'.implode('/', $path_words));
+                return $this->parent->getByPath(implode('/', $path_words));
             } else {
-                if ($default == '_throw_exception_') {
+                if ($default === '_throw_exception_') {
                     throw new \Exception("Missing path: [$path]");    
                 } else {
                     return $default;
@@ -40,9 +44,7 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
                 $value = $value->getService($this);
                 $local_context = false;
             }
-            if ($value instanceof SupportsGetByPathInterface) {
-                return $value->getByPath(implode('/', $path_words));
-            }
+            array_shift($path_words);
         }
         if ($local_context) {
             return $value = $this->resolveProviders($value);    
