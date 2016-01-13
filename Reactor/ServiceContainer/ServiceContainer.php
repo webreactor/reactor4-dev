@@ -36,12 +36,12 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
                     return $default;
                 }
             }
-            if ($value instanceof SupportsGetByPathInterface) {
-                return $value->getByPath(implode('/', $path_words));
-            }
-            if (!$local_context && $value instanceof ServiceProviderInterface) {
+            if ($local_context && $value instanceof ServiceProviderInterface) {
                 $value = $value->getService($this);
                 $local_context = false;
+            }
+            if ($value instanceof SupportsGetByPathInterface) {
+                return $value->getByPath(implode('/', $path_words));
             }
         }
         if ($local_context) {

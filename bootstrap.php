@@ -9,5 +9,5 @@ $app_cache = new \Reactor\Application\ApplicationCacher(BASE_DIR.'var/');
 return $app_cache->get(
     function () {
         return new \Mod\Application\Application();
-    }, 'application', true
+    }, 'application', false
 );

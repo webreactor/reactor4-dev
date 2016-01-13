@@ -20,7 +20,7 @@ class ApplicationCacher {
             mkdir($dir, 0777, true);
         }
         $application->__sleep();
-        $dump = "<?php\n // Generated ".date("r")."\n return ";
+        $dump = "<?php\n// Generated ".date("r")."\nreturn ";
         $dump .= var_export($application, true);
         $dump .= ";\n";
         $tmp_file = $cache_file.'.tmp';
@@ -42,8 +42,8 @@ class ApplicationCacher {
         return $application;
     }
 
-    public function get($callable, $cache_name, $force_new = false) {
-        if ($force_new) {
+    public function get($callable, $cache_name, $use_cache = true) {
+        if (!$use_cache) {
             return $this->create($callable);
         }
         $cache_file = $this->getCacheFile($cache_name);
