@@ -73,9 +73,6 @@ class StandardRouter implements RouterInterface {
             } else {
                 $context->request->link->path = '/'.$word.'/'.implode('/', $context->words);    
             }
-            if (is_object($context->step['router'])) {
-                return $context->step['router'];
-            }
             return $this->application->getByPath($context->step['router']);
         }
         return false;

@@ -3,6 +3,7 @@
 namespace Reactor\ServiceContainer;
 
 use \Reactor\Common\ValueScope\ValueScope;
+use \Reactor\Common\ValueScope\ValueNotFoundException;
 use \Reactor\Common\Traits\Exportable;
 
 class ServiceContainer extends ValueScope implements ServiceProviderInterface, SupportsGetByPathInterface {
@@ -18,24 +19,27 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
 
     public function getByPath($path = '', $default = '_throw_exception_') {
         //echo "getByPath($path)\n";
-        $path = trim($path,'/');
+        $path = trim($path,'/ ');
         if ($path == '') {
             return $this->getService();
         }
         $path_words = explode('/', $path);
-        $value = $this->data;
+        if (count($path_words) == 1) {
+            return $this->get($path);
+        }
+        $value = &$this->data;
         $local_context = true;
         while (($word = current($path_words)) !== false) {
             if ($value instanceof SupportsGetByPathInterface) {
                 return $value->getByPath(implode('/', $path_words));
             }
             if ((is_array($value) || $value instanceof \ArrayAccess) && isset($value[$word])) {
-                $value = $value[$word];
+                $value = &$value[$word];
             } elseif ($this->parent !== null) {
                 return $this->parent->getByPath(implode('/', $path_words));
             } else {
                 if ($default === '_throw_exception_') {
-                    throw new \Exception("Missing path: [$path]");    
+                    throw new ValueNotFoundException("Missing path: [$path]");
                 } else {
                     return $default;
                 }
@@ -47,7 +51,7 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface, S
             array_shift($path_words);
         }
         if ($local_context) {
-            return $value = $this->resolveProviders($value);    
+            return $this->resolveProviders($value);
         }
         return $value;
     }

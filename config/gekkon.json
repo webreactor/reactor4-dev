@@ -1,7 +1,7 @@
 {
     "modules": {
         "view": {
-            "class": "\\Reactor\\Gekkon\\Module\\Gekkon",
+            "class": "\\Reactor\\Gekkon\\Module\\Module",
             "config": {
                 "dynamic": {
                     "base_dir": "@folders.base_dir",

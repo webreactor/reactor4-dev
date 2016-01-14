@@ -6,7 +6,7 @@ use \Reactor\Application\Exceptions\ModuleConfiguratorException;
 
 use \Reactor\Events\ContainerAwareDispatcher;
 
-class Dispatcher extends \Reactor\Application\Module {
+class Module extends \Reactor\Application\Module {
 
     protected $dispatcher;
 

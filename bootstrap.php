@@ -8,6 +8,8 @@ $app_cache = new \Reactor\Application\ApplicationCacher(BASE_DIR.'var/');
 
 return $app_cache->get(
     function () {
-        return new \Mod\Application\Application();
+        $app = new \Mod\Application\Application();
+        $app->configure();
+        return $app;
     }, 'application', false
 );

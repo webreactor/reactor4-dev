@@ -1,5 +1,5 @@
 {
     "modules": {
-        "dispatcher": "\\Reactor\\Events\\Module\\Dispatcher"
+        "dispatcher": "\\Reactor\\Events\\Module\\Module"
     }
 }
