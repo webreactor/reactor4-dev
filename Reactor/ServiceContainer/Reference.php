@@ -7,13 +7,13 @@ class Reference implements ServiceProviderInterface {
     protected $path;
     protected $loading = false;
 
-    public function __construct($path = array()) {
+    public function __construct($path = '') {
         $this->path = $path;
     }
 
     public function getService($container = null) {
         if ($this->loading) {
-            throw new Exceptions\CircularReferenceException($this->getPath());
+            throw new Exceptions\CircularReferenceException("Circular reference [${$this->path}]");
         }
         $this->loading = true;
         $val = $container->getByPath($this->path);
@@ -22,10 +22,6 @@ class Reference implements ServiceProviderInterface {
     }
 
     public function __sleep() {}
-
-    public function getPath() {
-        return implode('/', (array)$this->path);
-    }
 
     public static function __set_state($state) {
         return new Reference($state['path']);

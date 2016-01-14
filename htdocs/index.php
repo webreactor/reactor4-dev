@@ -1,30 +1,14 @@
 <?php
 
-$_start = microtime(true);
+$start = microtime(true);
 $app = include '../bootstrap.php';
-
-//print_r($app);
-//$app->view;
-//die('ok');
-$app->cache->set('aaa', 60);
-echo $app->cache->get('aaa');
-echo $app->view->bin_tpl_provider->base_dir;
-
-// die('ok');
-echo "\n<br>Total:".(microtime(true) - $_start)."<br>";
-$factory = new \Reactor\HTTP\RequestFactory();
-$request = $factory->buildFromGlobals();
-print_r($request->query->getString('query'));
-//die();
-// phpinfo();
-// print_r(getallheaders());
-
-// $gekkon = new \Reactor\Gekkon\Gekkon(BASE_DIR, BASE_DIR.'tpl_bin', 'Mod/News/tpl/');
-// $gekkon->display('news.tpl');
-echo "\n<br>Total:".(microtime(true) - $_start)."<br>";
-$app->dispatcher->dispatch( new \Reactor\Events\Event("user.deleted") );
-echo "\n<br>Total:".(microtime(true) - $_start)."<br>";
-$app->view->register('time', time());
-echo "\n<br>Total:".(microtime(true) - $_start)."<br>";
-$app->view->display('test.tpl');
-echo "\n<br>Total:".(microtime(true) - $_start)."<br>";
+echo (microtime(true) - $start) ."\n";
+//$m = $app;
+//$m->__sleep();
+//var_export($m);
+//echo "READY\n\n\n";
+//echo (microtime(true) - $start) ."\n";
+//var_export($app->getByPath('db.connections/connections'));
+echo (microtime(true) - $start) ."\n";
+$app->web_service->handleGlobalRequest();
+echo (microtime(true) - $start) ."\n";

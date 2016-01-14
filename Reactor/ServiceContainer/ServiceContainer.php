@@ -3,37 +3,61 @@
 namespace Reactor\ServiceContainer;
 
 use \Reactor\Common\ValueScope\ValueScope;
+use \Reactor\Common\ValueScope\ValueNotFoundException;
 use \Reactor\Common\Traits\Exportable;
 
-class ServiceContainer extends ValueScope implements ServiceProviderInterface {
+class ServiceContainer extends ValueScope implements ServiceProviderInterface, SupportsGetByPathInterface {
 
     use Exportable;
 
     public function createService($name, $value = null, $arguments = array()) {
-        if (!is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+        if (!($value instanceof ServiceProviderInterface)) {
             $value = new ServiceProvider($value, $arguments);
         }
         return $this->data[$name] = $value;
     }
 
-    public function getByPath($path) {
-        if (!is_array($path)) {
-            $path = explode('/', trim($path, '/'));
+    public function getByPath($path = '', $default = '_throw_exception_') {
+        //echo "getByPath($path)\n";
+        $path = trim($path,'/ ');
+        if ($path == '') {
+            return $this->getService();
         }
-        $value = $this;
-        $cnt = count($path);
-        for ($i = 0; $i < $cnt; $i++) {
-            $value = $value[$path[$i]];
+        $path_words = explode('/', $path);
+        if (count($path_words) == 1) {
+            return $this->get($path);
+        }
+        $value = &$this->data;
+        $local_context = true;
+        while (($word = current($path_words)) !== false) {
+            if ($value instanceof SupportsGetByPathInterface) {
+                return $value->getByPath(implode('/', $path_words));
+            }
+            if ((is_array($value) || $value instanceof \ArrayAccess) && isset($value[$word])) {
+                $value = &$value[$word];
+            } elseif ($this->parent !== null) {
+                return $this->parent->getByPath(implode('/', $path_words));
+            } else {
+                if ($default === '_throw_exception_') {
+                    throw new ValueNotFoundException("Missing path: [$path]");
+                } else {
+                    return $default;
+                }
+            }
+            if ($local_context && $value instanceof ServiceProviderInterface) {
+                $value = $value->getService($this);
+                $local_context = false;
+            }
+            array_shift($path_words);
+        }
+        if ($local_context) {
+            return $this->resolveProviders($value);
         }
         return $value;
     }
 
     public function getDirect($name) {
-        $value = $this->data[$name];
-        if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
-            return $value->getService($this);
-        }
-        return $value;
+        return $this->resolveProviders($this->data[$name]);
     }
 
     public function __sleep() {
@@ -43,7 +67,7 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface {
 
     static function sleepProviders($data) {
         foreach ((array)$data as $value) {
-            if (is_a($value, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+            if ($value instanceof ServiceProviderInterface) {
                 $value->__sleep();
             } elseif (is_array($value)) {
                 self::sleepProviders($value);
@@ -52,7 +76,9 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface {
     }
 
     public function getService($container = null) {
-        $this->setParent($container);
+        if ($container !== null) {
+            $this->setParent($container);
+        }
         return $this;
     }
 
@@ -62,7 +88,7 @@ class ServiceContainer extends ValueScope implements ServiceProviderInterface {
                 $data[$key] = $this->resolveProviders($value);
             }
         } elseif (is_object($data)) {
-            if (is_a($data, 'Reactor\\ServiceContainer\\ServiceProviderInterface')) {
+            if ($data instanceof ServiceProviderInterface) {
                 $data = $data->getService($this);
             }
         }

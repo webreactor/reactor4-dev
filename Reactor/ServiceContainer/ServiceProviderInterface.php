@@ -3,6 +3,11 @@
 namespace Reactor\ServiceContainer;
 
 Interface ServiceProviderInterface {
+
     public function getService($container = null);
-    public function __sleep(); //resets internal state, usually removes shared instace
+
+    // resets internal state, usually removes shared instace
+    // closes connections and etc
+    public function __sleep();
+
 }

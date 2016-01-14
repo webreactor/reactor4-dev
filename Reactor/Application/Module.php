@@ -24,34 +24,29 @@ class Module extends ServiceContainer {
         return $this->name;
     }
 
-    public function init($container, $config = array()) {
+    public function configure($container, $config = array()) {
         if ($container !== null) {
             $this->setParent($container);
             $this->full_name = $this->parent->getFullName().'/'.$this->name;
         }
-        $configurator = ServiceContainerConfigurator::factory($this);
-        $configurator->addProcessor('modules', new ModulesConfigProcessor($configurator));
-        
-        $configurator->load($config);
+        $configurator = new ServiceContainerConfigurator($this);
+        $configurator->setProcessor('modules', new ModulesConfigProcessor($configurator));
 
         $config_file = $this->getDir().'config.json';
         if (is_file($config_file)) {
-            $configurator->loadPath($config_file);
+            $configurator->addPath($config_file);
         }
+
+        $configurator->addConfig($config);
+        $configurator->load();
         return $configurator;
     }
 
     public function loadModule($name, $module_class, $config = array()) {
         $data = array();
-        if ($this->has($name)) {
-            $existing_data = $this->get($name);
-            if (is_array($existing_data)) {
-                $data = $existing_data;
-            }
-        }
-        $module = new $module_class($name, $data);
+        $module = new $module_class($name);
         $this->set($name, $module);
-        $module->init($this, $config);
+        $module->configure($this, $config);
         return $module;
     }
 

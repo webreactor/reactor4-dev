@@ -4,7 +4,7 @@ namespace Reactor\Common\Traits;
 
 trait Exportable {
     
-    public function restore_state($state) {
+    public function restoreState($state) {
         foreach ($state as $key => $value) {
             $this->{$key} = $value;
         }
@@ -12,7 +12,7 @@ trait Exportable {
 
     public static function __set_state($state) {
         $obj = new static();
-        $obj->restore_state($state);
+        $obj->restoreState($state);
         return $obj;
     }
 

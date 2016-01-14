@@ -1,14 +1,19 @@
 <?php
 
-namespace Reactor\HTTP;
+namespace Reactor\WebService;
 
 class RequestResponse {
 
     public $request;
-    public $response
+    public $original;
+    public $response;
 
-    public function __construct($request, $response) {
+    public function __construct($request, $response = null) {
         $this->request = $request;
+        $this->original = clone $request;
+        if ($response === null) {
+            $response = new Response();
+        }
         $this->response = $response;
     }
 

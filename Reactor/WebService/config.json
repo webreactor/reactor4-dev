@@ -1,0 +1,19 @@
+{
+    "services": {
+        "core": {
+            "create": "\\Reactor\\WebService\\Core",
+            "arguments": [ "@dispatcher", "@router", "@render", "@request_factory" ]
+        },
+        "request_factory": {
+            "create": "\\Reactor\\WebService\\RequestFactory"
+        },
+        "router": {
+            "create": "\\Reactor\\WebService\\StandardRouter",
+            "arguments": [ "@application", "@site_tree" ]
+        },
+        "render": {
+            "create": "\\Reactor\\WebService\\Render",
+            "arguments": [ "@application" ]
+        }
+    }
+}

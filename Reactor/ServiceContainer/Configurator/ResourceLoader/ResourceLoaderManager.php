@@ -2,65 +2,75 @@
 
 namespace Reactor\ServiceContainer\Configurator\ResourceLoader;
 
+use Reactor\ServiceContainer\Exceptions\ServiceConfiguratorException;
 use Reactor\Common\Tools\ArrayTools;
 
-class ResourceLoaderManager implements ResourceLoaderInterface {
+class ResourceLoaderManager {
 
     public $loaders = array();
-    public $loaded = array();
-    public $callback = null;
-    public $data = array();
+    public $loading = array();
+    public $processors = array();
 
-    public function load($path, $callback = null) {
-        $this->data = array();
-        if ($callback == null) {
-            $callback = array($this, 'dataCollector');
+    public function load($path) {
+        if (in_array($path, $this->loading)) {
+            throw new ServiceConfiguratorException("Reccursive config loading on $path");
         }
-        if (in_array($path, $this->loaded)) {
-            throw new ModuleConfiguratorException("Reccursive config loading on $path");
-        }
-        $this->loaded[] = $path;
+        array_push($this->loading, $path);
         if (is_dir($path)) {
             $path = realpath($path).'/';
-            $this->loadFolder($path, $callback);
+            $data = $this->loadFolder($path);
         } else {
-            $this->loadFile($path, $callback);   
+            $data = $this->loadFile($path);
         }
-        return $this->data;
+        array_pop($this->loading);
+        return $data;
     }
 
-    public function dataCollector($data) {
-        $this->data = ArrayTools::mergeRecursive($this->data, $data);
+    public function setProcessor($name, ResourceProcessorInterface $processor) {
+        $this->processors[$name] = $processor;
     }
 
-    protected function loadFolder($path, $callback) {
+    protected function loadFolder($path) {
+        $data = array();
         if ($dh = opendir($path)) {
             while (($file = readdir($dh)) !== false) {
-                if (isset($this->loaders[$this->getExtention($file)])) {
-                    $this->loadFile($path . $file, $callback);  
+                if ($file[0] != '.') {
+                    if (isset($this->loaders[$this->getExtention($file)])) {
+                        $loaded_data = $this->loadFile($path . $file);
+                        $data = ArrayTools::mergeRecursive($data, $loaded_data);
+                    }
                 }
             }
             closedir($dh);
         }
+        return $data;
     }
 
-    protected function loadFile($link, $callback) {
+    protected function loadFile($link) {
         $ext = $this->getExtention($link);
         if (isset($this->loaders[$ext])) {
             $data = $this->loaders[$ext]->load($link);
-            call_user_func_array($callback, array($data));
+            $data = $this->process($link, $data);
         } else {
             throw new \Exception("Cannot find proper loader for [{$link}]", 1);    
         }
+        return $data;
     }
 
-    public function addLoader($ext, ResourceLoaderInterface $loader) {
+    public function setLoader($ext, ResourceLoaderInterface $loader) {
         $this->loaders[$ext] = $loader;
         return $this;
     }
 
     public function getExtention($link) {
-        return strtolower(strstr($link, '.'));
+        return strtolower(strrchr($link, '.'));
+    }
+
+    protected function process($source, $data) {
+        foreach ($this->processors as $processor) {
+            $data = $processor->process($source, $data);
+        }
+        return $data;
     }
 
 }

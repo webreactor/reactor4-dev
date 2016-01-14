@@ -1,0 +1,8 @@
+{
+    "modules": {
+        "web_service": "\\Reactor\\WebService\\Module"
+    },
+    "parameters": {
+        "site_tree": { "import": ".site-tree.yml" }
+    }
+}

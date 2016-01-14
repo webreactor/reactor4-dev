@@ -7,6 +7,9 @@
             "email": "toecto@gmail.com"
         }
     ],
+    "require":{
+        "symfony/yaml": "3.0.1"
+    },
     "autoload": {
         "psr-4": {
             "Reactor\\": "Reactor/",

@@ -14,7 +14,10 @@ class ParametersProcessor implements ConfigProcessorInterface {
 
     public function process($config) {
         foreach ($config as $name => $value) {
-            $this->container->set($name, $this->container->resolveProviders($value));
+            $this->container->set($name, $value);
+        }
+        foreach ($config as $name => $value) {
+            $this->container->set($name, $this->container->get($name));
         }
     }
 
