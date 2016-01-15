@@ -3,11 +3,13 @@
         "memcache.connections": {
             "class" :"\\Reactor\\Memcache\\Module",
             "config": {
-                "parameters": {
-                    "local": {
-                        "server1": {
-                            "host": "localhost",
-                            "port": 11211
+                "dynamic": {
+                    "connections": {
+                        "local": {
+                            "server1": {
+                                "host": "localhost",
+                                "port": 11211
+                            }
                         }
                     }
                 }
