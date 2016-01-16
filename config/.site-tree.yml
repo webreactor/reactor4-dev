@@ -10,5 +10,5 @@ root:
     catalog: 
         _node: { service: catalog, action: getList, template: tree.tpl }
         _default: 
-            _node: { variable: catalog_path, greedy: true, service: catalog, action: getNode, template: list.tpl }
+            _node: { variable: catalog_path, greedy: true, service: catalog, action: getNode, module: news, template: list.tpl }
 

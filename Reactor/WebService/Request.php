@@ -7,6 +7,7 @@ use Reactor\Common\ValueScope\ValueScope;
 class Request {
 
     public $link;
+    public $link_original;
 
     public $method;
 
@@ -43,17 +44,13 @@ class Request {
         return $this->body;
     }
 
-    public function __clone() {
-        $this->link = clone $this->link;
-        $this->headers = clone $this->headers;
-        $this->cookies = clone $this->cookies;
-        $this->get = clone $this->get;
-        $this->post = clone $this->post;
-        $this->files = clone $this->files;
+    public function setLink($link) {
+        $this->link = $link;
+        $this->link_original = clone $link;
     }
 
-    public function setGet($post) {
-        $this->get = new QueryParameters($post);
+    public function setGet($get) {
+        $this->get = new QueryParameters($get);
     }
 
     public function setPost($post) {

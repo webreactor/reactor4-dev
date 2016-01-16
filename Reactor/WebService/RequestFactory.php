@@ -16,11 +16,14 @@ class RequestFactory {
 
         $request->method = $_SERVER['REQUEST_METHOD'];
 
-        $request->link->scheme = $_SERVER['REQUEST_SCHEME'];
-        $request->link->host = $_SERVER['HTTP_HOST'];
-        $request->link->port = $_SERVER['SERVER_PORT'];
-        $request->link->path = strstr($_SERVER['REQUEST_URI'].'?', '?', true);
-        $request->link->query = $_SERVER['QUERY_STRING'];
+        $link = new WebLink();
+        $link->scheme = $_SERVER['REQUEST_SCHEME'];
+        $link->host = $_SERVER['HTTP_HOST'];
+        $link->port = $_SERVER['SERVER_PORT'];
+        $link->path = strstr($_SERVER['REQUEST_URI'].'?', '?', true);
+        $link->query = $_SERVER['QUERY_STRING'];
+
+        $request->setLink($link);
 
         return $request;
     }

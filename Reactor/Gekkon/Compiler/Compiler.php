@@ -16,6 +16,10 @@ class Compiler {
         $this->init();
     }
 
+    function exp_compiler() {
+        return $this->exp_compiler;
+    }
+
     function init() {
         $this->tag_systems = array();
         $tokens = array();
@@ -173,6 +177,13 @@ class Compiler {
         }
         $this->errors[] = $message;
         return false;
+    }
+
+    function errors() {
+        $this->errors = array_reverse($this->errors);
+        $message = implode("\n", $this->errors);
+        $this->errors = array();
+        return strip_tags($message);
     }
 
     function flush_errors() {

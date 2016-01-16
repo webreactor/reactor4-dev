@@ -16,6 +16,11 @@ class TemplateExpression extends PrefixedExpression {
     }
 
     public function compileLogic($value) {
+        $shared = false;
+        if ($value[0] == '~') {
+            $shared = true;
+            $value = substr($value, 1);
+        }
         $parsed = $this->parse($value);
         $is_provider = false;
         foreach ($parsed as $key => $value) {
@@ -30,7 +35,9 @@ class TemplateExpression extends PrefixedExpression {
             if (count($parsed) == 1) {
                 return current($parsed);
             }
-            return new ServiceProvider('implode', array($parsed));
+            $srv = new ServiceProvider('implode', array($parsed));
+            $srv->shared($shared);
+            return $srv;
         }
 
         return implode($parsed);

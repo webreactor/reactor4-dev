@@ -3,17 +3,13 @@
 namespace Reactor\WebService;
 
 use Reactor\Common\Tools\StringTools;
-use Reactor\Common\ValueScope\ValueScope;
+use Reactor\Common\ValueScope\ValueScopeArray;
 
-class QueryParameters extends ValueScope {
-
-    public function __construct($data = array()) {
-        $this->data = $data;
-    }
+class QueryParameters extends ValueScopeArray {
 
     public function getInteger($name, $default = null) {
         $value = $this->get($name, $default);
-        if ("$value" == ''.intval($value)) {
+        if ("$value" === ''.intval($value)) {
            return 0 + $value;
         }
         return $default;
