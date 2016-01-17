@@ -1,8 +1,13 @@
 {
     "modules": {
-        "web_service": "\\Reactor\\WebService\\Module"
-    },
-    "parameters": {
-        "site_tree": { "import": ".site-tree.yml" }
+        "web_service": {
+            "class": "\\Reactor\\WebService\\Module",
+            "config": {
+                "dynamic": {
+                    "web_router": "@base_web_router/router",
+                    "site_tree": { "import": ".site-tree.yml" }
+                }
+            }
+        }
     }
 }

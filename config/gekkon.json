@@ -4,8 +4,8 @@
             "class": "\\Reactor\\Gekkon\\Module\\Module",
             "config": {
                 "dynamic": {
-                    "base_dir": "@folders.base_dir",
-                    "tpl_bin": "@folders.gekkon.tpl_bin"
+                    "base_dir": "@folders/base",
+                    "tpl_bin": "={@folders/var}/tpl_bin/"
                 }
             }
         }

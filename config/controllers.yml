@@ -1,0 +1,11 @@
+modules:
+    controllers:
+        class: \Reactor\WebService\SlimControllerGenerator\Module
+        config:
+            dynamic:
+                controllers:
+                    test_controller:
+                        test1: { service: blah, method: mblah1, arguments: [ "$request->get->getInteger('var1', 1)" ] }
+                        test2: { service: blah, method: mblah2, arguments: [ "$request->get->getInteger('var1', 1)" ] }
+                        test3: { service: blah, method: mblah3, arguments: [ "$request->get->getInteger('var1', 1)" ] }
+                        test4: { service: blah, method: mblah4, arguments: [ "$request->get->getInteger('var1', 1)" ] }

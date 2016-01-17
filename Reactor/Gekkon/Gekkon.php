@@ -92,11 +92,15 @@ class Gekkon {
     }
 
     public function compile($template) {
+        $this->bin_tpl_provider->save($template, $this->compiler()->compile($template));
+        return $this->bin_tpl_provider->load($template);
+    }
+
+    public function compiler() {
         if (!$this->compiler) {
             $this->compiler = new Compiler\Compiler($this);
         }
-        $this->bin_tpl_provider->save($template, $this->compiler->compile($template));
-        return $this->bin_tpl_provider->load($template);
+        return $this->compiler;
     }
 
     public function error($msg, $object = false) {

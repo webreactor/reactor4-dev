@@ -1,16 +1,9 @@
 {
     "dynamic": {
-        "folders.base_dir": "!BASE_DIR"
-    },
-    "services" : {
-        "folders.gekkon.tpl_bin": {
-            "shared": true,
-            "scenario": [
-                {
-                    "factory": "implode",
-                    "arguments": [ "", [ "@folders.base_dir", "tpl_bin/" ] ]
-                }
-            ]
+        "folders": {
+            "base": "!BASE_DIR",
+            "var": "=~{@folders/base}var/",
+            "bin_cache": "=~{@folders/base}var/bin_cache"
         }
     }
 }
