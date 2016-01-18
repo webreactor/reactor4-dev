@@ -10,6 +10,7 @@ class PrefixedExpression implements ExpressionCompilerInterface {
         if ($value == '' || $value[0] != $this->token) {
             return $value;
         }
+
         $value = substr($value, 1);
         if ($value != '' && $value[0] == $this->token) {
             return $value;

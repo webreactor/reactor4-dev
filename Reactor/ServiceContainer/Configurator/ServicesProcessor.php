@@ -9,12 +9,15 @@ use Reactor\ServiceContainer\Exceptions;
 class ServicesProcessor implements ConfigProcessorInterface {
 
     protected $container;
+    protected $configurator;
 
     public function __construct($configurator) {
         $this->container = $configurator->container;
+        $this->configurator = $configurator;
     }
 
     public function process($config) {
+        $config = $this->configurator->handleValues($config);
         foreach ($config as $name => $service_config) {
             $this->container->set($name, $this->createProvider($service_config));
         }

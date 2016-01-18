@@ -5,7 +5,7 @@
             "config": {
                 "dynamic": {
                     "web_router": "@base_web_router/router",
-                    "site_tree": { "import": ".site-tree.yml" }
+                    "site_tree": { "_import": ".site-tree.yml" }
                 }
             }
         }

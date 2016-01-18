@@ -13,7 +13,8 @@
     "autoload": {
         "psr-4": {
             "Reactor\\": "Reactor/",
-            "Mod\\": "Mod/"
+            "Mod\\": "Mod/",
+            "ReactorGenerated\\": "var/bin_generated/"
         }
     }
 }
