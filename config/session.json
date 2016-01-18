@@ -1,0 +1,15 @@
+{
+    "modules": {
+        "websession": {
+            "class" :"\\Reactor\\WebSession\\Module",
+            "config": {
+                "dynamic": {
+                    "storage": "@memcache.connections/local",
+                    "name": "websession",
+                    "class": "\\Reactor\\WebSession\\Handler",
+                    "register": true
+                }
+            }
+        }
+    }
+}
