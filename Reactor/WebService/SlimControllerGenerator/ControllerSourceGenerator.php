@@ -46,7 +46,6 @@ class ControllerSourceGenerator {
             $m .= "\t\$get = \$request->get;\n";
             $m .= "\t\$post = \$request->post;\n";
             $m .= "\t\$container = \$this->container;\n";
-            print_r($arguments);
             $m .= "\treturn \$container->get('{$arguments['service']}')->{$arguments['method']}(".implode(',', $arguments['arguments']).");\n";
             $m .= "}\n";
             $src .= $m."\n";
