@@ -1,10 +1,10 @@
 <?php
 
-namespace Reactor\Memcache;
+namespace Reactor\Wrapper;
 
-use Reactor\Memcache\Exceptions\MemcacheException;
+use Reactor\Wrapper\Exceptions\MemcacheException;
 
-class Wrapper {
+class Memcache {
 
     protected
         $connection = null,

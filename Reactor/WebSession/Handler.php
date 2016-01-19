@@ -7,9 +7,11 @@ use SessionHandlerInterface;
 
 class Handler implements SessionHandlerInterface {
     private $storage = null;
+    private $store_time;
 
-    public function __construct($storage) {
+    public function __construct($storage, $store_time = 0) {
         $this->storage = $storage;
+        $this->store_time = $store_time;
     }
 
     private function checkExistStorage() {

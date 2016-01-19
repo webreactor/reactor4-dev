@@ -2,24 +2,25 @@
 
 namespace Reactor\WebSession;
 
+use Reactor\ServiceContainer\Reference;
 use Reactor\WebSession\Exceptions\WebSessionException;
 
 class Module extends \Reactor\Application\Module{
 
-    private $handler;
+    private $handler = null;
 
     public function configure($container, $config = array()) {
         $confugurator = parent::configure($container, $config);
         if (!$this->has('storage')) {
             throw new WebSessionException('You must register a key-value storage for sessions');
         }
-        $this->createService($this->get('name'), $this->get('class'), array($this->get('storage')));
-        $this->handler = $this->getDirect($this->get('name'));
-        if ($this->has('register') && $this->get('register')) {
-            $this->register();
-        }
+        $this->createService($this->name, $this->get('handler'), array(new Reference('storage'), $this->get('store_time')));
+        $this->handler = $this->getDirect($this->name);
     }
+
     public function register($shutdown = true) {
-        session_set_save_handler($this->handler, $shutdown);
+        if ($this->handler != null) {
+            session_set_save_handler($this->handler, $shutdown);
+        }
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Reactor\Memcache;
+namespace Reactor\Wrapper;
 
 class Module extends \Reactor\Application\Module {
 
@@ -10,7 +10,7 @@ class Module extends \Reactor\Application\Module {
             foreach ($value as $item) {
                 $servers[] = array($item['host'], $item['port']);
             }
-            $this->createService($key, '\\Reactor\\Memcache\\Wrapper', array($key, $servers));
+            $this->createService($key, '\\Reactor\\Wrapper\\Memcache', array($key, $servers));
         }
     }
 }

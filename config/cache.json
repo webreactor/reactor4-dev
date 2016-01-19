@@ -1,7 +1,7 @@
 {
     "modules": {
         "memcache.connections": {
-            "class" :"\\Reactor\\Memcache\\Module",
+            "class" :"\\Reactor\\Wrapper\\Module",
             "config": {
                 "dynamic": {
                     "connections": {

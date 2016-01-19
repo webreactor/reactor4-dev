@@ -5,9 +5,8 @@
             "config": {
                 "dynamic": {
                     "storage": "@memcache.connections/local",
-                    "name": "websession",
-                    "class": "\\Reactor\\WebSession\\Handler",
-                    "register": true
+                    "handler": "\\Reactor\\WebSession\\Handler",
+                    "store_time": 1800
                 }
             }
         }

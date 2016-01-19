@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\Memcache\Exceptions;
+namespace Reactor\Wrapper\Exceptions;
 
 class MemcacheException extends \Exception {
 }
