@@ -2,7 +2,7 @@
     "services": {
         "generator": {
             "create": "\\Reactor\\WebService\\SlimControllerGenerator\\Generator",
-            "arguments": [ "@application" ]
+            "arguments": [ "@folders/bin_generated" ]
         }
     }
 }

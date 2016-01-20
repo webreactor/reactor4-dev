@@ -4,7 +4,7 @@ namespace Reactor\ServiceContainer\Configurator\ResourceLoader;
 
 use Reactor\Common\Tools\ArrayTools;
 
-class InlineImportProcessor implements ResourceProcessorInterface {
+class InlineMergeProcessor implements ResourceProcessorInterface {
 
     protected $loader;
 
@@ -16,14 +16,16 @@ class InlineImportProcessor implements ResourceProcessorInterface {
         if (is_array($data)) {
             foreach ($data as $key => $value) {
                 if (is_array($value)) {
-                    if (count($value) == 1 && isset($value['_import'])) {
-                        $imported_data = array();
+                    if (count($value) == 1 && isset($value['_merge'])) {
+                        $merged_data = array();
                         $context = dirname($source).'/';
-                        foreach ((array)$value['_import'] as $value) {
+                        foreach ((array)$value['_merge'] as $value) {
                             $loaded_data = $this->loader->load($context . $value);
-                            $imported_data = ArrayTools::mergeRecursive($imported_data, $loaded_data);
+                            $merged_data = ArrayTools::mergeRecursive($merged_data, $loaded_data);
                         }
-                        $data[$key] = $imported_data;
+                        unset($data[$key]);
+                        $merged_data = ArrayTools::mergeRecursive($merged_data, (array)$data);
+                        return $this->process($source, $merged_data);
                     } else {
                         $data[$key] = $this->process($source, $value);
                     }

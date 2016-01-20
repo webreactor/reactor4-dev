@@ -24,14 +24,19 @@ class Module extends ServiceContainer {
         return $this->name;
     }
 
+    public function createConfigurator() {
+        $configurator = new ServiceContainerConfigurator($this);
+        $configurator->setProcessor('modules', new ModulesConfigProcessor($configurator));
+        return $configurator;
+    }
+
     public function configure($container, $config = array()) {
         if ($container !== null) {
             $this->setParent($container);
             $this->full_name = $this->parent->getFullName().'/'.$this->name;
         }
-        $configurator = new ServiceContainerConfigurator($this);
-        $configurator->setProcessor('modules', new ModulesConfigProcessor($configurator));
 
+        $configurator = $this->createConfigurator();
         $config_file = $this->getDir().'config.json';
         if (is_file($config_file)) {
             $configurator->addPath($config_file);

@@ -28,7 +28,7 @@ class ServiceContainerConfigurator {
             if (!isset($config[$key])) {
                 $config[$key] = array();
             }
-            $processor->process($this->handleValues($config[$key]));
+            $processor->process($config[$key]);
         }
     }
 
@@ -64,6 +64,8 @@ class ServiceContainerConfigurator {
 
         $this->resource_loader
             ->setProcessor('inline_import', new Configurator\ResourceLoader\InlineImportProcessor($this->resource_loader));
+        $this->resource_loader
+            ->setProcessor('inline_merge', new Configurator\ResourceLoader\InlineMergeProcessor($this->resource_loader));
 
         $this->resource_loader
             ->setProcessor('import', new Configurator\ResourceLoader\ImportProcessor($this->resource_loader));

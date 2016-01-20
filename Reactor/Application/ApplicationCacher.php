@@ -33,7 +33,7 @@ class ApplicationCacher {
     }
 
     public function checkPHPSyntax($file, &$details) {
-        exec('php -l '.$file, $output, $return_var);
+        exec('php -l '.$file, $details, $return_var);
         return $return_var == 0;
     }
 
