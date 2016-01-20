@@ -2,8 +2,12 @@
 
 $start = microtime(true);
 $app = include '../bootstrap.php';
+$app->websession->register();
+session_start();
 echo (microtime(true) - $start) ."\n";
-$app->cache->set('aaa', 60);
+$_SESSION['abc'] = 'test';
+var_dump($_SESSION['abc']);
+$app->cache->set('aaa', 600);
 echo $app->cache->get('aaa');
 //$m = $app;
 //$m->__sleep();

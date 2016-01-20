@@ -4,6 +4,7 @@ namespace Reactor\WebSession;
 
 use Reactor\ServiceContainer\Reference;
 use Reactor\WebSession\Exceptions\WebSessionException;
+use Reactor\Wrapper\Interfaces\BaseStorageInterface;
 
 class Module extends \Reactor\Application\Module{
 
@@ -14,7 +15,11 @@ class Module extends \Reactor\Application\Module{
         if (!$this->has('storage')) {
             throw new WebSessionException('You must register a key-value storage for sessions');
         }
-        $this->createService($this->name, $this->get('handler'), array(new Reference('storage'), $this->get('store_time')));
+        $storage = $this->resolveProviders(new Reference('storage'));
+        if (! $storage instanceof BaseStorageInterface) {
+            throw new WebSessionException('Storage must to implement \\Reactor\\Wrapper\\Interfaces\\BaseStorageInterface');
+        }
+        $this->createService($this->name, $this->get('handler'), array($storage, $this->get('max_life_time')));
         $this->handler = $this->getDirect($this->name);
     }
 

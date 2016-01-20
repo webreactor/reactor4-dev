@@ -3,8 +3,9 @@
 namespace Reactor\Wrapper;
 
 use Reactor\Wrapper\Exceptions\MemcacheException;
+use Reactor\Wrapper\Interfaces\BaseStorageInterface;
 
-class Memcache {
+class Memcache implements BaseStorageInterface {
 
     protected
         $connection = null,
@@ -53,4 +54,5 @@ class Memcache {
     public function __set($name, $value) {
         $this->set($name, $value);
     }
+
 }

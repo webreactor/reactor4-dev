@@ -6,7 +6,7 @@
                 "dynamic": {
                     "storage": "@memcache.connections/local",
                     "handler": "\\Reactor\\WebSession\\Handler",
-                    "store_time": 1800
+                    "max_life_time": 1800
                 }
             }
         }
