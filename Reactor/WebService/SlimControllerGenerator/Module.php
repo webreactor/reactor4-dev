@@ -12,7 +12,6 @@ class Module extends \Reactor\Application\Module {
         $module_full_name = $this->getFullName();
         $generator = $this->get('generator');
         $controllers = $this->get('controllers');
-        print_r($controllers);
         $this->remove('generator');
         $this->remove('controllers');
         $namespace = \str_replace('/', '\\', $module_full_name);
