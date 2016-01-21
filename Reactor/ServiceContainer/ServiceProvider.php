@@ -52,7 +52,7 @@ class ServiceProvider implements ServiceProviderInterface {
         $this->scenario[] = array(
             'type' => 'create',
             'igniter' => $igniter,
-            'arguments' => $arguments,
+            'arguments' => (array)$arguments,
         );
         return $this;
     }
@@ -69,7 +69,7 @@ class ServiceProvider implements ServiceProviderInterface {
         $this->scenario[] = array(
             'type' => 'factory',
             'igniter' => $factory,
-            'arguments' => $arguments,
+            'arguments' => (array)$arguments,
         );
         return $this;
     }
@@ -78,7 +78,7 @@ class ServiceProvider implements ServiceProviderInterface {
         $this->scenario[] = array(
             'type' => 'call',
             'igniter' => $method_name,
-            'arguments' => $arguments,
+            'arguments' => (array)$arguments,
         );
         return $this;
     }
@@ -87,7 +87,7 @@ class ServiceProvider implements ServiceProviderInterface {
         $this->scenario[] = array(
             'type' => 'configurator',
             'igniter' => $configurator,
-            'arguments' => $arguments,
+            'arguments' => (array)$arguments,
         );
         return $this;
     }
