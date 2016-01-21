@@ -1,14 +1,31 @@
 {
     "modules": {
-        "memcache.connections": {
+        "wrapper.services": {
             "class" :"\\Reactor\\Wrapper\\Module",
             "config": {
                 "dynamic": {
-                    "connections": {
-                        "local": {
-                            "server1": {
-                                "host": "localhost",
-                                "port": 11211
+                    "services" : {
+                        "memcache": {
+                            "class": "\\Reactor\\Wrapper\\Memcache",
+                            "connections": {
+                                "local-memcache": {
+                                    "server1": {
+                                        "host": "localhost",
+                                        "port": 11211
+                                    }
+                                }
+                            }
+                        },
+                        "redis": {
+                            "class": "\\Reactor\\Wrapper\\Redis",
+                            "connections": {
+                                "local-redis": {
+                                    "server1": {
+                                        "scheme" : "tcp",
+                                        "host": "localhost",
+                                        "port": 6379
+                                    }
+                                }
                             }
                         }
                     }
@@ -17,6 +34,6 @@
         }
     },
     "dynamic": {
-        "cache": "@memcache.connections/local"
+        "cache": "@wrapper.services/local-memcache"
     }
 }

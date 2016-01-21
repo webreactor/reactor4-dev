@@ -22,10 +22,10 @@ class Memcache implements BaseStorageInterface {
             try {
                 $this->connection = new \Memcached();
                 foreach($this->servers as $server) {
-                    $this->connection->addServer($server[0], $server[1]);
+                    $this->connection->addServer($server["host"], $server["port"]);
                 }
             } catch (\Exception $ex) {
-                throw new MemcacheException($ex->getMessage(), $this);
+                throw new MemcacheException($ex->getMessage());
             }
         }
         return $this->connection;
@@ -35,7 +35,7 @@ class Memcache implements BaseStorageInterface {
         try {
             return $this->getConnection()->get($this->base_key . $key);
         } catch (\Exception $ex) {
-            throw new MemcacheException($ex->getMessage(), $this);
+            throw new MemcacheException($ex->getMessage());
         }
     }
 
@@ -43,7 +43,7 @@ class Memcache implements BaseStorageInterface {
         try {
             $this->getConnection()->set($this->base_key . $key, $value, $expiration_time);
         } catch (\Exception $ex) {
-            throw new MemcacheException($ex->getMessage(), $this);
+            throw new MemcacheException($ex->getMessage());
         }
     }
 
