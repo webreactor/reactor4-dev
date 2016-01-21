@@ -1,6 +1,6 @@
 <?php
 
-// $start = microtime(true);
+$start = microtime(true);
 $app = include '../bootstrap.php';
 // echo (microtime(true) - $start) ."\n";
 //$m = $app;
