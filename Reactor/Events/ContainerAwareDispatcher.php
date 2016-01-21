@@ -2,16 +2,21 @@
 
 namespace Reactor\Events;
 
-use Reactor\ServiceContainer\ServiceProvider;
+use \Reactor\Common\Traits\ExportableInterface;
+use \Reactor\Common\Traits\Exportable;
 
 class ContainerAwareDispatcher extends Dispatcher {
 
     protected $container;
     
-    use \Reactor\Common\Traits\Exportable;
+    use Exportable;
 
     public function setContainer($container) {
         $this->container = $container;
+    }
+
+    public function __sleep() {
+        $this->container = null;
     }
 
     protected function runCallback($callable, Event $event) {
@@ -29,4 +34,5 @@ class ContainerAwareDispatcher extends Dispatcher {
         }
         return $this;
     }
+
 }

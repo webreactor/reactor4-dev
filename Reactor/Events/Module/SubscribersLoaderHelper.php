@@ -9,8 +9,9 @@ class SubscribersLoaderHelper extends \Reactor\Application\Module {
 
     public function configure($container, $config = array()) {
         $configurator = parent::configure($container, $config);
-        $module_full_name = $this->getParent()->getFullName();
-        $dispatcher = $this->get('dispatcher');
+        $parent = $this->getParent();
+        $module_full_name = $parent->getFullName();
+        $dispatcher = $parent->get('dispatcher');
 
         if ($this->hasDirect('listeners')) {
             foreach ($this->getDirect('listeners') as $event => $subscribers) {

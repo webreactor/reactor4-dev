@@ -12,6 +12,7 @@ class Core {
         $this->dispatcher = $dispatcher;
         $this->router = $router;
         $this->render = $render;
+        $this->dispatcher->raise('web-app.init');
     }
 
     public function handleRequest($request) {
@@ -19,7 +20,8 @@ class Core {
             $request->metadata['render_task'] = new RenderTask();
             $request_response = new RequestResponse($request);
             $this->dispatcher->raise('web-app.received', $request_response);
-            
+
+            $this->dispatcher->raise('web-app.router.before', $request_response);
             $this->route($this->router, $request_response);
             $this->dispatcher->raise('web-app.routed', $request_response);
 
@@ -34,9 +36,7 @@ class Core {
         $render_task = $request_response->request->metadata['render_task'];
         while ($router instanceof RouterInterface && $render_task->routable) {
             $router_class = get_class($router);
-            $this->dispatcher->raise('web-app.router.before', array('router' => $router_class, 'request_response' => $request_response));
             $router = $router->route($request_response);
-            $this->dispatcher->raise('web-app.router.after', array('router' => $router_class, 'request_response' => $request_response));
         };
     }
 

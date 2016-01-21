@@ -1,11 +1,13 @@
 {
     "modules": {
-        "events": "\\Reactor\\Events\\Module\\SubscribersLoaderHelper"
-    },
-    "parameters": {
         "events": {
-            "listeners": {
-                "user.deleted": { "printer": "display" }
+            "class": "\\Reactor\\Events\\Module\\SubscribersLoaderHelper",
+            "config": {
+                "dynamic": {
+                    "listeners": {
+                        "user.deleted": { "printer": "display" }
+                    }
+                }
             }
         }
     },
