@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\Wrapper\Exceptions;
+namespace Reactor\KVStorage\Exceptions;
 
 class RedisException extends \Exception {
 }

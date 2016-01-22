@@ -1,10 +1,10 @@
 <?php
 
-namespace Reactor\Wrapper;
+namespace Reactor\KVStorage;
 
 use Predis\Client;
-use Reactor\Wrapper\Exceptions\RedisException;
-use Reactor\Wrapper\Interfaces\BaseStorageInterface;
+use Reactor\KVStorage\Exceptions\RedisException;
+use Reactor\KVStorage\Interfaces\BaseStorageInterface;
 
 class Redis implements BaseStorageInterface {
     private $connection = null, $servers = array(), $base_key = '';

@@ -4,7 +4,7 @@ namespace Reactor\WebSession;
 
 use Reactor\ServiceContainer\Reference;
 use Reactor\WebSession\Exceptions\WebSessionException;
-use Reactor\Wrapper\Interfaces\BaseStorageInterface;
+use Reactor\KVStorage\Interfaces\BaseStorageInterface;
 
 class Module extends \Reactor\Application\Module{
 

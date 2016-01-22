@@ -1,9 +1,9 @@
 <?php
 
-namespace Reactor\Wrapper;
+namespace Reactor\KVStorage;
 
-use Reactor\Wrapper\Exceptions\MemcacheException;
-use Reactor\Wrapper\Interfaces\BaseStorageInterface;
+use Reactor\KVStorage\Exceptions\MemcacheException;
+use Reactor\KVStorage\Interfaces\BaseStorageInterface;
 
 class Memcache implements BaseStorageInterface {
 

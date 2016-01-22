@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\Wrapper\Interfaces;
+namespace Reactor\KVStorage\Interfaces;
 
 interface BaseStorageInterface {
 

@@ -1,14 +1,14 @@
 {
     "modules": {
-        "wrapper.services": {
-            "class" :"\\Reactor\\Wrapper\\Module",
+        "storage.services": {
+            "class" :"\\Reactor\\KVStorage\\Module",
             "config": {
                 "dynamic": {
                     "services" : {
                         "memcache": {
-                            "class": "\\Reactor\\Wrapper\\Memcache",
                             "connections": {
                                 "local-memcache": {
+                                    "type": "memcache",
                                     "server1": {
                                         "host": "localhost",
                                         "port": 11211
@@ -17,9 +17,9 @@
                             }
                         },
                         "redis": {
-                            "class": "\\Reactor\\Wrapper\\Redis",
                             "connections": {
                                 "local-redis": {
+                                    "type": "redis",
                                     "server1": {
                                         "scheme" : "tcp",
                                         "host": "localhost",
@@ -34,6 +34,6 @@
         }
     },
     "dynamic": {
-        "cache": "@wrapper.services/local-memcache"
+        "cache": "@storage.services/local-memcache"
     }
 }

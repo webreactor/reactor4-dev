@@ -1,5 +1,7 @@
 <?php
-namespace Reactor\Wrapper;
+namespace Reactor\KVStorage;
+
+use Reactor\ServiceContainer\Reference;
 
 class Module extends \Reactor\Application\Module {
 
@@ -7,7 +9,8 @@ class Module extends \Reactor\Application\Module {
         $confugurator = parent::configure($container, $config);
         foreach ($this->get('services') as $name => $service) {
             foreach ($service['connections'] as $key => $connection) {
-                $this->createService($key, $service['class'], array($key, $connection));
+                $serv = $this->resolveProviders(new Reference($connection['type']));
+                $this->createService($key, get_class($serv), array($key, $connection));
             }
         }
     }

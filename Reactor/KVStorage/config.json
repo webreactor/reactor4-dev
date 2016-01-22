@@ -1,0 +1,12 @@
+{
+    "services": {
+        "redis": {
+            "create": "\\Reactor\\KVStorage\\Redis",
+            "arguments": ["", null]
+        },
+        "memcache": {
+            "create": "\\Reactor\\KVStorage\\Memcache",
+            "arguments": ["", null]
+        }
+    }
+}

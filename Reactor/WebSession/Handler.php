@@ -3,7 +3,7 @@
 namespace Reactor\WebSession;
 
 use Reactor\WebSession\Exceptions\WebSessionException;
-use Reactor\Wrapper\Interfaces\BaseStorageInterface;
+use Reactor\KVStorage\Interfaces\BaseStorageInterface;
 use SessionHandlerInterface;
 
 class Handler implements SessionHandlerInterface {
