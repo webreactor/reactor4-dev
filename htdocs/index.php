@@ -1,7 +1,11 @@
 <?php
 
 $start = microtime(true);
+session_start();
 $app = include '../bootstrap.php';
+$count = isset($_SESSION['count']) ? $_SESSION['count'] : 1;
+echo '<div style="border: 1px solid black;padding:10px;width:100px">'.$count.'</div>';
+$_SESSION['count'] = ++$count;
 // echo (microtime(true) - $start) ."\n";
 $m = $app;
 $m->__sleep();
