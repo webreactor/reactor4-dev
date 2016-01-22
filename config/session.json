@@ -4,9 +4,7 @@
             "class" :"\\Reactor\\WebSession\\Module",
             "config": {
                 "dynamic": {
-                    "storage": "@storage.services/local-redis",
-                    "handler": "\\Reactor\\WebSession\\Handler",
-                    "max_life_time": 1800
+                    "storage": "@storage.services/local-redis"
                 }
             }
         }

@@ -1,0 +1,11 @@
+{
+    "services": {
+        "handler": {
+            "create": "\\Reactor\\WebSession\\Handler",
+            "arguments": [ "@storage", "@max_life_time" ]
+        }
+    },
+    "static": {
+        "max_life_time": 1800
+    }
+}
