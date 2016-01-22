@@ -15,11 +15,7 @@ class Module extends \Reactor\Application\Module{
         if (!$this->has('storage')) {
             throw new WebSessionException('You must register a key-value storage for sessions');
         }
-        $storage = $this->resolveProviders(new Reference('storage'));
-        if (! $storage instanceof BaseStorageInterface) {
-            throw new WebSessionException('Storage must to implement \\Reactor\\Wrapper\\Interfaces\\BaseStorageInterface');
-        }
-        $this->createService($this->name, $this->get('handler'), array($storage, $this->get('max_life_time')));
+        $this->createService($this->name, $this->get('handler'), array(new Reference('storage'), $this->get('max_life_time')));
         $this->handler = $this->getDirect($this->name);
     }
 
