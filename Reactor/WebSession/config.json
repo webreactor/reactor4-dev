@@ -5,7 +5,7 @@
             "arguments": [ "@storage", "@max_life_time" ]
         }
     },
-    "static": {
+    "parameters": {
         "max_life_time": 1800
     }
 }
