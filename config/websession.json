@@ -5,9 +5,9 @@
             "config": {
                 "dynamic": {
                     "storages": [
-                        "@storage/local-memcache"
-                    ],
-                    "max_life_time": 1800
+                        "@kvstorage/local-memcache",
+                        "@kvstorage/local-redis"
+                    ]
                 }
             }
         }

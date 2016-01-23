@@ -1,0 +1,27 @@
+{
+    "modules": {
+        "events": {
+            "class": "\\Reactor\\Events\\Module\\SubscribersLoaderHelper",
+            "config": {
+                "dynamic": {
+                    "listeners": {
+                        "web-app.received": { "websession": "onLoad" }
+                    }
+                }
+            }
+        }
+    },
+    "services": {
+        "handler": {
+            "shared": true,
+            "create": "\\Reactor\\WebSession\\Handler",
+            "arguments": [
+                "@storages",
+                "@max_life_time"
+            ]
+        }
+    },
+    "parameters": {
+        "max_life_time": 1800
+    }
+}

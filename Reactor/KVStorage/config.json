@@ -1,0 +1,8 @@
+{
+    "parameters": {
+        "types" : {
+            "redis": "\\Reactor\\KVStorage\\Redis",
+            "memcache": "\\Reactor\\KVStorage\\Memcache"
+        }
+    }
+}

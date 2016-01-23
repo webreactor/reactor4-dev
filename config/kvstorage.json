@@ -1,6 +1,6 @@
 {
     "modules": {
-        "storage.connections": {
+        "kvstorage": {
             "class": "\\Reactor\\KVStorage\\Module",
             "config": {
                 "dynamic": {
@@ -26,6 +26,6 @@
         }
     },
     "dynamic": {
-        "cache": "@storage.connections/local-memcache"
+        "cache": "@kvstorage/local-memcache"
     }
 }
