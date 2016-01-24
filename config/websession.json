@@ -4,10 +4,7 @@
             "class": "\\Reactor\\WebSession\\Module",
             "config": {
                 "dynamic": {
-                    "storages": [
-                        "@kvstorage/local-memcache",
-                        "@kvstorage/local-redis"
-                    ]
+                    "storage": "@kvstorage/local-redis"
                 }
             }
         }

@@ -16,7 +16,7 @@
             "shared": true,
             "create": "\\Reactor\\WebSession\\Handler",
             "arguments": [
-                "@storages",
+                "@storage",
                 "@max_life_time"
             ]
         }
