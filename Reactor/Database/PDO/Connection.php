@@ -69,7 +69,7 @@ class Connection implements ConnectionInterface {
     }
 
     public function sql($query, $arguments = array()) {
-        if ($GLOBALS['debug']) {
+        if (!empty($GLOBALS['debug'])) {
             echo "\n$query ".json_encode($arguments)."<br>";
         }
         $statement = $this->getConnection()->prepare($query);
