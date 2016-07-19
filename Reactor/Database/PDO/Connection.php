@@ -158,7 +158,7 @@ class Connection implements ConnectionInterface {
         }
 
         if ($total_rows === null) {
-            $cnt_query = stristr('from', $query);
+            $cnt_query = stristr($query, 'from');
 
             $t = strripos($cnt_query, 'order by');
             if($t !== false) {
