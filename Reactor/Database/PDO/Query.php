@@ -2,56 +2,98 @@
 
 namespace Reactor\Database\PDO;
 
-use Reactor\Database\Interfaces\QueryInterface;
 use Reactor\Database\Exceptions as Exceptions;
+use Reactor\Database\Interfaces\QueryInterface;
 
-class Query implements QueryInterface {
-    protected
-        $stats = array(),
-        $statement,
-        $line = null,
-        $iterator_key = 0;
-
-    public function __construct($statement) {
+/**
+ * Class Query
+ *
+ * @package Reactor\Database\PDO
+ */
+class Query implements QueryInterface
+{
+    protected $stats = array();
+    protected $statement;
+    protected $line = null;
+    protected $iterator_key = 0;
+    
+    /**
+     * Query constructor.
+     *
+     * @param $statement \PDOStatement
+     */
+    public function __construct($statement)
+    {
         $this->statement = $statement;
     }
-
-    public function exec($parameters = array()) {
+    
+    /**
+     * @inheritdoc
+     *
+     * @throws \Reactor\Database\Exceptions\DatabaseException
+     */
+    public function exec($parameters = array())
+    {
         $this->statement->closeCursor();
-        $parameters = (array)$parameters;
+        
+        $parameters = (array) $parameters;
+        
         $this->stats['parameters'] = $parameters;
+        
         $execution_time = microtime(true);
+        
         try {
-            $this->statement->execute($parameters);    
+            $this->statement->execute($parameters);
         } catch (\PDOException $exception) {
-                throw new Exceptions\DatabaseException($exception->getMessage(), $this);
+            throw new Exceptions\DatabaseException($exception->getMessage(), $this);
         }
+        
         $this->stats['execution_time'] = microtime(true) - $execution_time;
+        
         return $this;
     }
-
-    public function __destruct() {
+    
+    /**
+     * @return void
+     */
+    public function __destruct()
+    {
         $this->statement->closeCursor();
     }
-
-    public function line($row = '*') {
+    
+    /**
+     * @inheritdoc
+     */
+    public function line($row = '*')
+    {
         $line = $this->statement->fetch(\PDO::FETCH_ASSOC);
+        
         if ($line) {
             if ($row == '*') {
                 return $line;
             }
+            
             return $line[$row];
         }
-
+        
         return null;
     }
-
-    public function free() {
+    
+    /**
+     * @inheritdoc
+     */
+    public function free()
+    {
         $this->statement->closeCursor();
     }
-
-    public function matr($key = null, $row = '*') {
+    
+    /**
+     * @inheritdoc
+     */
+    public function matr($key = null, $row = '*')
+    {
         $data = array();
+        
         if ($key === null) {
             if ($row == '*') {
                 $data = $this->statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -71,49 +113,83 @@ class Query implements QueryInterface {
                 }
             }
         }
-
+        
         return $data;
     }
-
-    public function count() {
+    
+    /**
+     * @inheritdoc
+     */
+    public function count()
+    {
         return $this->statement->rowCount();
     }
-
-    public function getStats() {
+    
+    /**
+     * @inheritdoc
+     */
+    public function getStats()
+    {
         $this->stats['query'] = $this->statement->queryString;
+        
         return $this->stats;
     }
-
-    // Hackish method if advanced PDO features are requred
-    public function getStatement() {
+    
+    /**
+     * Hackish method if advanced PDO features are requred
+     *
+     * @return \PDOStatement
+     */
+    public function getStatement()
+    {
         return $this->statement;
     }
-
-    public function current() {
+    
+    /**
+     * @inheritdoc
+     */
+    public function current()
+    {
         if (!$this->line) {
             $this->next();
         }
+        
         return $this->line;
     }
-
-    public function key() {
+    
+    /**
+     * @inheritdoc
+     */
+    public function key()
+    {
         return $this->iterator_key;
     }
-
-    public function next() {
+    
+    /**
+     * @inheritdoc
+     */
+    public function next()
+    {
         $this->line = $this->line();
         $this->iterator_key++;
         if (!$this->line) {
             $this->iterator_key = false;
         }
     }
-
-    public function rewind() {
+    
+    /**
+     * @inheritdoc
+     */
+    public function rewind()
+    {
         return $this->iterator_key = 0;
     }
     
-    public function valid() {
+    /**
+     * @inheritdoc
+     */
+    public function valid()
+    {
         return $this->iterator_key !== false;
     }
-
 }
