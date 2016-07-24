@@ -294,7 +294,7 @@ class Connection implements ConnectionInterface
             $from = ($page - 1) * $per_page;
             $data = $this->sql($query . ' limit ' . $from . ', ' . $per_page, $parameters)->matr();
         }
-        
+
         if ($total_rows === null) {
             $cnt_query = stristr($query, 'from');
             
@@ -303,7 +303,7 @@ class Connection implements ConnectionInterface
                 $cnt_query = substr($cnt_query, 0, $t);
             }
             
-            $total_rows = $this->sql('SELECT count(*) as `count` ' . $cnt_query)->line('count');
+            $total_rows = $this->sql('SELECT count(*) as `count` ' . $cnt_query, $parameters)->line('count');
         }
         
         $total_pages = ceil($total_rows / $per_page);
