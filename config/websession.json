@@ -1,0 +1,12 @@
+{
+    "modules": {
+        "websession": {
+            "class": "\\Reactor\\WebSession\\Module",
+            "config": {
+                "dynamic": {
+                    "storage": "@kvstorage/local-redis"
+                }
+            }
+        }
+    }
+}
