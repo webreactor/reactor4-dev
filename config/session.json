@@ -1,0 +1,14 @@
+{
+    "modules": {
+        "websession": {
+            "class" :"\\Reactor\\WebSession\\Module",
+            "config": {
+                "dynamic": {
+                    "storage": "@memcache.connections/local",
+                    "handler": "\\Reactor\\WebSession\\Handler",
+                    "max_life_time": 1800
+                }
+            }
+        }
+    }
+}

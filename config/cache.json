@@ -1,0 +1,22 @@
+{
+    "modules": {
+        "memcache.connections": {
+            "class" :"\\Reactor\\Wrapper\\Module",
+            "config": {
+                "dynamic": {
+                    "connections": {
+                        "local": {
+                            "server1": {
+                                "host": "localhost",
+                                "port": 11211
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "dynamic": {
+        "cache": "@memcache.connections/local"
+    }
+}
