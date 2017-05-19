@@ -23,19 +23,25 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
     }
 
     public function get($name, $default = '_throw_exception_') {
-        if (!isset($this->data[$name])) {
-            if ($this->parent !== null) {
-                $value = $this->parent->get($name, $default);
+        $scope = $this->findOwner($name);
+        if ($scope === null) {
+            if ($default === '_throw_exception_') {
+                throw new ValueNotFoundException("Not existing in the scope key [$name] ", 1);
             } else {
-                if ($default === '_throw_exception_') {
-                    throw new ValueNotFoundException("Not existing in the scope key [$name] ", 1);
-                } else {
-                    $value = $default;
-                }
+                return $default;
             }
-            return $value;
         }
-        return $this->getDirect($name);
+        return $scope->getDirect($name);
+    }
+
+    public function findOwner($name) {
+        if (isset($this->data[$name])) {
+            return $this;
+        }
+        if ($this->parent) {
+            return $this->parent->findOwner($name);
+        }
+        return null;
     }
 
     public function getDirect($name) {
@@ -73,10 +79,7 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
     }
 
     public function has($name) {
-        if (isset($this->data[$name])) {
-            return true;
-        }
-        return $this->parent !== null && $this->parent->has($name);
+        return $this->findOwner($name) !== null;
     }
 
     public function setAll($values) {

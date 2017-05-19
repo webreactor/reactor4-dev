@@ -6,17 +6,23 @@ class CachedServiceProvider implements ServiceProviderInterface {
     
     protected $value;
     protected $service;
+    protected $cached = false;
 
-    function __construct(ServiceProviderInterface $service) {
+    public function __construct(ServiceProviderInterface $service) {
         $this->service = $service;
     }
 
-    function getService($container) {
-        if ($this->service) {
+    public function getService($container) {
+        if (!$this->cached) {
             $this->value = $this->service->getService($container);
-            $this->service = null;
+            $this->cached = true;
         }
         return $this->value;
+    }
+
+    public function resetCache() {
+        $this->cached = fales;
+        $this->value = null;
     }
 
 }

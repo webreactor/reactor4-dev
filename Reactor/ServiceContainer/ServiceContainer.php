@@ -7,16 +7,14 @@ use \Reactor\Common\ValueScope\ValueScope;
 class ServiceContainer extends ValueScope {
 
     public function set($name, $value) {
-        if (is_executable($value)) {
-            $value = new CallbackServiceProvider($value);
-            $value = new CachedServiceProvider($value);
-        }
+        $value = $this->initProviders($value);
         parent::set($name, $value);
     }
 
-    public function setFactory($name, $value) {
-        if (is_executable($value)) {
-            $value = new CallbackServiceProvider($value);
+    public function setCached($name, $value) {
+        $value = $this->initProviders($value);
+        if ($value instanceof ServiceProviderInterface) {
+            $value = new CachedServiceProvider($value);
         }
         parent::set($name, $value);
     }
@@ -43,6 +41,13 @@ class ServiceContainer extends ValueScope {
 
     public function __unset($name) {
         $this->remove($name);
+    }
+
+    protected function initProviders($value) {
+        if (is_callable($value)) {
+            return new CallbackServiceProvider($value);
+        }
+        return $value;
     }
 
 }
