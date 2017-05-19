@@ -25,15 +25,15 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
     public function get($name, $default = '_throw_exception_') {
         if (!isset($this->data[$name])) {
             if ($this->parent !== null) {
-                $val = $this->parent->get($name, $default);
+                $value = $this->parent->get($name, $default);
             } else {
                 if ($default === '_throw_exception_') {
                     throw new ValueNotFoundException("Not existing in the scope key [$name] ", 1);
                 } else {
-                    $val = $default;
+                    $value = $default;
                 }
             }
-            return $val;
+            return $value;
         }
         return $this->getDirect($name);
     }
@@ -59,6 +59,13 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
 
     public function remove($name) {
         unset($this->data[$name]);
+    }
+
+    public function removeThrough($name) {
+        unset($this->data[$name]);
+        if ($this->parent) {
+            $this->parent->removeThrough($name);
+        }
     }
 
     public function set($name, $value) {
@@ -93,11 +100,11 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
     }
 
     public function offsetSet($name, $value) {
-        $this->data[$name] = $value;
+        $this->set($name, $value);
     }
 
     public function offsetUnset($name) {
-        unset($this->data[$name]);
+        $this->remove($name);
     }
 
 }
