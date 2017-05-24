@@ -1,9 +1,0 @@
-{
-    "dynamic": {
-        "folders": {
-            "base": "!BASE_DIR",
-            "var": "=~{@folders/base}var/",
-            "bin_generated": "=~{@folders/base}var/bin_generated/"
-        }
-    }
-}

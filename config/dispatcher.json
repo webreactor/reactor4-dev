@@ -1,5 +1,0 @@
-{
-    "modules": {
-        "dispatcher": "\\Reactor\\Events\\Module\\Module"
-    }
-}

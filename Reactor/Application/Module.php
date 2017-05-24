@@ -2,56 +2,36 @@
 
 namespace Reactor\Application;
 
-use Reactor\ServiceContainer\ServiceContainerConfigurator;
 use Reactor\ServiceContainer\ServiceContainer;
 
 class Module extends ServiceContainer {
 
     protected $dir = null;
     protected $name;
-    protected $full_name;
 
-    public function __construct($name = '', $data = array()) {
-        $this->full_name = $this->name = $name;
-        $this->data = $data;
+    public function __construct($name = '') {
+        $this->name = $name;
     }
 
     public function getFullName() {
-        return $this->full_name;
+        if ($this->parent) {
+            return $this->parent->getFullName().'/'.$this->name;
+        }
+        return '/'.$this->name;
     }
 
     public function getName() {
         return $this->name;
     }
 
-    public function createConfigurator() {
-        $configurator = new ServiceContainerConfigurator($this);
-        $configurator->setProcessor('modules', new ModulesConfigProcessor($configurator));
-        return $configurator;
-    }
-
-    public function configure($container, $config = array()) {
-        if ($container !== null) {
-            $this->setParent($container);
-            $this->full_name = $this->parent->getFullName().'/'.$this->name;
-        }
-
-        $configurator = $this->createConfigurator();
-        $config_file = $this->getDir().'config.json';
-        if (is_file($config_file)) {
-            $configurator->addPath($config_file);
-        }
-
-        $configurator->addConfig($config);
-        $configurator->load();
-        return $configurator;
+    public function configure($config = array()) {
     }
 
     public function loadModule($name, $module_class, $config = array()) {
-        $data = array();
         $module = new $module_class($name);
+        $module->setParent($this);
         $this->set($name, $module);
-        $module->configure($this, $config);
+        $module->configure($config);
         return $module;
     }
 
@@ -61,11 +41,6 @@ class Module extends ServiceContainer {
             $this->dir = dirname($ref->getFileName()).'/';
         }
         return $this->dir;
-    }
-
-    public function __sleep() {
-        parent::__sleep();
-        $this->dir = null;
     }
 
 }
