@@ -3,12 +3,14 @@
 namespace Reactor\Application;
 
 use Reactor\ServiceContainer\ServiceContainer;
+use Reactor\ServiceContainer\ServiceProviderInterface;
 use Reactor\Common\Tools\ArrayTools;
 
-class Module extends ServiceContainer {
+class Module extends ServiceContainer implements ServiceProviderInterface {
 
     protected $dir = null;
     protected $name;
+    protected $is_init = false;
 
     public function __construct($name) {
         $this->name = $name;
@@ -25,20 +27,33 @@ class Module extends ServiceContainer {
         return $this->name;
     }
 
-    public function configure() {
+    public function onLoad() {
     }
 
-    public function addRawData($values) {
-        $this->data = array_merge($this->data, $values);
+    public function init() {
+    }
+
+    public function getService($container) {
+        if (!$this->is_init) {
+            $this->is_init = true;
+            $this->init();
+        }
+        return $this;
+    }
+
+    public function addAll($values) {
+        foreach ($values as $key => $value) {
+            $module->set($key, $value);
+        }
     }
 
     public function loadModule($name, $module_class, $config = array()) {
         $module = new $module_class($name);
-        $module->addRawData($this->get($name, array()));
-        $module->addRawData($config);
-        $module->setParent($this);
         $this->set($name, $module);
-        $module->configure();
+        $module->setParent($container);
+        $module->addAll($this->get($name, array()));
+        $module->addAll($config);
+        $module->onLoad();
         return $module;
     }
 

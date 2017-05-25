@@ -4,6 +4,11 @@ define('BASE_DIR', __dir__.'/');
 
 include BASE_DIR.'vendor/autoload.php';
 
+include BASE_DIR.'config/Application.php';
+
+$app = new \Mod\Application\Application();
+$app->loadConfig();
+
 // $app_cache = new \Reactor\Application\ApplicationCacher(BASE_DIR.'var/bin_generated/');
 
 // return $app_cache->get(
@@ -13,3 +18,5 @@ include BASE_DIR.'vendor/autoload.php';
 //         return $app;
 //     }, 'application', false
 // );
+
+return $app;
