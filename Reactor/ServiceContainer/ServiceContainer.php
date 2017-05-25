@@ -16,13 +16,27 @@ class ServiceContainer extends ValueScope {
         if ($value instanceof ServiceProviderInterface) {
             $value = new CachedServiceProvider($value);
         }
-        parent::set($name, $value);
+        $this->set($name, $value);
     }
 
     public function get($name, $default = '_throw_exception_') {
         $value = parent::get($name, $default);
         if ($value instanceof ServiceProviderInterface) {
             return $value->getService($this);
+        }
+        return $value;
+    }
+
+    public function getByPath($path = '', $default = '_throw_exception_') {
+        $path = trim($path,'/');
+        if ($path == '') {
+            return $this;
+        }
+        $path_words = explode('/', );
+        $words_cnt = count($path_words);
+        $value = $this;
+        for ($current = 0; $current < $words_cnt; $current++) {
+            $value = $value[$path_words[$current]];
         }
         return $value;
     }

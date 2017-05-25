@@ -3,13 +3,14 @@
 namespace Reactor\Application;
 
 use Reactor\ServiceContainer\ServiceContainer;
+use Reactor\Common\Tools\ArrayTools;
 
 class Module extends ServiceContainer {
 
     protected $dir = null;
     protected $name;
 
-    public function __construct($name = '') {
+    public function __construct($name) {
         $this->name = $name;
     }
 
@@ -24,14 +25,20 @@ class Module extends ServiceContainer {
         return $this->name;
     }
 
-    public function configure($config = array()) {
+    public function configure() {
+    }
+
+    public function addRawData($values) {
+        $this->data = array_merge($this->data, $values);
     }
 
     public function loadModule($name, $module_class, $config = array()) {
         $module = new $module_class($name);
+        $module->addRawData($this->get($name, array()));
+        $module->addRawData($config);
         $module->setParent($this);
         $this->set($name, $module);
-        $module->configure($config);
+        $module->configure();
         return $module;
     }
 
