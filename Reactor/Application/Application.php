@@ -2,16 +2,14 @@
 
 namespace Reactor\Application;
 
-class Application extends Module {
+use Reactor\ServiceContainer\Reference;
 
-    public function __construct($name) {
-        parent::__construct('application');
-    }
+class Application extends Module {
 
     public function loadConfig($config = array()) {
         $this->data = array();
         $this->is_init = true;
-        $this->set('application', new Reference());
+        $this->set($this->name, new Reference());
         $this->addAll($config);
         $this->onLoad();
         $this->init();
