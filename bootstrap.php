@@ -6,7 +6,7 @@ include BASE_DIR.'vendor/autoload.php';
 
 include BASE_DIR.'config/Application.php';
 
-$app = new \Mod\Application\Application();
+$app = new \Myproject\Application();
 $app->loadConfig();
 
 // $app_cache = new \Reactor\Application\ApplicationCacher(BASE_DIR.'var/bin_generated/');

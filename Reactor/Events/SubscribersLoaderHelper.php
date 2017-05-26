@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\Events\Module;
+namespace Reactor\Events;
 
 use \Reactor\ServiceContainer\Reference;
 use \Reactor\Application\Exceptions\ModuleConfiguratorException;
