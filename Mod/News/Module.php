@@ -7,7 +7,7 @@ use Reactor\ServiceContainer\Reference;
 class Module extends \Reactor\Application\Module {
 
     public function init() {
-        $this->set('printer', new Printer());
+        $this->setService('printer', new Printer());
     }
 
     public function onLoad() {

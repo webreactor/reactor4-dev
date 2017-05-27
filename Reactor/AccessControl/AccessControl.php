@@ -2,26 +2,40 @@
 
 namespace Reactor\AccessControl;
 
-class AccessControl implements AccessControlInterface {
+use Reactor\ServiceContainer\ServiceProviderInterface;
+
+class AccessControl implements AccessControlInterface, ServiceProviderInterface {
 
     protected $user;
 
-    public function __construct($user, $container, $acl_dao) {
+    public function __construct($user, $acl) {
         $this->user = $user;
-        $this->container = $container;
-        $this->acl_dao = $acl_dao;
+        $this->acl = $acl;
     }
 
     public function hasAccess($service_name, $method_name, $arguments = array()) {
-        $method_permission = $this->acl_dao->getMethod($this->user->getGroups(), $service_name, $method_name);
+        $method_permission = $this->acl->getMethod($this->user, $service_name, $method_name);
         if ($method_permission !== false) {
             if (is_string($method_permission)) {
                 $handler = $this->container->getByPath($method_permission);
-                return $handler->hasAccess($user, $name, $method_name, $arguments);
+                return $handler->hasAccess($this->user, $name, $method_name, $arguments);
             }
             return true;
         }
         return false;
+    }
+
+    public function getServices() {
+        $this->acl->getServices($this->user);
+    }
+
+    public function getMethods($service_name) {
+        $this->acl->getMethods($this->user, $service_name);
+    }
+
+    public function getService($container) {
+        $this->container = $container;
+        return $this;
     }
 
 }

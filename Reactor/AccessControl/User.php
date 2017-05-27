@@ -7,8 +7,8 @@ class User {
     protected $id;
     protected $groups = array();
 
-    function __construct($id, $groups) {
-        $this->id = $id,
+    public function __construct($id, $groups) {
+        $this->id = $id;
         $this->groups = $groups;
     }
 

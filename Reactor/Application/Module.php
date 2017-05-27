@@ -6,6 +6,7 @@ use Reactor\ServiceContainer\ServiceContainer;
 use Reactor\ServiceContainer\ServiceProviderInterface;
 use Reactor\ServiceContainer\Reference;
 
+use Reactor\AccessControl\Zone;
 
 class Module extends ServiceContainer implements ServiceProviderInterface {
 
@@ -24,6 +25,12 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
             $this->init();
         }
         return $this;
+    }
+
+    public function setService($name, $value) {
+        $value = $this->initProviders($value);
+        $value = new Zone($name, $value);
+        $this->set($name, $value);
     }
 
     public function loadModule($name, $module_class, $config = array()) {

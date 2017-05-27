@@ -7,7 +7,6 @@ use \Reactor\Common\ValueScope\ValueScope;
 class ServiceContainer extends ValueScope {
 
     protected $name = '';
-    protected $full_name = '/';
 
     public function set($name, $value) {
         $value = $this->initProviders($value);
@@ -67,11 +66,6 @@ class ServiceContainer extends ValueScope {
 
     public function setName($name) {
         $this->name = $name;
-        if ($this->parent) {
-            $this->full_name = $this->parent->getFullName().$name.'/';
-        } else {
-            $this->full_name = '/';
-        }
     }
 
     public function getName() {
@@ -79,7 +73,10 @@ class ServiceContainer extends ValueScope {
     }
 
     public function getFullName() {
-        return $this->full_name;
+        if ($this->parent) {
+            return $this->parent->getFullName().$this->name.'/';
+        }
+        return '/';
     }
 
     public function getReference($path = '', $local = false) {

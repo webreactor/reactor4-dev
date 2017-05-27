@@ -1,5 +1,5 @@
 <?php
-
+return;
 include_once 'gekkon.php';
 Gekkon::include_dir('compiler');
 
