@@ -28,9 +28,20 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
     }
 
     public function setService($name, $value) {
-        $value = $this->initProviders($value);
-        $value = new Zone($name, $value);
+        foreach ($this->get('service_wrappers', array()) as $wrapper) {
+            $value = $wrapper->wrap($this, $name, $value);
+        }
         $this->set($name, $value);
+    }
+
+    public function resovleService($path_or_service, $default = '_throw_exception_') {
+        if (is_string($path_or_service)) {
+            return $this->getByPath($path_or_service, $default);
+        }
+        if ($path_or_service instanceof ServiceProviderInterface) {
+            return $path_or_service->getService($container);
+        }
+        return $path_or_service;
     }
 
     public function loadModule($name, $module_class, $config = array()) {

@@ -9,6 +9,7 @@ class Zone implements ServiceProviderInterface {
 
     protected $service;
     protected $access_control;
+    protected $container;
     protected $is_init = false;
 
     public function __construct($name, $service, $access_control = 'access_control') {
@@ -20,9 +21,9 @@ class Zone implements ServiceProviderInterface {
     public function zoneExecute($method_name, $arguments = array()) {
         if ($this->access_control && !$this->access_control->hasAccess($this->name, $method_name, $arguments)) {
             return null;
-            throw new Exception("Dont have access to {$this->name}->{$method_name}", 1);
+            throw new Exception("No access to {$this->name}->{$method_name}", 1);
         }
-        return call_user_method_array($method_name, $this->service, $arguments);
+        return call_user_method_array($method_name, $container->resolveService($this->service), $arguments);
     }
 
     public function __call($name, $arguments) {
@@ -30,14 +31,10 @@ class Zone implements ServiceProviderInterface {
     }
 
     public function getService($container) {
-        if (!$this->is_init) {
+        if ($this->is_init) {
             $this->is_init = true;
-            if (is_string($this->service)) {
-                $this->service = $container->get($this->service);
-            }
-            if (is_string($this->access_control)) {
-                $this->access_control = $container->get($this->access_control, null);
-            }
+            $this->container = $container;
+            $this->access_control = $container->resolveService($this->access_control, null);
         }
         return $this;
     }

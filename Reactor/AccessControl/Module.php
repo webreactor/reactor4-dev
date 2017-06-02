@@ -6,9 +6,8 @@ class Module extends \Reactor\Application\Module {
 
     public function init() {
         $root = $this->getRoot();
-        if (!$this->has('access_control_list')) {
-            $this->set('access_control_list', new AccessControlList());    
-        }
+        $root->get('service_wrappers')['access_control'] = new ServiceWrapper();
+        $this->set('access_control_list', new AccessControlList());
         $root->set('access_control', new AccessControl($this->get('user'), $this->get('access_control_list')));
     }
 

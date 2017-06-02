@@ -9,7 +9,6 @@ class ServiceContainer extends ValueScope {
     protected $name = '';
 
     public function set($name, $value) {
-        $value = $this->initProviders($value);
         if ($value instanceof ServiceContainer) {
             $value->setParent($this);
             $value->setName($name);
@@ -23,16 +22,8 @@ class ServiceContainer extends ValueScope {
         }
     }
 
-    public function setCached($name, $value) {
-        $value = $this->initProviders($value);
-        if ($value instanceof ServiceProviderInterface) {
-            $value = new CachedServiceProvider($value);
-        }
-        $this->set($name, $value);
-    }
-
-    public function get($name, $default = '_throw_exception_') {
-        $value = parent::get($name, $default);
+    public function getDirect($name) {
+        $value = $this->data[$name];
         if ($value instanceof ServiceProviderInterface) {
             return $value->getService($this);
         }
@@ -53,13 +44,6 @@ class ServiceContainer extends ValueScope {
         $words_cnt = count($path_words);
         for ($current = 0; $current < $words_cnt; $current++) {
             $value = $value[$path_words[$current]];
-        }
-        return $value;
-    }
-
-    protected function initProviders($value) {
-        if (is_callable($value)) {
-            return new CallbackServiceProvider($value);
         }
         return $value;
     }

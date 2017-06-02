@@ -7,6 +7,8 @@ use Reactor\ServiceContainer\ServiceProviderInterface;
 class AccessControl implements AccessControlInterface, ServiceProviderInterface {
 
     protected $user;
+    protected $acl;
+    protected $container;
 
     public function __construct($user, $acl) {
         $this->user = $user;
