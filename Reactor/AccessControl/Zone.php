@@ -23,7 +23,7 @@ class Zone implements ServiceProviderInterface {
             return null;
             throw new Exception("No access to {$this->name}->{$method_name}", 1);
         }
-        return call_user_method_array($method_name, $container->resolveService($this->service), $arguments);
+        return call_user_method_array($method_name, $this->container->resolveService($this->service), $arguments);
     }
 
     public function __call($name, $arguments) {
@@ -31,7 +31,7 @@ class Zone implements ServiceProviderInterface {
     }
 
     public function getService($container) {
-        if ($this->is_init) {
+        if (!$this->is_init) {
             $this->is_init = true;
             $this->container = $container;
             $this->access_control = $container->resolveService($this->access_control, null);

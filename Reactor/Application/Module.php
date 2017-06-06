@@ -29,12 +29,12 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
 
     public function setService($name, $value) {
         foreach ($this->get('service_wrappers', array()) as $wrapper) {
-            $value = $wrapper->wrap($this, $name, $value);
+            $value = $wrapper->wrap($this, $this->getFullName().$name, $value);
         }
         $this->set($name, $value);
     }
 
-    public function resovleService($path_or_service, $default = '_throw_exception_') {
+    public function resolveService($path_or_service, $default = '_throw_exception_') {
         if (is_string($path_or_service)) {
             return $this->getByPath($path_or_service, $default);
         }

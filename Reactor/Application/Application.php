@@ -10,6 +10,7 @@ class Application extends Module {
         $this->data = array();
         $this->is_init = true;
         $this->addAll($config);
+        $this->set('service_wrappers', new \ArrayObject());
         $this->onLoad();
         $this->init();
     }

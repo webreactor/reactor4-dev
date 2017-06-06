@@ -6,6 +6,6 @@ use Reactor\ServiceContainer\ServiceProviderInterface;
 
 interface ServiceWrapperInterface {
 
-    public function wrap($name, $value);
+    public function wrap($container, $name, $value);
 
 }
