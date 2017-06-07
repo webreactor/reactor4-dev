@@ -44,8 +44,7 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
         return $path_or_service;
     }
 
-    public function loadModule($name, $module_class, $config = array()) {
-        $module = new $module_class();
+    public function loadModule($name, $module, $config = array()) {
         $parent_config = $this->get($name, array());
         $this->set($name, $module);
         $module->addAll($parent_config);

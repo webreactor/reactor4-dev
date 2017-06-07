@@ -23,7 +23,7 @@ class Zone implements ServiceProviderInterface {
             return null;
             throw new Exception("No access to {$this->name}->{$method_name}", 1);
         }
-        return call_user_method_array($method_name, $this->container->resolveService($this->service), $arguments);
+        return call_user_func_array(array($this->container->resolveService($this->service), $method_name), $arguments);
     }
 
     public function __call($name, $arguments) {
