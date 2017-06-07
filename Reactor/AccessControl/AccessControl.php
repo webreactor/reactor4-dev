@@ -4,13 +4,14 @@ namespace Reactor\AccessControl;
 
 use Reactor\ServiceContainer\ServiceProviderInterface;
 
-class AccessControl implements AccessControlInterface, ServiceProviderInterface {
+class AccessControl implements AccessControlInterface {
 
     protected $user;
     protected $acl;
     protected $container;
 
-    public function __construct($user, $acl) {
+    public function __construct($container, $user, $acl) {
+        $this->container = $container;
         $this->user = $user;
         $this->acl = $acl;
     }
@@ -33,11 +34,6 @@ class AccessControl implements AccessControlInterface, ServiceProviderInterface 
 
     public function getMethods($service_name) {
         $this->acl->getMethods($this->user, $service_name);
-    }
-
-    public function getService($container) {
-        $this->container = $container;
-        return $this;
     }
 
 }

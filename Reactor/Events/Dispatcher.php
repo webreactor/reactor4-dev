@@ -26,7 +26,7 @@ class Dispatcher {
         $this->cache = array();
     }
 
-    public function addSubscriber(SubscriberInterface $subscriber) {
+    public function addSubscriber($subscriber) {
         foreach ($subscriber->getEventHandlers() as $event_name => $method_name) {
             $this->addListener($event_name, array($subscriber, $method_name));
         }

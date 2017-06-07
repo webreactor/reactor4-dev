@@ -39,7 +39,7 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
             return $this->getByPath($path_or_service, $default);
         }
         if ($path_or_service instanceof ServiceProviderInterface) {
-            return $path_or_service->getService($container);
+            return $path_or_service->getService($this);
         }
         return $path_or_service;
     }
