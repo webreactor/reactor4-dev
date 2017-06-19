@@ -19,7 +19,7 @@ class Zone implements ServiceProviderInterface {
     }
 
     public function zoneExecute($method_name, $arguments = array()) {
-        if ($this->access_control && !$this->access_control->hasAccess($this->name, $method_name, $arguments)) {
+        if (!$this->access_control->hasAccess($this->name, $method_name, $arguments)) {
             return null;
             throw new Exception("No access to {$this->name}->{$method_name}", 1);
         }
@@ -34,7 +34,7 @@ class Zone implements ServiceProviderInterface {
         if (!$this->is_init) {
             $this->is_init = true;
             $this->container = $container;
-            $this->access_control = $container->resolveService($this->access_control, null);
+            $this->access_control = $container->resolveService($this->access_control);
         }
         return $this;
     }

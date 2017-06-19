@@ -13,7 +13,7 @@ class Reference implements ServiceProviderInterface {
 
     public function getService($container = null) {
         if ($this->loading) {
-            throw new Exceptions\CircularReferenceException("Circular reference [{$this->path}]");
+            throw new \Exception("Circular reference [{$this->path}]");
         }
         $this->loading = true;
         $val = $container->getByPath($this->path);

@@ -27,11 +27,8 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
         return $this;
     }
 
-    public function setService($name, $value) {
-        foreach ($this->get('service_wrappers', array()) as $wrapper) {
-            $value = $wrapper->wrap($this, $this->getFullName().$name, $value);
-        }
-        $this->set($name, $value);
+    public function setSecure($name, $value, $access_control = 'access_control') {
+        $this->set($name, new Zone($name, $value, $access_control));
     }
 
     public function resolveService($path_or_service, $default = '_throw_exception_') {
@@ -47,6 +44,8 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
     public function loadModule($name, $module, $config = array()) {
         $parent_config = $this->get($name, array());
         $this->set($name, $module);
+        $module->setParent($this);
+        $module->setName($name);
         $module->addAll($parent_config);
         $module->addAll($config);
         $module->onLoad();

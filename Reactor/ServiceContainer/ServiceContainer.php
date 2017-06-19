@@ -9,11 +9,19 @@ class ServiceContainer extends ValueScope {
     protected $name = '';
 
     public function set($name, $value) {
-        if ($value instanceof ServiceContainer) {
-            $value->setParent($this);
-            $value->setName($name);
+        parent::set($name, $this->prepareValue($value));
+    }
+
+    public function setCached($name, $value) {
+        $value = $this->prepareValue($value);
+        parent::set($name, new CachedServiceProvider($value));
+    }
+
+    public function prepareValue($value) {
+        if (is_callable($value)) {
+            $value = new CallbackServiceProvider($value);
         }
-        parent::set($name, $value);
+        return $value;
     }
 
     public function addAll($values) {
@@ -73,7 +81,7 @@ class ServiceContainer extends ValueScope {
     }
 
     public function setReference($name, $path) {
-        $this->set($name, $this->getReference($path));
+        $this->set($name, $this->getReference($path, true));
     }
 
 }

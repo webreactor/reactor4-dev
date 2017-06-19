@@ -5,12 +5,12 @@ $start = microtime(true);
 
 $app = include '../bootstrap.php';
 
-echo (microtime(true) - $start) ." start\n";
+echo (microtime(true) - $start) ." bootstrapped\n";
 
 $app = new \Myproject\Application();
 $app->loadConfig();
 
-echo (microtime(true) - $start) ." loaded\n";
+echo (microtime(true) - $start) ." app loaded\n";
 
 // print_r($app);
 
