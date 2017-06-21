@@ -25,7 +25,10 @@ class QueryParameters extends ValueScopeArray {
 
     public function getString($name, $default = null) {
         $value = $this->get($name, $default);
-        return StringTools::sanitizeBin($value);
+        if ($value !== null) {
+            return StringTools::sanitizeBin($value);
+        }
+        return $default;
     }
 
     public function buildQueryString($override = array()) {
