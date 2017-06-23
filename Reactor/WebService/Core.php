@@ -16,7 +16,6 @@ class Core {
 
     public function handleRequest($request) {
         try {
-            $request->metadata['render_task'] = new RenderTask();
             $request_response = new RequestResponse($request);
             $this->dispatcher->raise('web-app.received', $request_response);
 
@@ -29,4 +28,5 @@ class Core {
             die('WebApplication Core caught exception: '. $e->getMessage(). "\n");
         }
     }
+
 }
