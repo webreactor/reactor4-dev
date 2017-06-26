@@ -9,10 +9,8 @@ class StandardRouterContext {
     public $node = null;
     public $steps = array();
 
-    public function construct($words) {
+    public function __construct($words) {
         $this->words = $words;
-        $this->current_word = 0;
-        $this->node = null;
     }
 
 }
