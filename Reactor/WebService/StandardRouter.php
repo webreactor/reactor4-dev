@@ -11,22 +11,16 @@ class StandardRouter implements RouterInterface {
     }
 
     public function route($request_responce) {
-        if (isset($request->request->meta_data['router_context'])) {
-            $context = $request->request->meta_data['router_context'];
-        } else {
-            $context = $this->createContext($path, $request_responce);
+        $request = $request_responce->request;
+        if (!isset($request->meta_data['router_context'])) {
+            $request->meta_data['router_context'] = $this->createContext($request);
         }
-        return $this->parseUrl($context);
+        return $this->parseUrl($request->meta_data['router_context']);
     }
 
-    public function createContext($path, $request_responce) {
-        $request = $request_responce->request;
-        $context = new StandardRouterContext();
-        $context->request = $request;
-        $context->words = explode('/', rtrim('root'.$request->link->path, '/'));
-        $context->site_tree = $this->site_tree;
-        $context->task = $request->metadata['render_task'];
-        return $context;
+    public function createContext($request) {
+        $words = explode('/', rtrim('root'.$request->link->path, '/'));
+        return new StandardRouterContext($words);
     }
 
     public function parseUrl($context) {
