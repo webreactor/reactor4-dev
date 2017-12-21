@@ -17,8 +17,8 @@ class Module extends \Reactor\Application\Module {
         $namespace = \str_replace('/', '\\', $module_full_name);
         foreach ($controllers as $controller_name => $definition) {
             $class_name = $namespace.'\\'.$controller_name;
-            $full_class_name = $generator->generate($class_name, $definition);
-            $this->createService($controller_name, $full_class_name, [ new Reference($module_full_name) ]);
+            $full_class_name = $generator->generate($class_name, $definition, $module_full_name);
+            $this->createService($controller_name, $full_class_name, [ new Reference('uac') ]);
         }
     }
 

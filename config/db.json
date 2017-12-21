@@ -8,10 +8,10 @@
                         "local": {
                             "user": "root",
                             "password": "anabios",
-                            "database": "anabios",
+                            "database": "spec",
+                            "host": "localhost",
                             "link2": "=mysql:dbname={@connections/local/database};host={@connections/local/host}+++{@connections/local/link}",
-                            "link": "=mysql:dbname={@connections/local/database};host={@connections/local/host}",
-                            "host": "anabios"
+                            "link": "=mysql:dbname={@connections/local/database};host={@connections/local/host}"
                         }
                     }
                 }

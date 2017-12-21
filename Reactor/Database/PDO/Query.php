@@ -24,7 +24,7 @@ class Query implements QueryInterface {
         try {
             $this->statement->execute($parameters);    
         } catch (\PDOException $exception) {
-                throw new Exceptions\DatabaseException($exception->getMessage(), $this);
+            throw new Exceptions\DatabaseException($exception->getMessage(), $this);
         }
         $this->stats['execution_time'] = microtime(true) - $execution_time;
         return $this;

@@ -42,7 +42,7 @@ class StandardRouter implements RouterInterface {
             $word = '_default';
         }
         if (!isset($context->site_tree[$word])) {
-            $context->step = $this->site_tree['404'];
+            $context->step = $this->site_tree['root'];
         } else {
             $context->site_tree = $context->site_tree[$word];
             $context->step = $context->site_tree['_node'];

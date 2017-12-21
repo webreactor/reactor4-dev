@@ -9,14 +9,14 @@ class Generator {
         $this->bin_dir = $bin_dir;
     }
 
-    public function generate($class_name, $definition) {
+    public function generate($class_name, $definition, $module_full_name) {
         $full_class_name = 'ReactorGenerated\\SlimControllers\\'.$class_name;
         $file_name = $this->bin_dir.'SlimControllers/'.\str_replace('\\', '/', $class_name).'.php';
 
         $t = strrpos($full_class_name, '\\');
         $namespace = substr($full_class_name, 0, $t);
         $class_name = substr($full_class_name, $t + 1);
-        $builder = new ControllerSourceGenerator($class_name, $definition);
+        $builder = new ControllerSourceGenerator($class_name, $definition, $module_full_name);
 
         $bin_dir = dirname($file_name);
         if (!is_dir($bin_dir)) {
