@@ -61,14 +61,12 @@ class StandardRouter implements RouterInterface {
                 $context->request->get[$key] = array_merge([$word], $context->words);
                 $context->words = array();
             }
-
-            $context->assigned = true;
         }
     }
 
     public function getRouter($word, $context) {
         if (isset($context->step['router'])) {
-            if ($context->assigned) {
+            if ($context->step['variable']) {
                 $context->request->link->path = '/'.implode('/', $context->words);    
             } else {
                 $context->request->link->path = '/'.$word.'/'.implode('/', $context->words);    

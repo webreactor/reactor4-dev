@@ -8,7 +8,6 @@ class StandardRouterContext {
     public $site_tree;
     public $task;
     public $words;
-    public $assigned = false;
     public $step;
 
 }
