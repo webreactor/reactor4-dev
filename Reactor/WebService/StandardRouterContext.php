@@ -4,10 +4,19 @@ namespace Reactor\WebService;
 
 class StandardRouterContext {
 
-    public $request;
-    public $site_tree;
-    public $task;
     public $words;
     public $step;
+    public $current_word = 0;
+    public $node = null;
+    public $path = array();
+
+    public function __construct($words) {
+        $this->words = $words;
+    }
+
+    public function registerNode($node) {
+        $this->path[] = $node;
+        $this->node = $node;
+    }
 
 }
