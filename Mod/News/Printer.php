@@ -4,7 +4,7 @@ namespace Mod\News;
 
 class Printer {
     public function display($a) {
-        // echo "ok";
+        echo "printer\n";
         //print_r($a);
     }
 }

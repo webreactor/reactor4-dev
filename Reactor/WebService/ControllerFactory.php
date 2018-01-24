@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\WebApp;
+namespace Reactor\WebService;
 
 class ControllerFactory {
 
@@ -10,7 +10,7 @@ class ControllerFactory {
         $this->container = $container;
     }
 
-    function getController($name) {
+    function getController($request) {
         if (is_object($name)) {
             return $name;
         }
@@ -19,9 +19,6 @@ class ControllerFactory {
         }
         if (class_exists($name)) {
             return new $name($container);
-        }
-        if (is_callable($name)) {
-            return $name;
         }
         return $name;
     }

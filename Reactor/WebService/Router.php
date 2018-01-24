@@ -1,12 +1,12 @@
 <?php
 
-namespace Reactor\WebApp;
+namespace Reactor\WebService;
 
 class Router {
 
-    function routeStr($path, $tree) {
-        $rez = new RouterContext($this->normalizePath($path));
-        return $this->route($rez, $tree);
+    function routeRequest($request, $tree) {
+        $context = new RouterContext($this->normalizePath($request->path));
+        $request->metadata['route'] = $this->route($context, $tree);
     }
 
     function route($rez, $tree) {
@@ -19,9 +19,9 @@ class Router {
                 $tree_pointer = &$tree_pointer['nodes'][$step];
             } else {
                 if (isset($tree_pointer['nodes']['{variable}'])) {
-                    $tree_pointer = &$tree_pointer['nodes']['{variable}'];
+                    $tree_pointer = &$tree_pointer['nodes'][$step];
                 } else {
-                    return $rez->apply404();    
+                    return $rez->apply404();
                 }
             }
             $this->applyNode($rez, $tree_pointer);
@@ -35,7 +35,7 @@ class Router {
             $rez->variables[$node['name']] = $rez->path[$rez->cursor];
         }
         if (isset($node['router'])) {
-            call_user_func_array($this->getRouter($node['router']), array($rez, $node));
+            $this->getRouter($node['router'])->route($rez, $node);
         }
         if (isset($node['nodes']['404'])) {
             $rez->not_found_node = $node['nodes']['404'];
@@ -59,7 +59,7 @@ class Router {
         if ($path == '') {
             $path = array();
         } else {
-            $path = explode('/', $path);    
+            $path = explode('/', $path);
         }
         return $path;
     }

@@ -2,7 +2,6 @@
 $start = microtime(true);
 
 
-
 $app = include '../bootstrap.php';
 
 echo (microtime(true) - $start) ." bootstrapped\n";
@@ -18,7 +17,24 @@ echo (microtime(true) - $start) ." app loaded\n";
 //echo (microtime(true) - $start) ."\n";
 // echo (microtime(true) - $start) ."\n";
 //$app->web_service->handleGlobalRequest();
-$app->get('dispatcher')->raise('user.deleted', array('test'));
+//$app->get('dispatcher')->raise('user.deleted', array('test'));
 
-echo (microtime(true) - $start) ."\n";
+$app['config']['web']->exchangeArray([
+    'handler',
+    'config' => 'index lovely config',
+    'nodes' => [
+        'news' => ['config' => 'news lovely config',],
+        'catalog' => ['config' => 'catalog lovely config',],
+    ],
+]);
+
+
+print_r($app['web']['core']->tree);
+
+//$app['web']->handleGlobalRequest();
+
+
+
+echo (microtime(true) - $start) ." end\n";
 //print_r($app);
+

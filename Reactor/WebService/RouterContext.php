@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\WebApp;
+namespace Reactor\WebService;
 
 class RouterContext {
 
@@ -10,7 +10,8 @@ class RouterContext {
         $nodes = null,
         $path = array(),
         $not_found = false,
-        $not_found_node = null;
+        $not_found_node = null,
+        $variables = array();
 
     function __construct($path) {
         $this->path = $path;

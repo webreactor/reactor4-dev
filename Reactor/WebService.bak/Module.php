@@ -4,20 +4,6 @@ namespace Reactor\WebService;
 
 class Module extends \Reactor\Application\Module {
 
-    public function init() {
-
-        $this['core'] = function ($container) {
-            $core = new Core();
-            $core->router = new Router();
-            $core->controller_factory = new ControllerFactory($container->getRoot());
-            $core->dispatcher = $container['dispatcher'];
-            $core->tree = $container['tree'];
-            return $core;
-        };
-
-        $this->request_factory = new RequestFactory();
-    }
-
     public function handleGlobalRequest() {
         $this->core->handleRequest($this->request_factory->buildFromGlobals());
     }
@@ -27,12 +13,12 @@ class Module extends \Reactor\Application\Module {
         $template_arguments = array(
             'service' => $service,
             'method' => $method,
-            'arguments' => $arguments,
+            'arguments' => $arguments
         );
 
         $result = null;
         if ($service !== null) {
-            $result = $this['application']->getByPath($service);
+            $result = $this->application->getByPath($service);
             if ($method !== null) {
                 $result = call_user_func_array(array($result,$method), $arguments);
             }
