@@ -20,6 +20,7 @@ class Request {
 
     protected $body;
     public $metadata = array();
+    public $route = null;
 
     public function __construct() {
         $this->link = new WebLink();

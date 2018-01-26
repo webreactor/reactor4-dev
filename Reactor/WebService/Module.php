@@ -9,7 +9,7 @@ class Module extends \Reactor\Application\Module {
         $this['core'] = function ($container) {
             $core = new Core();
             $core->router = new Router();
-            $core->controller_factory = new ControllerFactory($container->getRoot());
+            $core->controller_manager = new ControllerManager($container->getRoot());
             $core->dispatcher = $container['dispatcher'];
             $core->tree = $container['tree'];
             return $core;

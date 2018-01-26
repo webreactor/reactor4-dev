@@ -6,7 +6,7 @@ class Router {
 
     function routeRequest($request, $tree) {
         $context = new RouterContext($this->normalizePath($request->path));
-        $request->metadata['route'] = $this->route($context, $tree);
+        $request->route = $this->route($context, $tree);
     }
 
     function route($rez, $tree) {
@@ -51,7 +51,7 @@ class Router {
         if (class_exists($router)) {
             return new $router();
         }
-        return $name;
+        return $router;
     }
 
     function normalizePath($path) {
