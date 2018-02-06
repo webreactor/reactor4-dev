@@ -12,7 +12,7 @@ class RequestFactory {
         $request->setCookies($_COOKIE);
         $request->setFiles($_FILES);
 
-        $request->setHeaders($this->parseHeaders($_SERVER));
+        $request->setHeaders(self::parseHeaders($_SERVER));
 
         $request->method = $_SERVER['REQUEST_METHOD'];
 

@@ -4,22 +4,24 @@ namespace Reactor\WebService;
 
 class Module extends \Reactor\Application\Module {
 
-    public function init() {
-
-        $this['core'] = function ($container) {
+    public function initDefaults() {
+        $this->set('router', function () { return new Router(); });
+        $this->set('controller_manager', function ($container) { return new ControllerManager($container->getRoot()); });
+        $this->setCached('global_request_response', function ($container) {
+            return new RequestResponse(RequestFactory::buildFromGlobals(), new Response());
+        });
+        $this->set('core', function ($container) {
             $core = new Core();
-            $core->router = new Router();
-            $core->controller_manager = new ControllerManager($container->getRoot());
+            $core->router = $container['router'];
+            $core->controller_manager = $container['controller_manager'];
             $core->dispatcher = $container['dispatcher'];
             $core->tree = $container['tree'];
             return $core;
-        };
-
-        $this->request_factory = new RequestFactory();
+        });
     }
 
     public function handleGlobalRequest() {
-        $this->core->handleRequest($this->request_factory->buildFromGlobals());
+        $this['core']->handleRequest($this['global_request_response']);
     }
 
     public function execute($service = null, $method = null, $arguments = [], $module = null, $template = null, $template_arguments = []) {

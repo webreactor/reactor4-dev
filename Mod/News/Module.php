@@ -10,7 +10,7 @@ class Module extends \Reactor\Application\Module {
         $this['dispatcher']->addListener('#', array($this->getReference('printer'), 'display'));
     }
 
-    public function init() {
+    public function onUse() {
         $this->setSecure('printer', new Printer());
     }
 

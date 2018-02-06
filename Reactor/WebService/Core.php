@@ -11,7 +11,7 @@ class Core {
         $dispatcher,
         $tree;
 
-    function handleRequest($request, $response) {
+    function handleRequest($request_response) {
         $this->router->routeRequest($request, $this->tree);
         $this->controller_manager->handleRequest($request, $response);
         $this->render->render($request, $response);

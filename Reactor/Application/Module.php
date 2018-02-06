@@ -11,18 +11,21 @@ use Reactor\AccessControl\Zone;
 class Module extends ServiceContainer implements ServiceProviderInterface {
 
     protected $dir = null;
-    protected $is_init = false;
+    protected $is_used = false;
 
     public function onLoad() {
     }
 
-    public function init() {
+    public function onUse() {
+    }
+
+    public function initDefaults() {
     }
 
     public function getService($container) {
-        if (!$this->is_init) {
-            $this->is_init = true;
-            $this->init();
+        if (!$this->is_used) {
+            $this->is_used = true;
+            $this->onUse();
         }
         return $this;
     }
@@ -46,6 +49,7 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
         $this->set($name, $module);
         $module->setParent($this);
         $module->setName($name);
+        $module->initDefaults();
         $module->addAll($parent_config);
         $module->addAll($config);
         $module->onLoad();
