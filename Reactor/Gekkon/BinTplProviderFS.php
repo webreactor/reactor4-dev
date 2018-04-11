@@ -27,10 +27,8 @@ class BinTplProviderFS implements BinTemplateProviderInterface {
         }
         $file = $this->full_path($template);
         if (is_file($file)) {
-            $bins = include($file);
-            foreach ($bins as $id => $value) {
-                $this->loaded[$id] = new BinTemplate($this->gekkon, $value);
-            }
+            $bins = require($file);
+            $this->loadBins($bins);
             if (!isset($this->loaded[$template_id])) {
                 return false;
             }
@@ -41,8 +39,16 @@ class BinTplProviderFS implements BinTemplateProviderInterface {
 
     public function save($template, $binTplCodeSet) {
         Gekkon::create_dir(dirname($file = $this->full_path($template)));
-        unset($this->loaded[$template->get_id()]);
+        eval('$bins = '.$binTplCodeSet->code());
+        $this->loadBins($bins);
         file_put_contents($file, '<?php return ' . $binTplCodeSet->code());
+        opcache_invalidate($file);
+    }
+
+    protected function loadBins($bins) {
+        foreach ($bins as $id => $value) {
+            $this->loaded[$id] = new BinTemplate($this->gekkon, $value);
+        }
     }
 
     public function clear_cache($template) {

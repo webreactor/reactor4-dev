@@ -33,6 +33,7 @@ class TemplateFS implements TemplateInterface {
 
     public function get_short_name() {
         return $this->short_name;
+
     }
 
 }
