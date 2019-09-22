@@ -73,12 +73,18 @@ class Gekkon {
         return $binTpl;
     }
 
-    public function clear_cache($tpl_name, $id = null) {
+    public function clear_cache($tpl_name, $id = null, $module = null) {
+        if ($module) {
+            $this->push_module($module);
+        }
         $template = $this->tpl_provider->load($tpl_name);
         if (($binTpl = $this->bin_tpl_provider->load($template)) !== false) {
             $this->cache_provider->clear_cache($binTpl, $id);
         }
         //$this->bin_tpl_provider->clear_cache($template); // clear_bin_cache?
+        if ($module) {
+            $this->pop_module();
+        }
     }
 
     public function get_scope($data = false) {
@@ -122,14 +128,6 @@ class Gekkon {
 
     public function settings_set($name, $value) {
         $this->settings[$name] = $value;
-    }
-
-    public function set_property($name, $value) {
-        $this->$name = $value;
-    }
-
-    public function get_property($name) {
-        return $this->$name;
     }
 
     public function add_tag_system($name, $open, $close) {

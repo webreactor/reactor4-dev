@@ -2,16 +2,11 @@
 
 namespace Reactor\Common\ValueScope;
 
-class ValueScopeArray {
+class ValueScopeArray extends ValueScope {
 
-    public static function create($data = null) {
-        if ($data !== null) {
-            if (!($data instanceof ValueScope)) {
-                $class = get_class($this);
-                $parent = new $class();
-                $parent->setAll($data);
-            }
-            $this->setParent($parent);
+    public function __construct($data = null) {
+        if ($data != null) {
+            $this->setAll($data);
         }
     }
 

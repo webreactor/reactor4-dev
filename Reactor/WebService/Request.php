@@ -2,12 +2,9 @@
 
 namespace Reactor\WebService;
 
-use Reactor\Common\ValueScope\ValueScope;
-
 class Request {
 
     public $link;
-    public $link_original;
 
     public $method;
 
@@ -19,17 +16,6 @@ class Request {
     public $files;
 
     protected $body;
-    public $metadata = array();
-    public $route = null;
-
-    public function __construct() {
-        $this->link = new WebLink();
-        $this->get = new QueryParameters();
-        $this->post = new QueryParameters();
-        $this->headers = new QueryParameters();
-        $this->files = new QueryParameters();
-        $this->cookies = new QueryParameters();
-    }
 
     public function setBody($body) {
         $this->body = $body;
@@ -47,7 +33,6 @@ class Request {
 
     public function setLink($link) {
         $this->link = $link;
-        $this->link_original = clone $link;
     }
 
     public function setGet($get) {

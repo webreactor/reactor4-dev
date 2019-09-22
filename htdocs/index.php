@@ -1,40 +1,24 @@
 <?php
-$start = microtime(true);
-
+define('start', microtime(true));
+$last = start;
+function profiling($msg) {
+    global $last;
+    $now = microtime(true);
+    echo round($now - start, 7) .' delta '.round($now - $last, 5) ." $msg\n";
+    $last = $now;
+}
 
 $app = include '../bootstrap.php';
-
-echo (microtime(true) - $start) ." bootstrapped\n";
+profiling('bootstrapped');
 
 $app = new \Myproject\Application();
+profiling('app created');
 $app->loadConfig();
 
-echo (microtime(true) - $start) ." app loaded\n";
+profiling('app loaded');
 
-// print_r($app);
-
-//echo "READY\n\n\n";
-//echo (microtime(true) - $start) ."\n";
-// echo (microtime(true) - $start) ."\n";
-//$app->web_service->handleGlobalRequest();
-//$app->get('dispatcher')->raise('user.deleted', array('test'));
-
-$app['config']['web']->exchangeArray([
-    'handler',
-    'config' => 'index lovely config',
-    'nodes' => [
-        'news' => ['config' => 'news lovely config',],
-        'catalog' => ['config' => 'catalog lovely config',],
-    ],
-]);
+$app['web']->handleGlobalRequest();
 
 
-print_r($app['web']['core']->tree);
-
-//$app['web']->handleGlobalRequest();
-
-
-
-echo (microtime(true) - $start) ." end\n";
-//print_r($app);
+profiling('end');
 

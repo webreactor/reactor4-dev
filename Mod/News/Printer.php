@@ -3,8 +3,13 @@
 namespace Mod\News;
 
 class Printer {
-    public function display($a) {
-        echo "printer\n";
-        //print_r($a);
+    public function handler($rr) {
+        $rr->response->body = array('we', 'are', 'here');
     }
+
+    public function display($data) {
+        echo "display\n";
+        print_r($data);
+    }
+
 }

@@ -7,10 +7,10 @@ class Response {
     public $headers;
     public $body;
 
-    public function __construct($body = '', $code = 200, $headers = array()) {
+    public function __construct($body = null, $code = 200, $headers = array()) {
         $this->headers = $headers;
-        $thid->body = $body;
-        $thid->code = $code;
+        $this->body = $body;
+        $this->code = $code;
     }
 
 }

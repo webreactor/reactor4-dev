@@ -7,11 +7,11 @@ use Reactor\ServiceContainer\Reference;
 class Module extends \Reactor\Application\Module {
 
     public function onLoad() {
-        $this['dispatcher']->addListener('#', array($this->getReference('printer'), 'display'));
+        //$this['events']->addListener('#', array($this->getReference('printer'), 'display'));
     }
 
     public function onUse() {
-        $this->setSecure('printer', new Printer());
+        $this->set('printer', new Printer());
     }
 
 }

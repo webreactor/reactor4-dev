@@ -83,6 +83,9 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
     }
 
     public function setAll($values) {
+        // this is an optimization
+        // strictly speaking it should be cycle using set()
+        // if you overload set() you should overload setAll as well
         $this->data = $values;
     }
 

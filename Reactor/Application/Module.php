@@ -13,13 +13,18 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
     protected $dir = null;
     protected $is_used = false;
 
+    public function initDefaults() {
+    }
+
     public function onLoad() {
     }
 
     public function onUse() {
     }
 
-    public function initDefaults() {
+    public function callService($path, $method, $args) {
+        $service = $this->getByPath($path);
+        return call_user_func_array(array($service, $method), $args);
     }
 
     public function getService($container) {
@@ -45,12 +50,10 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
     }
 
     public function loadModule($name, $module, $config = array()) {
-        $parent_config = $this->get($name, array());
         $this->set($name, $module);
         $module->setParent($this);
         $module->setName($name);
         $module->initDefaults();
-        $module->addAll($parent_config);
         $module->addAll($config);
         $module->onLoad();
         return $module;
