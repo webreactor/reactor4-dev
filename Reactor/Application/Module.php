@@ -13,7 +13,7 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
     protected $dir = null;
     protected $is_used = false;
 
-    public function initDefaults() {
+    public function onLoadDefaults() {
     }
 
     public function onLoad() {
@@ -53,7 +53,7 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
         $this->set($name, $module);
         $module->setParent($this);
         $module->setName($name);
-        $module->initDefaults();
+        $module->onLoadDefaults();
         $module->addAll($config);
         $module->onLoad();
         return $module;

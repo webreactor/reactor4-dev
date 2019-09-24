@@ -11,8 +11,9 @@ class RouterContext {
 
         $target = array(),
         $steps = array(),
-        $not_found = false,
-        $not_found_node = null;
+        $error_handlers = array(),
+        $is_error = false,
+        $new_target = true;
 
     public function __construct($path) {
         $this->variables = new QueryParameters();
@@ -29,13 +30,21 @@ class RouterContext {
         return $path;
     }
 
-    public function getTarget($key, $val0 = null, $val1 = null) {
-        $value = array($val0, $val1);
+    public function switchToError() {
+        $this->target = array_pop($this->error_handlers);
+        $this->is_error = true;
+        $this->new_target = true;
+        return !empty($this->target);
+    }
+
+    public function getTarget($key, $default = null) {
         if (isset($this->target[$key])) {
             $value = (array)$this->target[$key];
-            if (!isset($value[1])) {
-                $value[1] = $val1;
+            if ($default !== null) {
+                $value += $default;
             }
+        } else {
+            $value = $default;
         }
         return $value;
     }

@@ -14,7 +14,7 @@ class Application extends \Reactor\Application\Application {
         $this->loadModule('events', new \Reactor\Events\Module());
         $web_config = array(
             'site_tree' => $this['yml_loader']->lazyLoad(__dir__.'/site_tree.yml'),
-            'tpl_bin' => BASE_DIR.'var/tpl_bin/'
+            'tpl_bin' => BASE_DIR.'var/tpl_bin/',
         );
         $this->loadModule('web', new \Reactor\WebService\Module(), $web_config);
         $this->loadModule('news', new \Mod\News\Module());

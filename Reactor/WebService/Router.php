@@ -7,13 +7,11 @@ use Reactor\Application\MultiService;
 class Router extends MultiService {
 
     public function routeRequest($req_res) {
-        $this->route($req_res->route, $this->app['site_tree']);
-        if ($req_res->route->not_found) {
-            $req_res->response->code = 404;
-        }
+        $this->route($req_res, $this->app['site_tree']);
     }
 
-    public function route($route, $tree) {
+    public function route($req_res, $tree) {
+        $route = $req_res->route;
         $tree_pointer = &$tree;
         $cnt = count($route->path);
         $this->applyNode($route, $tree_pointer);
@@ -21,13 +19,12 @@ class Router extends MultiService {
             $step = $route->path[$route->cursor];
             if (isset($tree_pointer['nodes'][$step])) {
                 $tree_pointer = &$tree_pointer['nodes'][$step];
+            } elseif (isset($tree_pointer['nodes']['$any'])) {
+                $tree_pointer = &$tree_pointer['nodes']['$any'];
             } else {
-                if (isset($tree_pointer['nodes']['$any'])) {
-                    $tree_pointer = &$tree_pointer['nodes']['$any'];
-                } else {
-                    $this->apply404($route);
-                    break;
-                }
+                $route->switchToError();
+                $req_res->response->code = 404;
+                break;
             }
             $route->cursor++;
             $this->applyNode($route, $tree_pointer);
@@ -41,17 +38,12 @@ class Router extends MultiService {
         if (isset($node['variable'])) {
             $route->variables[$node['variable']] = $route->path[$route->cursor];
         }
-        if (isset($node['nodes']['404'])) {
-            $route->not_found_node = $node['nodes']['404'];
+        if (isset($node['$error'])) {
+            $route->error_handlers[] = $node['$error'];
         }
         unset($node['nodes']);
         $route->target = $node;
         $route->steps[] = $node;
-    }
-
-    public function apply404($route) {
-        $route->target = $route->not_found_node;
-        $route->not_found = true;
     }
 
 }
