@@ -5,11 +5,8 @@ News.tpl
 {$module->getFullName()}
 
 
-
-{@ time()}
 {for from=0 to=10 key=$i}
 {$i}
 {include "name_1.tpl"}
 {include "name_2.tpl"}
-
 {/for}
