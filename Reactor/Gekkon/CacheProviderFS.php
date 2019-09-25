@@ -17,7 +17,7 @@ class CacheProviderFS implements CacheProviderInterface {
 
     protected function cache_file($tpl_name, $id = '') {
         $name = md5($id . $tpl_name);
-        return $name[0] . $name[1] . '/' . $name;
+        return $name[0] . $name[1] . '/' . $name.'.php';
     }
 
     public function clear_cache($binTemplate, $id = null) {
@@ -32,14 +32,24 @@ class CacheProviderFS implements CacheProviderInterface {
     }
 
     public function save($binTemplate, $content, $id) {
-        Gekkon::create_dir(dirname($cache_file = $this->cache_dir($binTemplate) . $this->cache_file($id)));
+        $cache_file = $this->cache_dir($binTemplate) . $this->cache_file($binTemplate['id'], $id);
+        Gekkon::create_dir(dirname($cache_file));
         file_put_contents($cache_file, $content);
+        opcache_invalidate($cache_file);
     }
 
-    public function load($binTemplate, $id) {
-        $cache_file = $this->cache_dir($binTemplate) . $this->cache_file($binTemplate['name'], $id);
+    public function cache_load($binTemplate, $id) {
+        $cache_file = $this->cache_dir($binTemplate) . $this->cache_file($binTemplate['id'], $id);
         if (is_file($cache_file)) {
-            return array('created' => filemtime($cache_file), 'content' => file_get_contents($cache_file));
+            include $cache_file;
+        }
+        return false;
+    }
+
+    public function cache_created($binTemplate, $id) {
+        $cache_file = $this->cache_dir($binTemplate) . $this->cache_file($binTemplate['id'], $id);
+        if (is_file($cache_file)) {
+            return filemtime($cache_file);
         }
         return false;
     }

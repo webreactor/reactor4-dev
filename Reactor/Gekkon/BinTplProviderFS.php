@@ -37,6 +37,7 @@ class BinTplProviderFS implements BinTemplateProviderInterface {
         Gekkon::create_dir(dirname($file = $this->full_path($template)));
         unset($this->loaded[$template->get_id()]);
         file_put_contents($file, '<?php return ' . $binTplCode->code().';');
+        opcache_invalidate($file);
     }
 
     public function clear_cache($template) {
