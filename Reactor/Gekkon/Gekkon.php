@@ -16,6 +16,7 @@ class Gekkon {
         $this->settings = DefaultSettings::get();
         $this->data = new \ArrayObject();
         $this->data['global'] = $this->data;
+        $this->bin_path = $bin_path;
         $this->tpl_provider = new TemplateProviderFS($base_path);
         $this->bin_tpl_provider = new BinTplProviderFS($this, $bin_path);
         $this->cache_provider = new CacheProviderFS($bin_path);
@@ -98,7 +99,11 @@ class Gekkon {
     }
 
     public function compile($template) {
-        $this->bin_tpl_provider->save($template, $this->compiler()->compile($template));
+        $bin = $this->compiler()->compile($template);
+        if (!$bin) {
+            return false;
+        }
+        $this->bin_tpl_provider->save($template, $bin);
         return $this->bin_tpl_provider->load($template);
     }
 

@@ -4,14 +4,15 @@ nodes:
         handler: [ /news/printer, handler ]
         template: [ /news, news.tpl ]
         #template_wrap: [ /module, template.tpl ]
-        #final: true
+        final: true
         # render: [ /render/service, method ]
         #map: [ config ]
         #mapper: [ /mapper/service, method ]
         nodes:
             $any:
                 variable: here
-                handler: [ /news/controller, one ]
+                handler: [ /news/printerw, handler ]
+                template: [ /news, news.tpl ]
     catalog:
         handler: [ /catalog/list, list ]
         final: true
@@ -23,3 +24,5 @@ nodes:
         render: [ /render/service, method ]
         map: [ config ]
         mapper: [ /mapper/service, method ]
+$error:
+    template: [ /web, error.tpl ]

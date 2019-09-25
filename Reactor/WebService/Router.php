@@ -26,8 +26,8 @@ class Router extends MultiService {
                 $req_res->response->code = 404;
                 break;
             }
-            $route->cursor++;
             $this->applyNode($route, $tree_pointer);
+            $route->cursor++;
             if (isset($tree_pointer['final'])) {
                 break;
             }
