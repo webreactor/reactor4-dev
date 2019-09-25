@@ -41,7 +41,7 @@ class LLParserTree {
         $_rez = array_reverse($_rez, true);
         if (count($_rez) == 1) {
             $t = current($_rez);
-            if (count($t) == 0) {
+            if (is_array($t) && count($t) == 0) {
                 return key($_rez);
             }
         }

@@ -1,7 +1,10 @@
 <?php
-return;
-include_once 'gekkon.php';
-Gekkon::include_dir('compiler');
+die();
+namespace Reactor\Gekkon;
+
+include '../../vendor/autoload.php';
+
+
 
 define('R_DEBUG', 1);
 ini_set("display_errors", 'on');
@@ -112,14 +115,14 @@ $vars = array(
 
 $gekkon = new Gekkon('', '', '');
 
-$g_compiler = new GekkonCompiler($gekkon);
+$g_compiler = $gekkon->compiler();
 
 
 
 //print_r($g_compiler->arg_compiler->parser->parse(gekkon_lexer('7.pow()'))->real());
 
 
-$lx = new GekkonLexer();
+// $lx = new GekkonLexer();
 /*
 
   //die('ok');
@@ -164,12 +167,12 @@ $cnt = count($vars);
 //print_r($g_compiler);
 for($j = 0; $j < $cnt; $j++)
 {
-    echo $vars[$j], "<br>\n";
+    echo $vars[$j], "\n";
     if(($x = $g_compiler->exp_compiler->compile_exp($vars[$j])) === false)
     {
         $g_compiler->flush_errors();
     }
-    else echo $x, "<br><br>\n\n";
+    else echo $x, "\n\n";
     //print_r($lx->parse_variable($vars[$j]));
     //echo $lx->error;
 }
