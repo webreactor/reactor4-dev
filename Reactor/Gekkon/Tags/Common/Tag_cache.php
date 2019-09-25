@@ -26,3 +26,4 @@ class Tag_cache extends BaseTag {
 }
 
 //end of class
+// needs to be refactored to include cache

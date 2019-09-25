@@ -12,7 +12,7 @@ class CacheProviderFS implements CacheProviderInterface {
     }
 
     protected function cache_dir($binTemplate) {
-        return $this->baseDir . abs(crc32($binTemplate['association'])) . '/cache/';
+        return $this->baseDir . abs(crc32($binTemplate['id'])) . '/cache/';
     }
 
     protected function cache_file($tpl_name, $id = '') {

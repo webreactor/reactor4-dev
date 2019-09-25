@@ -47,18 +47,6 @@ class Compiler {
     }
 
     function compile($template) {
-        $this->error = array();
-        $templateList = $this->gekkon->tpl_provider->get_associated($template);
-        $rez = new BinTemplateCodeSet();
-        foreach ($templateList as $tpl) {
-            if (($binTpl = $this->compile_one($tpl)) !== false) {
-                $rez[$tpl->get_id()] = $binTpl;
-            }
-        }
-        return $rez;
-    }
-
-    function compile_one($template) {
         $this->binTplCode = new BinTemplateCode($this, $template);
         $source = $this->compile_str($template->source());
         if (!Compiler::check_syntax($source)) {

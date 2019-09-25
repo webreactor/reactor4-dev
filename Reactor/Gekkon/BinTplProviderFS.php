@@ -14,10 +14,8 @@ class BinTplProviderFS implements BinTemplateProviderInterface {
     }
 
     protected function full_path($template) {
-        $association = $this->gekkon->tpl_provider->association_id($template);
-        $bin_name = basename($association);
-        $bin_path = $this->base_dir . abs(crc32($association)) . '/';
-        return $bin_path . $bin_name . '.php';
+        $bin_path = $this->base_dir . abs(crc32($template->get_id())) . '/';
+        return $bin_path . $template->get_short_name() . '.php';
     }
 
     public function load($template) {
@@ -27,22 +25,18 @@ class BinTplProviderFS implements BinTemplateProviderInterface {
         }
         $file = $this->full_path($template);
         if (is_file($file)) {
-            $bins = include($file);
-            foreach ($bins as $id => $value) {
-                $this->loaded[$id] = new BinTemplate($this->gekkon, $value);
-            }
-            if (!isset($this->loaded[$template_id])) {
-                return false;
-            }
-            return $this->loaded[$template_id];
+            $value = include($file);
+            $bin = new BinTemplate($this->gekkon, $value);
+            $this->loaded[$template_id] = $bin;
+            return $bin;
         }
         return false;
     }
 
-    public function save($template, $binTplCodeSet) {
+    public function save($template, $binTplCode) {
         Gekkon::create_dir(dirname($file = $this->full_path($template)));
         unset($this->loaded[$template->get_id()]);
-        file_put_contents($file, '<?php return ' . $binTplCodeSet->code());
+        file_put_contents($file, '<?php return ' . $binTplCode->code().';');
     }
 
     public function clear_cache($template) {
