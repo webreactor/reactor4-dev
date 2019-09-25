@@ -4,7 +4,7 @@ namespace Reactor\Common\ValueScope;
 
 class ValueScope implements \ArrayAccess, \IteratorAggregate {
 
-    protected $data = array();
+    protected $data;
     protected $parent = null;
 
     public function getParent() {
@@ -23,19 +23,25 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
     }
 
     public function get($name, $default = '_throw_exception_') {
-        if (!isset($this->data[$name])) {
-            if ($this->parent !== null) {
-                $val = $this->parent->get($name, $default);
+        $scope = $this->findOwner($name);
+        if ($scope === null) {
+            if ($default === '_throw_exception_') {
+                throw new ValueNotFoundException("Not existing in the scope key [$name] ", 1);
             } else {
-                if ($default === '_throw_exception_') {
-                    throw new ValueNotFoundException("Not existing in the scope key [$name] ", 1);
-                } else {
-                    $val = $default;
-                }
+                return $default;
             }
-            return $val;
         }
-        return $this->getDirect($name);
+        return $scope->getDirect($name);
+    }
+
+    public function findOwner($name) {
+        if (isset($this->data[$name])) {
+            return $this;
+        }
+        if ($this->parent) {
+            return $this->parent->findOwner($name);
+        }
+        return null;
     }
 
     public function getDirect($name) {
@@ -61,18 +67,25 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
         unset($this->data[$name]);
     }
 
+    public function removeThrough($name) {
+        unset($this->data[$name]);
+        if ($this->parent) {
+            $this->parent->removeThrough($name);
+        }
+    }
+
     public function set($name, $value) {
         $this->data[$name] = $value;
     }
 
     public function has($name) {
-        if (isset($this->data[$name])) {
-            return true;
-        }
-        return $this->parent !== null && $this->parent->has($name);
+        return $this->findOwner($name) !== null;
     }
 
     public function setAll($values) {
+        // this is an optimization
+        // strictly speaking it should be cycle using set()
+        // if you overload set() you should overload setAll as well
         $this->data = $values;
     }
 
@@ -93,11 +106,11 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
     }
 
     public function offsetSet($name, $value) {
-        $this->data[$name] = $value;
+        $this->set($name, $value);
     }
 
     public function offsetUnset($name) {
-        unset($this->data[$name]);
+        $this->remove($name);
     }
 
 }

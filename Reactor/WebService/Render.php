@@ -2,15 +2,27 @@
 
 namespace Reactor\WebService;
 
-class Render {
+use Reactor\Application\MultiService;
 
-    public function __construct($application) {
-        $this->application = $application;
+class Render extends MultiService {
+
+    public function render($req_res) {
+        $response = $req_res->response;
+        if (!headers_sent()) {
+            if ($response->code != 200) {
+                http_response_code($response->code);
+            }
+            foreach ($response->headers as $key => $value) {
+                header($key.': '.$value);
+            }
+        }
+        $template = $req_res->route->getTarget('template', null, null);
+        if ($template[1] !== null) {
+            $render = $this->app['template_engine'];
+            $render->register('data', $response->body);
+            $render->register('request_response', $req_res);
+            $render->display($template[1], false, $template[0]);
+        }
     }
 
-    public function render($request_response) {
-        echo "<h1>Render</h1><pre>\n";
-        print_r($request_response);
-    }
-    
 }

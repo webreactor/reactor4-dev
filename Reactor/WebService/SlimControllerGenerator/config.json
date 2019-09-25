@@ -1,8 +1,0 @@
-{
-    "services": {
-        "generator": {
-            "create": "\\Reactor\\WebService\\SlimControllerGenerator\\Generator",
-            "arguments": [ "@folders/bin_generated" ]
-        }
-    }
-}

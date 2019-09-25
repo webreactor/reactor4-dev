@@ -48,10 +48,6 @@ class ExpCompiler {
             }
             $orig .= $item['v'];
         }
-        if (!$this->check_exp_syntax($rez)) {
-            return $this->compiler->error('Wrong expression syntax "' . $orig . '"', 'compile_exp');
-        }
-        /* */
         return $rez;
     }
 
@@ -82,21 +78,6 @@ class ExpCompiler {
             $_rez[$name] = array('t' => '<exp>', 'v' => $this->parse_expression($val));
         }
         return $_rez;
-    }
-
-    function check_syntax($code) {
-        ob_start();
-        $code = 'if(0){' . $code . '}';
-        $result = eval($code);
-        ob_get_clean();
-        return false !== $result;
-    }
-
-    function check_exp_syntax($code) {
-        if (strpos($code, '=>') !== false) {
-            return ExpCompiler::check_syntax('$x=array(' . $code . ');');
-        }
-        return ExpCompiler::check_syntax('$x=' . $code . ';');
     }
 
     function parse_expression($str) {

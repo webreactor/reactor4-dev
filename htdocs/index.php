@@ -1,17 +1,24 @@
 <?php
+define('start', microtime(true));
+$last = start;
+function profiling($msg) {
+    global $last;
+    $now = microtime(true);
+    echo round($now - start, 7) .' delta '.round($now - $last, 5) ." $msg\n";
+    $last = $now;
+}
 
-$start = microtime(true);
 $app = include '../bootstrap.php';
-// echo (microtime(true) - $start) ."\n";
-$m = $app;
-$m->__sleep();
-var_export($m);
-//echo "READY\n\n\n";
-//echo (microtime(true) - $start) ."\n";
-//$controllers = $app->getByPath('controllers');
-//$controllers->__sleep();
-//print_r($app->getByPath('web_service/exp_compiler')->compiler->errors());
-// echo (microtime(true) - $start) ."\n";
-$app->web_service->handleGlobalRequest();
-$app->dispatcher->raise('user.deleted', array('test'));
-echo (microtime(true) - $start) ."\n";
+profiling('bootstrapped');
+
+$app = new \Myproject\Application();
+profiling('app created');
+$app->loadConfig();
+
+profiling('app loaded');
+
+$app['web']->handleGlobalRequest();
+
+
+profiling('end');
+

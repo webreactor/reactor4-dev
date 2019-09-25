@@ -2,56 +2,60 @@
 
 namespace Reactor\Application;
 
-use Reactor\ServiceContainer\ServiceContainerConfigurator;
 use Reactor\ServiceContainer\ServiceContainer;
+use Reactor\ServiceContainer\ServiceProviderInterface;
+use Reactor\ServiceContainer\Reference;
 
-class Module extends ServiceContainer {
+use Reactor\AccessControl\Zone;
+
+class Module extends ServiceContainer implements ServiceProviderInterface {
 
     protected $dir = null;
-    protected $name;
-    protected $full_name;
+    protected $is_used = false;
 
-    public function __construct($name = '', $data = array()) {
-        $this->full_name = $this->name = $name;
-        $this->data = $data;
+    public function onLoadDefaults() {
     }
 
-    public function getFullName() {
-        return $this->full_name;
+    public function onLoad() {
     }
 
-    public function getName() {
-        return $this->name;
+    public function onUse() {
     }
 
-    public function createConfigurator() {
-        $configurator = new ServiceContainerConfigurator($this);
-        $configurator->setProcessor('modules', new ModulesConfigProcessor($configurator));
-        return $configurator;
+    public function callService($path, $method, $args) {
+        $service = $this->getByPath($path);
+        return call_user_func_array(array($service, $method), $args);
     }
 
-    public function configure($container, $config = array()) {
-        if ($container !== null) {
-            $this->setParent($container);
-            $this->full_name = $this->parent->getFullName().'/'.$this->name;
+    public function getService($container) {
+        if (!$this->is_used) {
+            $this->is_used = true;
+            $this->onUse();
         }
-
-        $configurator = $this->createConfigurator();
-        $config_file = $this->getDir().'config.json';
-        if (is_file($config_file)) {
-            $configurator->addPath($config_file);
-        }
-
-        $configurator->addConfig($config);
-        $configurator->load();
-        return $configurator;
+        return $this;
     }
 
-    public function loadModule($name, $module_class, $config = array()) {
-        $data = array();
-        $module = new $module_class($name);
+    public function setSecure($name, $value, $access_control = 'access_control') {
+        $this->set($name, new Zone($name, $value, $access_control));
+    }
+
+    public function resolveService($path_or_service, $default = '_throw_exception_') {
+        if (is_string($path_or_service)) {
+            return $this->getByPath($path_or_service, $default);
+        }
+        if ($path_or_service instanceof ServiceProviderInterface) {
+            return $path_or_service->getService($this);
+        }
+        return $path_or_service;
+    }
+
+    public function loadModule($name, $module, $config = array()) {
         $this->set($name, $module);
-        $module->configure($this, $config);
+        $module->setParent($this);
+        $module->setName($name);
+        $module->onLoadDefaults();
+        $module->addAll($config);
+        $module->onLoad();
         return $module;
     }
 
@@ -61,11 +65,6 @@ class Module extends ServiceContainer {
             $this->dir = dirname($ref->getFileName()).'/';
         }
         return $this->dir;
-    }
-
-    public function __sleep() {
-        parent::__sleep();
-        $this->dir = null;
     }
 
 }

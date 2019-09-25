@@ -3,9 +3,15 @@
 namespace Reactor\WebService;
 
 use Reactor\Common\Tools\StringTools;
-use Reactor\Common\ValueScope\ValueScopeArray;
 
-class QueryParameters extends ValueScopeArray {
+class QueryParameters extends \ArrayObject {
+
+    public function get($name, $default = null) {
+        if (!isset($this['name'])) {
+            return $default;
+        }
+        return $this['name'];
+    }
 
     public function getInteger($name, $default = null) {
         $value = $this->get($name, $default);

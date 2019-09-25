@@ -6,29 +6,12 @@ class RequestResponse {
 
     public $request;
     public $response;
+    public $route;
 
-    public function __construct($request, $response = null) {
+    public function __construct($request, $response = null, $route = null) {
         $this->request = $request;
-        if ($response === null) {
-            $response = new Response();
-        }
         $this->response = $response;
-    }
-
-    public function getRequest() {
-        return $this->request;
-    }
-
-    public function getResponse() {
-        return $this->response;
-    }
-
-    public function setRequest($request) {
-        $this->request = $request;
-    }
-
-    public function setResponse($response) {
-        $this->response = $response;
+        $this->route = $route;
     }
 
 }

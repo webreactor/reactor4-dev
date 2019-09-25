@@ -16,6 +16,7 @@ class Gekkon {
         $this->settings = DefaultSettings::get();
         $this->data = new \ArrayObject();
         $this->data['global'] = $this->data;
+        $this->bin_path = $bin_path;
         $this->tpl_provider = new TemplateProviderFS($base_path);
         $this->bin_tpl_provider = new BinTplProviderFS($this, $bin_path);
         $this->cache_provider = new CacheProviderFS($bin_path);
@@ -60,25 +61,31 @@ class Gekkon {
     public function template($tpl_name) {
         $template = $this->tpl_provider->load($tpl_name);
         if ($this->settings['force_compile']) {
-            $binTpl = false;
+            $bin_tpl = false;
         } else {
-            $binTpl = $this->bin_tpl_provider->load($template);
+            $bin_tpl = $this->bin_tpl_provider->load($template);
         }
-        if ($binTpl === false || !$template->check_bin($binTpl)) {
-            if (($binTpl = $this->compile($template)) === false) {
+        if ($bin_tpl === false || !$template->check_bin($bin_tpl)) {
+            if (($bin_tpl = $this->compile($template)) === false) {
                 return $this->error('Cannot compile ' . $template->get_id(), 'gekkon');
             }
-            $this->cache_provider->clear_cache($binTpl);
+            $this->cache_provider->clear_cache($bin_tpl);
         }
-        return $binTpl;
+        return $bin_tpl;
     }
 
-    public function clear_cache($tpl_name, $id = null) {
+    public function clear_cache($tpl_name, $id = null, $module = null) {
+        if ($module) {
+            $this->push_module($module);
+        }
         $template = $this->tpl_provider->load($tpl_name);
-        if (($binTpl = $this->bin_tpl_provider->load($template)) !== false) {
-            $this->cache_provider->clear_cache($binTpl, $id);
+        if (($bin_tpl = $this->bin_tpl_provider->load($template)) !== false) {
+            $this->cache_provider->clear_cache($bin_tpl, $id);
         }
         //$this->bin_tpl_provider->clear_cache($template); // clear_bin_cache?
+        if ($module) {
+            $this->pop_module();
+        }
     }
 
     public function get_scope($data = false) {
@@ -92,7 +99,11 @@ class Gekkon {
     }
 
     public function compile($template) {
-        $this->bin_tpl_provider->save($template, $this->compiler()->compile($template));
+        $bin = $this->compiler()->compile($template);
+        if (!$bin) {
+            return false;
+        }
+        $this->bin_tpl_provider->save($template, $bin);
         return $this->bin_tpl_provider->load($template);
     }
 
@@ -122,14 +133,6 @@ class Gekkon {
 
     public function settings_set($name, $value) {
         $this->settings[$name] = $value;
-    }
-
-    public function set_property($name, $value) {
-        $this->$name = $value;
-    }
-
-    public function get_property($name) {
-        return $this->$name;
     }
 
     public function add_tag_system($name, $open, $close) {

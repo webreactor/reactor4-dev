@@ -2,42 +2,55 @@
 
 namespace Reactor\WebService;
 
-class Core {
+use Reactor\Application\MultiService;
 
-    protected $dispatcher;
-    protected $router;
-    protected $render;
-
-    public function __construct($dispatcher, $router, $render) {
-        $this->dispatcher = $dispatcher;
-        $this->router = $router;
-        $this->render = $render;
-        $this->dispatcher->raise('web-app.init');
-    }
+class Core extends MultiService {
 
     public function handleRequest($request) {
         try {
-            $request->metadata['render_task'] = new RenderTask();
-            $request_response = new RequestResponse($request);
-            $this->dispatcher->raise('web-app.received', $request_response);
-
-            $this->dispatcher->raise('web-app.router.before', $request_response);
-            $this->route($this->router, $request_response);
-            $this->dispatcher->raise('web-app.routed', $request_response);
-
-            $this->render->render($request_response);
-            $this->dispatcher->raise('web-app.rendered', $request_response);
-        } catch (\Exception $e) { // Not finished pass to exception router
-            die('WebApplication Core caught exception: '. $e->getMessage(). "\n");
+            try {
+                $route = new RouterContext($request->link->path);
+                $req_res = new RequestResponse($request, new Response(), $route);
+                $this->execute($req_res);
+            } catch (\Exception $error) {
+                if (!$req_res->route->switchToError($error)) {
+                    throw $error;
+                }
+                $this->execAndRender($req_res);
+            }
+        } catch (\Exception $error) {
+            $this->lastStandError($error);
         }
     }
 
-    public function route($router, $request_response) {
-        $render_task = $request_response->request->metadata['render_task'];
-        while ($router instanceof RouterInterface && $render_task->routable) {
-            $router_class = get_class($router);
-            $router = $router->route($request_response);
-        };
+    public function execute($req_res) {
+        $this->app['router']->routeRequest($req_res);
+        $this->execAndRender($req_res);
+    }
+
+    public function execAndRender($req_res) {
+        $route = $req_res->route;
+        $count = 10;
+        while ($route->new_target && $count-- > 0) {
+            $route->new_target = false;
+            $handler = $route->getTarget('handler', array(null, 'index'));
+            if ($handler[0] !== null) {
+                $this->callService($handler[0], $handler[1], array($req_res));
+            }
+            if (!$route->new_target) {
+                $render = $route->getTarget('render', array('render', 'render'));
+                $this->callService($render[0], $render[1], array($req_res));
+            }
+        }
+    }
+
+    public function lastStandError($error) {
+        if (!headers_sent()) {
+            header("HTTP/1.0 500 Couldn't make it");
+        } else {
+            die("Unexpected error");
+        }
+        error_log($error->getMessage().' '.$error->getCode().': '.strstr($error->getTraceAsString(), "\n", true));
     }
 
 }

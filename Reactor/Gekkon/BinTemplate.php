@@ -18,4 +18,5 @@ class BinTemplate extends \ArrayObject {
             $block($this, $this->gekkon, $scope);
         }
     }
+
 }

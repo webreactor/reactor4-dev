@@ -13,7 +13,6 @@ class BinTemplateCode {
         $this->blocks['__constructor'] = '';
         $this->meta['created'] = time();
         $this->meta['id'] = $template->get_id();
-        $this->meta['association'] = $compiler->gekkon->tpl_provider->association_id($template);
         $this->meta['gekkon_ver'] = $compiler->gekkon->version;
     }
 

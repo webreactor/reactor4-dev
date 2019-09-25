@@ -47,20 +47,12 @@ class Compiler {
     }
 
     function compile($template) {
-        $this->error = array();
-        $templateList = $this->gekkon->tpl_provider->get_associated($template);
-        $rez = new BinTemplateCodeSet();
-        foreach ($templateList as $tpl) {
-            if (($binTpl = $this->compile_one($tpl)) !== false) {
-                $rez[$tpl->get_id()] = $binTpl;
-            }
-        }
-        return $rez;
-    }
-
-    function compile_one($template) {
         $this->binTplCode = new BinTemplateCode($this, $template);
-        $this->binTplCode->blocks['__main'] = $this->compile_str($template->source());
+        $source = $this->compile_str($template->source());
+        if (!Compiler::check_syntax($source)) {
+            return false;
+        }
+        $this->binTplCode->blocks['__main'] = $source;
         return $this->binTplCode;
     }
 
@@ -199,6 +191,17 @@ class Compiler {
     function getUID()//it is a relatively unique id, for uid inside of one template
     {
         return $this->uid++;
+    }
+
+    function check_syntax($code) {
+        $tmp_file = $this->gekkon->bin_path.'check_syntax.tmp.php';
+        file_put_contents($tmp_file, '<?php '.$code);
+        exec('php -l '.$tmp_file, $details, $return_var);
+        if ($return_var !== 0) {
+            $this->errors[] = 'syntax error';
+            return false;
+        }
+        return true;
     }
 
     function split_parsed_str($data, $tag_name, $keep_spliter = false) {

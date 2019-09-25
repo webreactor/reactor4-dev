@@ -3,112 +3,85 @@
 namespace Reactor\ServiceContainer;
 
 use \Reactor\Common\ValueScope\ValueScope;
-use \Reactor\Common\ValueScope\ValueNotFoundException;
-use \Reactor\Common\Traits\Exportable;
 
-class ServiceContainer extends ValueScope implements ServiceProviderInterface, SupportsGetByPathInterface {
+class ServiceContainer extends ValueScope {
 
-    use Exportable;
+    protected $name = '';
 
-    public function createService($name, $value = null, $arguments = array()) {
-        if (!($value instanceof ServiceProviderInterface)) {
-            $value = new ServiceProvider($value, $arguments);
-        }
-        return $this->data[$name] = $value;
+    public function set($name, $value) {
+        parent::set($name, $this->prepareValue($value));
     }
 
-    public function getByPath($path = '', $default = '_throw_exception_') {
-        //echo "getByPath($path)\n";
-        $path = trim($path,'/ ');
-        if ($path == '') {
-            return $this->getService();
-        }
-        $path_words = explode('/', $path);
-        if (count($path_words) == 1) {
-            return $this->get($path);
-        }
-        $value = &$this->data;
-        $local_context = true;
-        while (($word = current($path_words)) !== false) {
-            if ($value instanceof SupportsGetByPathInterface) {
-                return $value->getByPath(implode('/', $path_words));
-            }
-            if ((is_array($value) || $value instanceof \ArrayAccess) && isset($value[$word])) {
-                $value = &$value[$word];
-            } elseif ($this->parent !== null) {
-                return $this->parent->getByPath(implode('/', $path_words));
-            } else {
-                if ($default === '_throw_exception_') {
-                    throw new ValueNotFoundException("Missing path: [$path]");
-                } else {
-                    return $default;
-                }
-            }
-            if ($local_context && $value instanceof ServiceProviderInterface) {
-                $value = $value->getService($this);
-                $local_context = false;
-            }
-            array_shift($path_words);
-        }
-        if ($local_context) {
-            return $this->resolveProviders($value);
+    public function setCached($name, $value) {
+        $value = $this->prepareValue($value);
+        parent::set($name, new CachedServiceProvider($value));
+    }
+
+    public function prepareValue($value) {
+        if (is_callable($value)) {
+            $value = new CallbackServiceProvider($value);
         }
         return $value;
     }
 
+    public function addAll($values) {
+        foreach ($values as $name => $value) {
+            $this->set($name, $value);
+        }
+    }
+
     public function getDirect($name) {
-        return $this->resolveProviders($this->data[$name]);
-    }
-
-    public function __sleep() {
-        $this->setParent(null);
-        ServiceContainer::sleepProviders($this->data);
-    }
-
-    static function sleepProviders($data) {
-        foreach ((array)$data as $value) {
-            if ($value instanceof ServiceProviderInterface) {
-                $value->__sleep();
-            } elseif (is_array($value)) {
-                self::sleepProviders($value);
-            }
+        $value = $this->data[$name];
+        if ($value instanceof ServiceProviderInterface) {
+            return $value->getService($this);
         }
+        return $value;
     }
 
-    public function getService($container = null) {
-        if ($container !== null) {
-            $this->setParent($container);
+    public function getByPath($path = '', $default = '_throw_exception_') {
+        if ($path == '') {
+            return $this;
         }
-        return $this;
-    }
-
-    public function resolveProviders($data) {
-        if (is_array($data)) {
-            foreach ($data as $key => $value) {
-                $data[$key] = $this->resolveProviders($value);
-            }
-        } elseif (is_object($data)) {
-            if ($data instanceof ServiceProviderInterface) {
-                $data = $data->getService($this);
-            }
+        if ($path[0] === '/') {
+            $value = $this->getRoot();
+        } else {
+            $value = $this;
         }
-        return $data;
+        $path = trim($path,'/');
+        $path_words = explode('/', $path);
+        $words_cnt = count($path_words);
+        for ($current = 0; $current < $words_cnt; $current++) {
+            $value = $value[$path_words[$current]];
+        }
+        return $value;
     }
 
-    public function __get($name) {
-        return $this->get($name);
+    public function setName($name) {
+        $this->name = $name;
     }
 
-    public function __set($name, $value) {
-        return $this->set($name, $value);
+    public function getName() {
+        return $this->name;
     }
 
-    public function __isset($name) {
-        return $this->has($name);
+    public function getFullName() {
+        if ($this->parent) {
+            return $this->parent->getFullName().$this->name.'/';
+        }
+        return '/';
     }
 
-    public function __unset($name) {
-        $this->remove($name);
+    public function getReference($path = '', $local = false) {
+        if ($path === '') {
+            $path = $this->getFullName();
+        } elseif ($path[0] != '/' && $local === false) {
+            $path = $this->getFullName().$path;
+        }
+        return new Reference($path);
+    }
+
+    public function setReference($name, $path) {
+        $this->set($name, $this->getReference($path, true));
     }
 
 }

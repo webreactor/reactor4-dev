@@ -20,7 +20,7 @@ class ApplicationCacher {
             mkdir($dir, 0777, true);
         }
         $application->__sleep();
-        $dump = "<?php\n// Generated ".date("r")."\nreturn ";
+        $dump = "<?php\n\nreturn ";
         $dump .= var_export($application, true);
         $dump .= ";\n";
         $tmp_file = $cache_file.'.tmp';

@@ -1,0 +1,28 @@
+handler: [ /site/controller, index ]
+nodes: 
+    news:
+        handler: [ /news/printer, handler ]
+        template: [ /news, news.tpl ]
+        #template_wrap: [ /module, template.tpl ]
+        final: true
+        # render: [ /render/service, method ]
+        #map: [ config ]
+        #mapper: [ /mapper/service, method ]
+        nodes:
+            $any:
+                variable: here
+                handler: [ /news/printerw, handler ]
+                template: [ /news, news.tpl ]
+    catalog:
+        handler: [ /catalog/list, list ]
+        final: true
+    node:
+        handler: [ /site/controller, code404 ]
+        template: [ /module, template.tpl ]
+        template_wrap: [ /module, template.tpl ]
+        final: true
+        render: [ /render/service, method ]
+        map: [ config ]
+        mapper: [ /mapper/service, method ]
+$error:
+    template: [ /web, error.tpl ]

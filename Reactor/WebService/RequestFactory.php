@@ -2,9 +2,12 @@
 
 namespace Reactor\WebService;
 
+use Reactor\Common\ValueScope\ValueScopeArray;
+
 class RequestFactory {
 
     function buildFromGlobals() {
+        $server = new ValueScopeArray($_SERVER);
         $request = new Request();
 
         $request->setPost($_POST);
@@ -12,19 +15,17 @@ class RequestFactory {
         $request->setCookies($_COOKIE);
         $request->setFiles($_FILES);
 
-        $request->setHeaders($this->parseHeaders($_SERVER));
-
+        //$request->setHeaders(self::parseHeaders($server));
         $request->method = $_SERVER['REQUEST_METHOD'];
 
         $link = new WebLink();
-        $link->scheme = $_SERVER['REQUEST_SCHEME'];
-        $link->host = $_SERVER['HTTP_HOST'];
-        $link->port = $_SERVER['SERVER_PORT'];
-        $link->path = strstr($_SERVER['REQUEST_URI'].'?', '?', true);
-        $link->query = $_SERVER['QUERY_STRING'];
+        $link->scheme = $server->get('REQUEST_SCHEME','http');
+        $link->host = strstr($server->get('HTTP_HOST',''), ':', true);
+        $link->port = $server->get('SERVER_PORT','');
+        $link->path = strstr($server->get('REQUEST_URI','').'?', '?', true);
+        $link->query = $server->get('QUERY_STRING','');
 
         $request->setLink($link);
-
         return $request;
     }
 
