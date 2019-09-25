@@ -61,17 +61,17 @@ class Gekkon {
     public function template($tpl_name) {
         $template = $this->tpl_provider->load($tpl_name);
         if ($this->settings['force_compile']) {
-            $binTpl = false;
+            $bin_tpl = false;
         } else {
-            $binTpl = $this->bin_tpl_provider->load($template);
+            $bin_tpl = $this->bin_tpl_provider->load($template);
         }
-        if ($binTpl === false || !$template->check_bin($binTpl)) {
-            if (($binTpl = $this->compile($template)) === false) {
+        if ($bin_tpl === false || !$template->check_bin($bin_tpl)) {
+            if (($bin_tpl = $this->compile($template)) === false) {
                 return $this->error('Cannot compile ' . $template->get_id(), 'gekkon');
             }
-            $this->cache_provider->clear_cache($binTpl);
+            $this->cache_provider->clear_cache($bin_tpl);
         }
-        return $binTpl;
+        return $bin_tpl;
     }
 
     public function clear_cache($tpl_name, $id = null, $module = null) {
@@ -79,8 +79,8 @@ class Gekkon {
             $this->push_module($module);
         }
         $template = $this->tpl_provider->load($tpl_name);
-        if (($binTpl = $this->bin_tpl_provider->load($template)) !== false) {
-            $this->cache_provider->clear_cache($binTpl, $id);
+        if (($bin_tpl = $this->bin_tpl_provider->load($template)) !== false) {
+            $this->cache_provider->clear_cache($bin_tpl, $id);
         }
         //$this->bin_tpl_provider->clear_cache($template); // clear_bin_cache?
         if ($module) {
