@@ -219,6 +219,14 @@ class Connection implements ConnectionInterface
         return $this->lastId();
     }
     
+    public function prefixArrayKeys($data, $prefix) {
+        $rez = array();
+        foreach ($data as $key => $value) {
+            $rez[$prefix.$key] = $value;
+        }
+        return $rez;
+    }
+
     /**
      * @param        $keys
      * @param string $delimeter
@@ -242,6 +250,8 @@ class Connection implements ConnectionInterface
      */
     public function update($table, array $data, array $where_data = array(), $where = '')
     {
+        $where_data = $this->prefixArrayKeys($where_data, 'where_');
+        $data = $this->prefixArrayKeys($data, 'data_');
         if ($where === '') {
             $where = $this->buildPairs(array_keys($where_data), 'and');
         }
