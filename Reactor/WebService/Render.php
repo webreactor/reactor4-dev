@@ -16,12 +16,12 @@ class Render extends MultiService {
                 header($key.': '.$value);
             }
         }
-        $template = $req_res->route->getTarget('template', null, null);
-        if ($template[1] !== null) {
-            $render = $this->app['template_engine'];
-            $render->register('data', $response->body);
-            $render->register('request_response', $req_res);
-            $render->display($template[1], false, $template[0]);
+        $template = $req_res->route->getTarget('template');
+        if ($template !== null) {
+            $templater = $this->app['templater'];
+            $templater->register('data', $response->body);
+            $templater->register('request_response', $req_res);
+            $templater->display($template[1], false, $template[0]);
         }
     }
 

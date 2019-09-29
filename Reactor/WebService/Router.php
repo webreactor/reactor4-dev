@@ -22,9 +22,7 @@ class Router extends MultiService {
             } elseif (isset($tree_pointer['nodes']['$any'])) {
                 $tree_pointer = &$tree_pointer['nodes']['$any'];
             } else {
-                $route->switchToError();
-                $req_res->response->code = 404;
-                break;
+                throw new PageNotFoundException('At routing');
             }
             $this->applyNode($route, $tree_pointer);
             $route->cursor++;

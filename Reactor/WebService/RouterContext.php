@@ -7,16 +7,15 @@ class RouterContext {
     public
         $cursor = 0,
         $path = array(),
-        $variables,
+        $variables = array(),
 
         $target = array(),
         $steps = array(),
         $error_handlers = array(),
-        $is_error = false,
+        $error = false,
         $new_target = true;
 
     public function __construct($path) {
-        $this->variables = new QueryParameters();
         $this->path = $this->normalizePath($path);
     }
 
@@ -30,9 +29,9 @@ class RouterContext {
         return $path;
     }
 
-    public function switchToError() {
+    public function switchToError($error) {
         $this->target = array_pop($this->error_handlers);
-        $this->is_error = true;
+        $this->error = $error;
         $this->new_target = true;
         return !empty($this->target);
     }

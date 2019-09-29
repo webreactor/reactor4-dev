@@ -3,6 +3,7 @@
 namespace Reactor\WebService;
 
 class Response {
+
     public $code;
     public $headers;
     public $body;

@@ -10,10 +10,10 @@ class RequestFactory {
         $server = new ValueScopeArray($_SERVER);
         $request = new Request();
 
-        $request->setPost($_POST);
-        $request->setGet($_GET);
-        $request->setCookies($_COOKIE);
-        $request->setFiles($_FILES);
+        $request->post = $_POST;
+        $request->get = $_GET;
+        $request->cookie = $_COOKIE;
+        $request->files = $_FILES;
 
         //$request->setHeaders(self::parseHeaders($server));
         $request->method = $_SERVER['REQUEST_METHOD'];
@@ -25,7 +25,7 @@ class RequestFactory {
         $link->path = strstr($server->get('REQUEST_URI','').'?', '?', true);
         $link->query = $server->get('QUERY_STRING','');
 
-        $request->setLink($link);
+        $request->link = $link;
         return $request;
     }
 

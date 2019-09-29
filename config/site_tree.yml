@@ -1,12 +1,15 @@
 handler: [ /site/controller, index ]
 nodes: 
     news:
-        handler: [ /news/printer, handler ]
+        handler: [ /news/printer, handle ]
         template: [ /news, news.tpl ]
         #template_wrap: [ /module, template.tpl ]
-        final: true
+        # final: true
         # render: [ /render/service, method ]
-        #map: [ config ]
+        # map:
+        #     - [get, null, 1, integer]
+        #     - [get, aaa, 2, integer]
+        #     - [get, ccc, 3, integer]
         #mapper: [ /mapper/service, method ]
         nodes:
             $any:
@@ -26,3 +29,4 @@ nodes:
         mapper: [ /mapper/service, method ]
 $error:
     template: [ /web, error.tpl ]
+    handler: error_handler

@@ -35,7 +35,8 @@ class Core extends MultiService {
             $route->new_target = false;
             $handler = $route->getTarget('handler', array(null, 'index'));
             if ($handler[0] !== null) {
-                $this->callService($handler[0], $handler[1], array($req_res));
+                $values = $this->callService('mapper', 'map', array($req_res));
+                $this->callService($handler[0], $handler[1], $values);
             }
             if (!$route->new_target) {
                 $render = $route->getTarget('render', array('render', 'render'));
@@ -46,7 +47,11 @@ class Core extends MultiService {
 
     public function lastStandError($error) {
         if (!headers_sent()) {
-            header("HTTP/1.0 500 Couldn't make it");
+            if ($error instanceof PageNotFoundException) {
+                header("HTTP/1.0 404 Couldn't make it");
+            } else {
+                header("HTTP/1.0 500 Couldn't make it");
+            }
         } else {
             die("Unexpected error");
         }
