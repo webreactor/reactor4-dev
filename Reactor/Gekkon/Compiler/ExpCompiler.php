@@ -151,7 +151,7 @@ class ExpCompiler {
         } else {
             $exp = $values[0];
         }
-        return '$gekkon->get_scope(' . $exp . ')';
+        return $exp;
     }
 }
 

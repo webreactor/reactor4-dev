@@ -21,7 +21,7 @@ class Mapper extends MultiService {
             $handler = 'getFrom'.$define[0];
             $value = $this->$handler($request_response, $define);
             if ($value === null) {
-                throw new PageNotFoundException("Error Processing Request", 1);
+                throw new PageNotFoundException("Missing $handler $key argument", 1);
             }
             $values[] = $value;
         }

@@ -92,7 +92,6 @@ class Gekkon {
         if ($data !== false && $data !== $this->data) {
             $scope = new \ArrayObject($data);
             $scope['global'] = $this->data;
-            $scope['module'] = $this->tpl_module_manager->get_module();
             return $scope;
         }
         return $this->data;

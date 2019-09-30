@@ -23,7 +23,7 @@ class BinTemplateCode {
         }
         $rez .= "'blocks'=> array(\n";
         foreach ($this->blocks as $name => $block) {
-            $rez .= "'$name'=>function (\$template,\$gekkon,\$scope){\n" . $block . "},\n";
+            $rez .= "'$name'=>function (\$scope,\$gekkon,\$template){\n" . $block . "},\n";
         }
         $info = array();
         $rez .= "))\n";

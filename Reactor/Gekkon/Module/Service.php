@@ -2,9 +2,10 @@
 
 namespace Reactor\Gekkon\Module;
 
+use \Reactor\Application\MultiService;
 use Reactor\Gekkon\Gekkon;
 
-class Service extends \Reactor\Application\MultiService {
+class Service extends MultiService {
 
     protected $gekkon;
 

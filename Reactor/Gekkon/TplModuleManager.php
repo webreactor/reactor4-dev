@@ -29,7 +29,6 @@ class TplModuleManager implements ModuleManagerInterface {
     protected function register($module) {
         $this->module = $module;
         $this->gekkon->tpl_provider->set_module($module);
-        $this->gekkon->data['module'] = $module;
     }
 
     public function get_module() {

@@ -37,8 +37,7 @@ class Core extends MultiService {
                 $this->callService($handler[0], $handler[1], $values);
             }
             if (!$route->new_target) {
-                $render = $route->getTarget('render', array('render', 'render'));
-                $this->callService($render[0], $render[1], array($req_res));
+                $this->callService('render', 'render', array($req_res));
             }
         }
     }

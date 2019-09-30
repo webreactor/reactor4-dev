@@ -26,7 +26,7 @@ class BinTplProviderFS implements BinTemplateProviderInterface {
         $file = $this->full_path($template);
         if (is_file($file)) {
             $value = require($file);
-            $bin = new BinTemplate($this->gekkon, $value);
+            $bin = new BinTemplate($value, $this->gekkon, $template->get_module());
             $this->loaded[$template_id] = $bin;
             return $bin;
         }

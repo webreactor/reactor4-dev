@@ -2,12 +2,12 @@
 
 namespace Reactor\WebService;
 
-use Reactor\Common\ValueScope\ValueScopeArray;
+use Reactor\Common\Tools\HandyArray;
 
 class RequestFactory {
 
     static function buildFromGlobals() {
-        $server = new ValueScopeArray($_SERVER);
+        $server = new HandyArray($_SERVER);
         $request = new Request();
 
         $request->post = $_POST;
@@ -19,11 +19,11 @@ class RequestFactory {
         $request->method = $_SERVER['REQUEST_METHOD'];
 
         $link = new WebLink();
-        $link->scheme = $server->get('REQUEST_SCHEME','http');
-        $link->host = strstr($server->get('HTTP_HOST',''), ':', true);
-        $link->port = $server->get('SERVER_PORT','');
-        $link->path = strstr($server->get('REQUEST_URI','').'?', '?', true);
-        $link->query = $server->get('QUERY_STRING','');
+        $link->scheme = $server->get('REQUEST_SCHEME', 'http');
+        $link->host = strstr($server->get('HTTP_HOST', ''), ':', true);
+        $link->port = $server->get('SERVER_PORT', '');
+        $link->path = strstr($server->get('REQUEST_URI', '').'?', '?', true);
+        $link->query = $server->get('QUERY_STRING', '');
 
         $request->link = $link;
         return $request;
