@@ -27,6 +27,6 @@ nodes:
         render: [ /render/service, method ]
         map: [ config ]
         mapper: [ /mapper/service, method ]
-$error:
+error:
     template: [ /web, error.tpl ]
     handler: error_handler

@@ -36,8 +36,8 @@ class Router extends MultiService {
         if (isset($node['variable'])) {
             $route->variables[$node['variable']] = $route->path[$route->cursor];
         }
-        if (isset($node['$error'])) {
-            $route->error_handlers[] = $node['$error'];
+        if (isset($node['error'])) {
+            $route->error_handlers[] = $node['error'];
         }
         unset($node['nodes']);
         $route->target = $node;

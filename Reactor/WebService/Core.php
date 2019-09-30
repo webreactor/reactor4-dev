@@ -9,14 +9,12 @@ class Core extends MultiService {
     public function handleRequest($request) {
         try {
             try {
+                set_error_handler(array($this, 'handlePHPError'));
                 $route = new RouterContext($request->link->path);
                 $req_res = new RequestResponse($request, new Response(), $route);
                 $this->execute($req_res);
             } catch (\Exception $error) {
-                if (!$req_res->route->switchToError($error)) {
-                    throw $error;
-                }
-                $this->execAndRender($req_res);
+                $this->handleError($error, $req_res);
             }
         } catch (\Exception $error) {
             $this->lastStandError($error);
@@ -45,6 +43,17 @@ class Core extends MultiService {
         }
     }
 
+    public function handlePHPError($errno, $errstr, $errfile, $errline) {
+        throw new \ErrorException($errstr, $errno, $errno, $errfile, $errline);
+    }
+
+    public function handleError($error, $req_res) {
+        if (!$req_res->route->switchToError($error)) {
+            throw $error;
+        }
+        $this->execAndRender($req_res);
+    }
+
     public function lastStandError($error) {
         if (!headers_sent()) {
             if ($error instanceof PageNotFoundException) {
@@ -52,10 +61,9 @@ class Core extends MultiService {
             } else {
                 header("HTTP/1.0 500 Couldn't make it");
             }
-        } else {
-            die("Unexpected error");
         }
         error_log($error->getMessage().' '.$error->getCode().': '.strstr($error->getTraceAsString(), "\n", true));
+        die('Service will come back soon');
     }
 
 }

@@ -6,7 +6,7 @@ use Reactor\Application\Exceptions\ModuleConfiguratorException;
 
 class Module extends \Reactor\Application\Module
 {
-    public function init($container, $config = array())
+    public function onUse()
     {
         foreach ($this->get('connections') as $key => $value) {
             $this->set(

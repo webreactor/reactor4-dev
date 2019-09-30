@@ -6,6 +6,8 @@ use Reactor\Gekkon\Gekkon;
 
 class Service extends \Reactor\Application\MultiService {
 
+    protected $gekkon;
+
     public function onUse() {
         $this->gekkon = new Gekkon($this->app['base_dir'], $this->app['tpl_bin']);
         $this->gekkon->tpl_module_manager = new TplModuleManager($this->gekkon);
@@ -17,6 +19,5 @@ class Service extends \Reactor\Application\MultiService {
         parent::getService($container);
         return $this->gekkon;
     }
-
 
 }

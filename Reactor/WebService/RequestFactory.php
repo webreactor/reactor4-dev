@@ -6,7 +6,7 @@ use Reactor\Common\ValueScope\ValueScopeArray;
 
 class RequestFactory {
 
-    function buildFromGlobals() {
+    static function buildFromGlobals() {
         $server = new ValueScopeArray($_SERVER);
         $request = new Request();
 
