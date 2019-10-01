@@ -4,7 +4,7 @@ namespace Mod\News;
 
 class Printer {
     public function handle($rr) {
-        $rr->response->body = array('we', 'are', 'here');
+        // $rr->response->body = array('we', 'are', 'here');
         // print_r(func_get_args());
     }
 

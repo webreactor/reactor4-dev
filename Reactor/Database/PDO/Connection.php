@@ -153,7 +153,7 @@ class Connection implements ConnectionInterface
      *
      * @return string
      */
-    protected function wrapWhere($where)
+    public function wrapWhere($where)
     {
         if (trim($where) == '') {
             return ' ';

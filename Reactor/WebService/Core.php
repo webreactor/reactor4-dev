@@ -34,7 +34,10 @@ class Core extends MultiService {
             $handler = $route->getTarget('handler', array(null, 'index'));
             if ($handler[0] !== null) {
                 $values = $this->callService('mapper', 'map', array($req_res));
-                $this->callService($handler[0], $handler[1], $values);
+                $data = $this->callService($handler[0], $handler[1], $values);
+                if ($req_res->response->body === null) {
+                    $req_res->response->body = $data;
+                }
             }
             if (!$route->new_target) {
                 $this->callService('render', 'render', array($req_res));

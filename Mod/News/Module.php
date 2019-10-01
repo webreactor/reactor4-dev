@@ -2,7 +2,7 @@
 
 namespace Mod\News;
 
-use Reactor\ServiceContainer\Reference;
+use Reactor\Generic\Model\CollectionModel;
 
 class Module extends \Reactor\Application\Module {
 
@@ -11,6 +11,7 @@ class Module extends \Reactor\Application\Module {
     }
 
     public function onUse() {
+        $this->set('collection', new CollectionModel($this['db'],'news_data', 'pk_news'));
         $this->set('printer', new Printer());
     }
 

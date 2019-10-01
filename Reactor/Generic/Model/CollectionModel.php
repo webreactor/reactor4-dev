@@ -2,44 +2,63 @@
 
 namespace Reactor\Generic\Model;
 
-use Reactor\Database\Interfaces\ConnectionInterface;
-use Reactor\Database\Interfaces\QueryInterface;
-
 class CollectionModel {
 
-    protected $dao;
+    protected $connection;
 
-    public function setDAO($dao) {
-        $this->dao = $dao;
+    public function __construct($connection, $table, $key, $fkeys = array()) {
+        $this->connection = $connection;
+        $this->table = $table;
+        $this->key = $key;
+        $this->fkeys = $fkeys;
     }
 
     public function add($data) {
-        return $this->dao->add($data);
+        return $this->connection->insert(
+            $this->table,
+            array_merge($this->fkeys, $data)
+        );
     }
 
     public function delete($key) {
-        return $this->dao->delete($key);
-    }
-
-    public function update($key, $data) {
-        return $this->dao->update($key, $data);
+        return $this->connection->delete(
+            $this->table,
+            array_merge($this->fkeys, array($this->key => $key))
+        );
     }
 
     public function replace($key, $data) {
-        return $this->dao->replace($key, $data);
+        return $this->connection->replace(
+            $this->table,
+            array_merge($this->fkeys, array($this->key => $key), $data)
+        );
+    }
+
+    public function update($key, $data) {
+        return $this->connection->update(
+            $this->table,
+            $data,
+            array_merge($this->fkeys, array($this->key => $key))
+        );
     }
 
     public function get($key) {
-        return $this->dao->get($key);
+        return $this->connection->select(
+            $this->table,
+            array_merge($this->fkeys, array($this->key => $key))
+        )->line();
     }
 
-    public function getAll($keys = array()) {
-        return $this->dao->getAll($keys);
-    }
-
-    public function getPage($page, $per_page, $keys = array()) {
-        //$cond = array_merge($this->fkeys, $keys)
-        //return $this->connection->sql('select from `'.$this->table.'` where '., $cond)->line();
+    public function getPage($page, $per_page, $filter = array()) {
+        $filter = array_merge($this->fkeys, $filter);
+        $where = $this->connection->buildPairs(array_keys($filter), 'and');
+        return $this->connection->pages(
+            'select * from `' . $this->table . '`' .
+            $this->connection->wrapWhere($where),
+            $filter,
+            $page,
+            $per_page
+        );
     }
 
 }

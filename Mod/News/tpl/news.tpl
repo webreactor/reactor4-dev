@@ -1,13 +1,12 @@
 News.tpl
 
-{@template->module->getDir()}
-{@template->module->getFullName()}
-{foreach from=@template->module->getKeys() item=@key}
+{@module->getDir()}
+{@module->getFullName()}
+{foreach from=@module->getKeys() item=@key}
 Key: {@key}
 {/foreach}
 
-{for from=0 to=10 key=@i}
-{@i}
-{include "name_1.tpl"}
-{include "name_2.tpl"}
-{/for}
+{foreach from=$data.data item=@line}
+*{@line.title} {echo date('r', @line.dtime)}*
+ {@line.preview}
+{/foreach}

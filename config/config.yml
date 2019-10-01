@@ -1,2 +1,6 @@
-test: 1
-
+db:
+    connections:
+        main:
+            link: mysql:dbname=reactor;host=127.0.0.1;port=3306
+            user: root
+            password: test

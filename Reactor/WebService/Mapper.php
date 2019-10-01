@@ -28,6 +28,18 @@ class Mapper extends MultiService {
         return $values;
     }
 
+    public function getFromStatic($request_response, $define) {
+        return $define[1];
+    }
+
+    public function getFromService($request_response, $define) {
+        return $this->app->getByPath($define[1]);
+    }
+
+    public function getFromCall($request_response, $define) {
+        return $this->app->callService($define[1], $define[2], $define[3]);
+    }
+
     public function getFromGet($request_response, $define) {
         $data = $request_response->request->get;
         return $this->getFromData($data, $define);

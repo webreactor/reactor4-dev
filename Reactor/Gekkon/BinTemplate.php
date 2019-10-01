@@ -12,13 +12,13 @@ class BinTemplate extends \ArrayObject {
         $this->module = $module;
         $this->exchangeArray($template_data);
         $block = $this['blocks']['__constructor'];
-        $block($gekkon->get_scope(), $gekkon, $this);
+        $block($gekkon->get_scope(), $this->gekkon, $this->module, $this);
     }
 
     public function display($scope, $block_name = '__main') {
         if (isset($this['blocks'][$block_name])) {
             $block = $this['blocks'][$block_name];
-            $block($scope, $this->gekkon, $this);
+            $block($scope, $this->gekkon, $this->module, $this);
         }
     }
 

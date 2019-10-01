@@ -7,7 +7,7 @@ function profiling($msg) {
     echo round($now - start, 7) .' delta '.round($now - $last, 5) ." $msg\n";
     $last = $now;
 }
-
+$GLOBALS['debug'] = true;
 $app = include '../bootstrap.php';
 profiling('bootstrapped');
 
@@ -20,5 +20,6 @@ profiling('app loaded');
 $app['web']->handleGlobalRequest();
 
 
-profiling('end');
 
+
+profiling('end');

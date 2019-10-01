@@ -1,14 +1,13 @@
 handler: [ /site/controller, index ]
 nodes: 
     news:
-        handler: [ /news/printer, handle ]
+        handler: [ /news/collection, getPage ]
         template: [ /news, news.tpl ]
         #template_wrap: [ /module, template.tpl ]
         # final: true
-        # map:
-        #     - [get, null, 1, integer]
-        #     - [get, aaa, 2, integer]
-        #     - [get, ccc, 3, integer]
+        map:
+            - [get, page, 1, integer]
+            - [static, 10]
         #mapper: [ /mapper/service, method ]
         nodes:
             $any:

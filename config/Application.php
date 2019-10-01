@@ -10,7 +10,9 @@ class Application extends \Reactor\Application\Application {
         $this['yml_loader'] = new YMLConfig(BASE_DIR.'var/yml_cache/');
         $this['config'] = $this['yml_loader']->load(__dir__.'/config.yml');
 
-        $this->loadModule('db', new \Reactor\Database\Module());
+        $this->loadModule('mysql', new \Reactor\Database\Module(), $this['config']['db']);
+        $this['db'] = $this['mysql']['main'];
+
         // $this->loadModule('access_control', new \Reactor\AccessControl\Module());
         $this->loadModule('events', new \Reactor\Events\Module());
         $web_config = array(
