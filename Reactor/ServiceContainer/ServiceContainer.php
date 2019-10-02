@@ -39,6 +39,7 @@ class ServiceContainer extends ValueScope {
     }
 
     public function getByPath($path = '', $default = '_throw_exception_') {
+        $path = trim($path, '/');
         if ($path == '') {
             return $this;
         }
@@ -47,7 +48,6 @@ class ServiceContainer extends ValueScope {
         } else {
             $value = $this;
         }
-        $path = trim($path,'/');
         $path_words = explode('/', $path);
         $words_cnt = count($path_words);
         for ($current = 0; $current < $words_cnt; $current++) {

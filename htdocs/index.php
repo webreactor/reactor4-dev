@@ -14,11 +14,10 @@ profiling('bootstrapped');
 $app = new \Myproject\Application();
 profiling('app created');
 $app->loadConfig();
-
+// print_r($app);
 profiling('app loaded');
 
 $app['web']->handleGlobalRequest();
-
 
 
 

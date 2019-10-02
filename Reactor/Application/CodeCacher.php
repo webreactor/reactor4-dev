@@ -4,7 +4,6 @@ namespace Reactor\Application;
 
 class CodeCacher extends MultiService {
 
-    public $loaded = array();
     public $cache_dir;
 
 
@@ -22,48 +21,34 @@ class CodeCacher extends MultiService {
     }
 
     public function load($id) {
-        $cache = $this->loadRaw($id);
-        if ($cache !== false) {
-            return $cache['data'];
-        }
-        return false;
-    }
-
-    protected function loadRaw($id) {
         $cache_file = $this->cacheFileName($id);
-        if (!isset($this->loaded[$cache_file])) {
-            if (!is_file($cache_file)) {
-                return false;
-            }
-            include $cache_file;
-            $this->loaded[$cache_file] = $cache;
+        if (!is_file($cache_file)) {
+            return false;
         }
-        return $this->loaded[$cache_file];
+        $app = $this->app;
+        include $cache_file;
+        return $cache;
     }
 
     public function created($id) {
-        $cache = $this->loadRaw($id);
-        if ($cache !== false) {
-            return $cache['created'];
+        $cache_file = $this->cacheFileName($id);
+        if (is_file($cache_file)) {
+            return filemtime($cache_file);
         }
         return 0;
     }
 
     public function writeCache($file, $raw_code) {
-        $code = "<?php\n" .
-            '$cache = array("created" => ' . time() . ",\n" .
-            '"data" => ' . $raw_code . ",\n" .
-            ');';
+        $code = "<?php\n\$cache = " .$raw_code.';';
         $dir = dirname($file);
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
-        $temp_file = $dir.'/'.microtime(true).'.php';
+        $temp_file = $this->cache_dir.'/'.microtime(true).'.php';
         file_put_contents($temp_file, $code);
         if ($this->checkPHPSyntax($temp_file)) {
             rename($temp_file, $file);
             opcache_invalidate($file);
-            unset($this->loaded[$file]);
             return true;
         }
         unset($temp_file);
@@ -83,7 +68,8 @@ class CodeCacher extends MultiService {
     }
 
     public function cacheFileName($id) {
-        return $this->cache_dir.md5($id).'.php';
+        $id = md5($id);
+        return $this->cache_dir.$id[0].'/'.$id.'.php';
     }
 
 }

@@ -3,10 +3,12 @@
 namespace Reactor\Application;
 
 use Symfony\Component\Yaml\Yaml;
+use Reactor\ServiceContainer\Reference;
 
 class YMLConfig {
 
-    public function __construct($code_cacher) {
+    public function __construct($base_dir, $code_cacher) {
+        $this->base_dir = $base_dir;
         $this->code_cacher = $code_cacher;
     }
 
@@ -27,11 +29,11 @@ class YMLConfig {
 
     public function goodCache($file) {
         $created = $this->code_cacher->created($file);
-        return filemtime($file) < $created;
+        return filemtime($this->base_dir . $file) < $created;
     }
 
     public function compileFile($file) {
-        $content = file_get_contents($file);
+        $content = file_get_contents($this->base_dir . $file);
         $code = $this->compileYML($content);
         if ($code !== false) {
             return $this->code_cacher->saveCode($file, $code);
@@ -72,6 +74,9 @@ class YMLConfig {
     public function compileMetaVar($value) {
         if ($value[0] == '?') {
             return substr($value, 1);
+        }
+        if ($value[0] == '/') {
+            return 'new \Reactor\ServiceContainer\Reference("'.substr($value, 1).'")';
         }
         return var_export($value, true);
     }

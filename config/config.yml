@@ -1,7 +1,16 @@
-db:
+#common settings
+base_dir: <? BASE_DIR
+db: </mysql/main
+
+#modules
+mysql:
     connections:
         main:
             link: mysql:dbname=reactor;host=127.0.0.1;port=3306
             user: root
             password: test
-# return in place module config support
+
+web:
+    site_tree: <? $app['yml_loader']->lazyLoad('config/site_tree.yml')
+    tpl_bin: <? BASE_DIR . 'var/tpl_bin/'
+
