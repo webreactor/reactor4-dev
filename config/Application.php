@@ -9,7 +9,6 @@ class Application extends \Reactor\Application\Application {
 
     public function onLoad() {
         $this['code_cacher'] = new CodeCacher(BASE_DIR.'var/code_cache/');
-        profiling('code_cacher');
         $this['yml_loader'] = new YMLConfig($this['code_cacher']);
         $this['config'] = $this['yml_loader']->load(__dir__.'/config.yml');
         $this->loadModule('mysql', new \Reactor\Database\Module(), $this['config']['db']);

@@ -36,7 +36,6 @@ class CodeCacher extends MultiService {
                 return false;
             }
             include $cache_file;
-            return $cache;
             $this->loaded[$cache_file] = $cache;
         }
         return $this->loaded[$cache_file];
