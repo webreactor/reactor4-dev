@@ -108,6 +108,7 @@ class Gekkon {
 
     public function compiler() {
         if (!$this->compiler) {
+            Gekkon::create_dir($this->bin_path);
             $this->compiler = new Compiler\Compiler($this);
         }
         return $this->compiler;
@@ -158,10 +159,8 @@ class Gekkon {
     }
 
     static function create_dir($path) {
-        $path = rtrim($path, '/');
         if (!is_dir($path)) {
-            Gekkon::create_dir(dirname($path));
-            mkdir($path);
+            mkdir($path, 0755, true);
         }
     }
 }

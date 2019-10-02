@@ -3,12 +3,11 @@
 namespace Reactor\Application;
 
 use Symfony\Component\Yaml\Yaml;
-use Reactor\Common\Tools\FileSystemTools;
 
-class YMLConfig extends MultiService {
+class YMLConfig {
 
-    public function __construct($cache_dir) {
-        $this->cache_dir = $cache_dir;
+    public function __construct($code_cacher) {
+        $this->code_cacher = $code_cacher;
     }
 
     public function lazyLoad($file) {
@@ -18,24 +17,24 @@ class YMLConfig extends MultiService {
     }
 
     public function load($file) {
-        $cache_file = $this->cacheFileName($file);
-        if (!$this->goodCache($file, $cache_file)) {
-            if ($this->compileFile($file, $cache_file) === false) {
+        if (!$this->goodCache($file)) {
+            if ($this->compileFile($file) === false) {
                 throw new Exception("Failed to write config cache ".$cache_file, 1);
             }
         }
-        $app = $this->app;
-        require $cache_file;
-        return $data;
+        return $this->code_cacher->load($file);
     }
 
-    public function compileFile($file, $compiled_file) {
+    public function goodCache($file) {
+        $created = $this->code_cacher->created($file);
+        return filemtime($file) < $created;
+    }
+
+    public function compileFile($file) {
         $content = file_get_contents($file);
         $code = $this->compileYML($content);
         if ($code !== false) {
-            $code = "<?php\n\$data = ".$code.";\n";
-            FileSystemTools::createDir($this->cache_dir);
-            return file_put_contents($compiled_file, $code);
+            return $this->code_cacher->saveCode($file, $code);
         }
         return false;
     }
@@ -70,22 +69,11 @@ class YMLConfig extends MultiService {
         return var_export($value, true);
     }
 
-    public function goodCache($file, $cache) {
-        if (!is_file($cache)) {
-            return false;
-        }
-        return filemtime($file) <= filemtime($cache);
-    }
-
     public function compileMetaVar($value) {
         if ($value[0] == '?') {
             return substr($value, 1);
         }
         return var_export($value, true);
-    }
-
-    public function cacheFileName($file) {
-        return $this->cache_dir.md5($file).'.php';
     }
 
 }

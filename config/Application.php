@@ -3,16 +3,17 @@
 namespace MyProject;
 
 use Reactor\Application\YMLConfig;
+use Reactor\Application\CodeCacher;
 
 class Application extends \Reactor\Application\Application {
 
     public function onLoad() {
-        $this['yml_loader'] = new YMLConfig(BASE_DIR.'var/yml_cache/');
+        $this['code_cacher'] = new CodeCacher(BASE_DIR.'var/code_cache/');
+        profiling('code_cacher');
+        $this['yml_loader'] = new YMLConfig($this['code_cacher']);
         $this['config'] = $this['yml_loader']->load(__dir__.'/config.yml');
-
         $this->loadModule('mysql', new \Reactor\Database\Module(), $this['config']['db']);
         $this['db'] = $this['mysql']['main'];
-
         // $this->loadModule('access_control', new \Reactor\AccessControl\Module());
         $this->loadModule('events', new \Reactor\Events\Module());
         $web_config = array(
@@ -21,7 +22,6 @@ class Application extends \Reactor\Application\Application {
             'base_dir' => BASE_DIR,
         );
         $this->loadModule('web', new \Reactor\WebService\Module(), $web_config);
-
         $this->loadModule('news', new \Mod\News\Module());
     }
 

@@ -188,8 +188,7 @@ class Compiler {
         return false;
     }
 
-    function getUID()//it is a relatively unique id, for uid inside of one template
-    {
+    function getUID() { //it is a relatively unique id, for uid inside of one template
         return $this->uid++;
     }
 
