@@ -149,7 +149,7 @@ class Gekkon {
             foreach (scandir($path) as $file) {
                 if ($file[0] != '.') {
                     if (is_dir($path . $file)) {
-                        Gekkon::clear_dir($path . $file . '/');
+                        Gekkon::clear_dir($path . $file);
                     } else {
                         unlink($path . $file);
                     }

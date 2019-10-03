@@ -19,7 +19,7 @@ class MultiService implements ServiceProviderInterface {
         return $this;
     }
 
-    function callService($path, $method, $args) {
+    function callService($path, $method = null, $args = array()) {
         return $this->app->callService($path, $method, $args);
     }
 

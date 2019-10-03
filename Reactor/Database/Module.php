@@ -2,7 +2,6 @@
 
 namespace Reactor\Database;
 
-use Reactor\Application\Exceptions\ModuleConfiguratorException;
 use Reactor\Database\PDO\Connection;
 
 class Module extends \Reactor\Application\Module {

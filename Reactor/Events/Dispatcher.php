@@ -18,11 +18,6 @@ class Dispatcher {
 
     public function addListener($event_name, $callable) {
         $this->listeners[$this->getPregMask($event_name)][] = $callable;
-        $this->resetCache();
-        return $this;
-    }
-
-    public function resetCache() {
         $this->cache = array();
     }
 
@@ -30,7 +25,6 @@ class Dispatcher {
         foreach ($subscriber->getEventHandlers() as $event_name => $method_name) {
             $this->addListener($event_name, array($subscriber, $method_name));
         }
-        return $this;
     }
 
     public function raise($name, $data = null) {
@@ -38,11 +32,10 @@ class Dispatcher {
     }
 
     public function dispatch(Event $event) {
-        $listeners = $this->getListeners($event->getName());
+        $listeners = $this->getListeners($event->name);
         foreach ($listeners as $callable) {
             $this->runCallback($callable, $event);
         }
-        return $this;
     }
 
     protected function runCallback($callable, Event $event) {
