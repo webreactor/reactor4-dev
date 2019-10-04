@@ -19,6 +19,4 @@ profiling('app loaded');
 
 $app['web']->handleGlobalRequest();
 
-
-
 profiling('end');
