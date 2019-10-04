@@ -2,13 +2,13 @@
 
 namespace MyProject;
 
-use Reactor\Application\YMLConfig;
-use Reactor\Application\CodeCacher;
+use \Reactor\Config\CodeCacher;
+use \Reactor\Config\YMLConfig;
 
 class Application extends \Reactor\Application\Application {
 
     public function onLoad() {
-        $this['code_cacher'] = new CodeCacher(BASE_DIR.'var/code_cache/');
+        $this['code_cacher'] = new CodeCacher(BASE_DIR . 'var/code_cache/');
         $this['yml_loader'] = new YMLConfig(BASE_DIR, $this['code_cacher']);
         $this->addAll($this['yml_loader']->load('config/config.yml'));
 

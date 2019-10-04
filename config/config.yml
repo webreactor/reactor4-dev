@@ -1,5 +1,4 @@
 #common settings
-base_dir: <? BASE_DIR
 db: </mysql/main
 
 #modules
