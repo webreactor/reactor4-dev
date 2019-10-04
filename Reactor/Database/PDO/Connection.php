@@ -24,11 +24,12 @@ class Connection implements ConnectionInterface
      * @param string $user
      * @param string $pass
      */
-    public function __construct($connection_string, $user = null, $pass = null)
+    public function __construct($connection_string, $user = null, $pass = null, $options = array())
     {
         $this->connection_string = $connection_string;
         $this->user              = $user;
         $this->pass              = $pass;
+        $this->options              = $options;
     }
     
     /**
@@ -39,7 +40,7 @@ class Connection implements ConnectionInterface
     {
         if ($this->connection === null) {
             try {
-                $this->connection = new \PDO($this->connection_string, $this->user, $this->pass);
+                $this->connection = new \PDO($this->connection_string, $this->user, $this->pass, $this->options);
                 $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             } catch (\PDOException $exception) {
                 throw new Exceptions\DatabaseException($exception->getMessage(), $this);
@@ -124,7 +125,7 @@ class Connection implements ConnectionInterface
     public function sql($query, $arguments = array())
     {
         if (!empty($GLOBALS['debug'])) {
-            echo "\n$query " . json_encode($arguments) . "<br>";
+            echo "\n$query " . json_encode($arguments) . "<br>\n";
         }
         $statement = $this->getConnection()->prepare($query);
         if (!$statement) {

@@ -8,7 +8,10 @@ class Module extends \Reactor\Application\Module {
 
     public function onUse() {
         foreach ($this['connections'] as $key => $value) {
-            $this->set($key, new Connection($value['link'], $value['user'], $value['password']));
+            if (!isset($value['options'])) {
+                $value['options'] = array();
+            }
+            $this->set($key, new Connection($value['link'], $value['user'], $value['password'], $value['options']));
         }
     }
 

@@ -16,8 +16,9 @@ class Tag_include extends BaseTagSingle {
             $args = $compiler->exp_compiler->compile_construction_expressions($args);
             $additional_args = $args + $additional_args;
         } else {
-            $exp = $compiler->exp_compiler->compile_exp($this->args_raw);
+            $exp = $this->args_raw;
         }
+        $exp = $compiler->exp_compiler->compile_exp($exp);
         if ($exp === false) {
             return $compiler->error_in_tag('Cannot compile args "' . $this->args_raw . '"', $this);
         }
@@ -25,5 +26,3 @@ class Tag_include extends BaseTagSingle {
         return '$gekkon->display(' . $exp . ', ' . $additional_args['scope'] . ', ' . $additional_args['module'] . ");\n";
     }
 }
-
-//end of class

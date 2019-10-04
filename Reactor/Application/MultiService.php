@@ -9,6 +9,7 @@ use Reactor\ServiceContainer\ServiceProviderInterface;
 class MultiService implements ServiceProviderInterface {
 
     protected $is_used = false;
+    protected $app = null;
 
     function getService($app) {
         if (!$this->is_used) {

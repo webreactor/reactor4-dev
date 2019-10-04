@@ -17,10 +17,15 @@ class Render extends MultiService {
             }
         }
         $template = $req_res->route->getTarget('template');
-        if ($template !== null) {
+        $template_wrap = $req_res->route->getTarget('template_wrap');
+        if ($template_wrap !== null || $template !== null) {
             $templater = $this->app['templater'];
             $templater->register('data', $response->body);
             $templater->register('request_response', $req_res);
+            $templater->register('template', $template);
+            if ($template_wrap !== null) {
+                $template = $template_wrap;
+            }
             $templater->display($template[1], false, $template[0]);
         }
     }

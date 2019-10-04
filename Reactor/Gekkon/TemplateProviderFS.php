@@ -24,12 +24,4 @@ class TemplateProviderFS implements TemplateProviderInterface{
         return $this->base_dir . $this->module . $short_name;
     }
 
-    protected function dirname($str) {
-        $slash = strrpos($str, '/');
-        if ($slash !== false) {
-            return substr($str, 0, $slash + 1);
-        }
-        return '';
-    }
-
 }

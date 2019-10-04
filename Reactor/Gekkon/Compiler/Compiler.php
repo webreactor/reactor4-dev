@@ -48,9 +48,15 @@ class Compiler {
 
     function compile($template) {
         $this->binTplCode = new BinTemplateCode($this, $template);
-        $source = $this->compile_str($template->source());
+        $source = $template->source();
+        if ($source === false) {
+            $this->error('Empty template source');
+            return $this->flush_errors();
+        }
+        $source = $this->compile_str($source);
         if (!Compiler::check_syntax($source)) {
-            return false;
+            $this->error('Something wrong with php syntax');
+            return $this->flush_errors();
         }
         $this->binTplCode->blocks['__main'] = $source;
         return $this->binTplCode;

@@ -24,6 +24,9 @@ class TemplateFS implements TemplateInterface {
     }
 
     public function source() {
+        if (!is_file($this->file)) {
+            return false;
+        }
         return file_get_contents($this->file);
     }
 

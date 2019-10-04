@@ -4,7 +4,7 @@ namespace Reactor\Events;
 
 use \Reactor\ServiceContainer\ServiceProviderInterface;
 
-class ContainerAwareDispatcher implements ServiceProviderInterface {
+class ContainerAwareDispatcher extends Dispatcher implements ServiceProviderInterface {
 
     protected $is_used = false;
     protected $app;
@@ -14,6 +14,7 @@ class ContainerAwareDispatcher implements ServiceProviderInterface {
             $this->is_used = true;
             $this->app = $app;
         }
+        return $this;
     }
 
     protected function runCallback($callable, Event $event) {

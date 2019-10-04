@@ -12,7 +12,7 @@ class Application extends \Reactor\Application\Application {
         $this['yml_loader'] = new YMLConfig(BASE_DIR, $this['code_cacher']);
         $this->addAll($this['yml_loader']->load('config/config.yml'));
 
-        $this->loadModule('events', new \Reactor\Events\Module());
+        $this['events'] = new \Reactor\Events\ContainerAwareDispatcher();
         $this->loadModule('mysql', new \Reactor\Database\Module());
         // $this->loadModule('access_control', new \Reactor\AccessControl\Module());
         $this->loadModule('web', new \Reactor\WebService\Module());
