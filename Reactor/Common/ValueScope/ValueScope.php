@@ -4,7 +4,7 @@ namespace Reactor\Common\ValueScope;
 
 class ValueScope implements \ArrayAccess, \IteratorAggregate {
 
-    protected $data;
+    protected $data = array();
     protected $parent = null;
 
     public function getParent() {
@@ -52,7 +52,7 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
         return isset($this->data[$name]);
     }
 
-    public function getKeysDirect($name) {
+    public function getKeysDirect() {
         return array_keys($this->data);
     }
 

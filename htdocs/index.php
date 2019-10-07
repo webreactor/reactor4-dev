@@ -8,7 +8,7 @@ function profiling($msg) {
     $last = $now;
 }
 $GLOBALS['debug'] = true;
-$app = include '../bootstrap.php';
+include '../bootstrap.php';
 profiling('bootstrapped');
 
 $app = new \Myproject\Application();
@@ -16,6 +16,19 @@ profiling('app created');
 $app->loadConfig();
 // print_r($app);
 profiling('app loaded');
+
+
+// $m = new \Reactor\StaticFiles\Manager();
+
+// $t = $m->listModules($app);
+
+
+// foreach ($t as $path) {
+//     $module = $app->getByPath($path);
+//     echo $path.' - '.$module->getDir()."\n";
+// }
+// print_r($t);
+
 
 $app['web']->handleGlobalRequest();
 

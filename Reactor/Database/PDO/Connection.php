@@ -297,7 +297,9 @@ class Connection implements ConnectionInterface
     {
         $per_page = (int) $per_page;
         $page     = (int) $page;
-        
+        if ($page < 0) {
+            $page = 0;
+        }
         if ($page == 0) {
             $data = $this->sql($query, $parameters)->matr();
         } else {
