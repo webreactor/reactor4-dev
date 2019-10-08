@@ -12,12 +12,12 @@ class Core extends MultiService {
                 $this->events = $this->app['events'];
                 set_error_handler(array($this, 'handlePHPError'));
                 $route = new RouterContext($request->link->path);
-                $req_res = new RequestResponse($request, new Response(), $route);
+                $this->app['req_res'] = $req_res = new RequestResponse($request, new Response(), $route);
                 $this->execute($req_res);
-            } catch (\Exception $error) {
+            } catch (\Throwable $error) {
                 $this->handleError($error, $req_res);
             }
-        } catch (\Exception $error) {
+        } catch (\Throwable $error) {
             $this->lastStandError($error);
         }
     }
@@ -37,7 +37,8 @@ class Core extends MultiService {
             $this->events->raise('web.request.routed', $req_res);
             $handler = $route->getTarget('handler', array(null, 'index'));
             if ($handler[0] !== null) {
-                $values = $this->callService('mapper', 'map', array($req_res));
+                $mapper = $route->getTarget('mapper', array('mapper', 'map'));
+                $values = $this->callService($mapper[0], $mapper[1], array($req_res));
                 $data = $this->callService($handler[0], $handler[1], $values);
                 if ($req_res->response->body === null) {
                     $req_res->response->body = $data;

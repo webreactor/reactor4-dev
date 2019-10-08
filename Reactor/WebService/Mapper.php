@@ -18,6 +18,7 @@ class Mapper extends MultiService {
     public function mapValues($request_response, $map) {
         $values = array();
         foreach ($map as $key => $define) {
+            $define += array(null, null, null, null);
             $handler = 'getFrom'.$define[0];
             $value = $this->$handler($request_response, $define);
             if ($value === null) {
@@ -33,11 +34,14 @@ class Mapper extends MultiService {
     }
 
     public function getFromService($request_response, $define) {
-        return $this->app->getByPath($define[1]);
+        $data = $this->app->getByPath($define[1]);
+        return $this->getFromData($data, $define);
     }
 
     public function getFromCall($request_response, $define) {
-        return $this->app->callService($define[1], $define[2], $define[3]);
+        $args = (array)$define[3];
+        $args[] = $request_response;
+        return $this->app->callService($define[1], $define[2], $args);
     }
 
     public function getFromGet($request_response, $define) {
@@ -50,8 +54,8 @@ class Mapper extends MultiService {
         return $this->getFromData($data, $define);
     }
 
-    public function getFromURL($request_response, $define) {
-        $data = $request_response->route->values;
+    public function getFromVariable($request_response, $define) {
+        $data = $request_response->route->variables;
         return $this->getFromData($data, $define);
     }
 
@@ -60,38 +64,44 @@ class Mapper extends MultiService {
             return $data;
         }
         if (isset($data[$define[1]])) {
-            $control = 'ControlValue'.$define[3];
-            return $this->$control($data[$define[1]], $define[2]);
+            if ($define[3][0] == '/') {
+                $control = array($this->app->getByPath($define[3]), $define[4]);
+            } else {
+                $control = 'Reactor\\Common\\Tools\\ValueControl::is'.$define[3];
+            }
+            if(!$control($data[$define[1]])) {
+                throw new PageNotFoundException("Failed format check $control {$define[1]}", 1);
+            }
+            return $data[$define[1]];
         }
         return $define[2];
     }
 
-    public function ControlValueString($value, $default) {
-        if (empty($value)) {
-            return $default;
-        }
-        return StringTools::sanitizeBin($value);
-    }
-
-    public function ControlValueInteger($value, $default) {
-        if ("$value" === ''.intval($value)) {
-           return 0 + $value;
-        }
-        return $default;
-    }
-
-    public function ControlValueNumber($value, $default) {
-        if (is_numeric($value)) {
-            return 0 + $value;
-        }
-        return $default; 
-    }
-
-    public function ControlValueArray($value, $default) {
-        if(is_array($value)) {
-            return $value;
-        }
-        return $default;
-    }
-
 }
+
+
+/*
+
+map:
+    - [source, key, default, format]
+
+Example:
+
+map:
+    - [get, page, 1, natural]
+    - [static, 10] // just 10
+    - [values, pk_user, null, /user_service, isUser] # service will check value 
+    - [post, null]  # returns whole post
+
+sources:
+    get, post, valuable, static, service, call
+
+format for "call" is different
+    [ call, /service/path, method, [args] ] 
+and req_res will be added as the last argument
+
+formats:
+    string, number, integer, natural, array
+
+
+*/

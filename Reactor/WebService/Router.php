@@ -19,22 +19,28 @@ class Router extends MultiService {
             $step = $route->path[$route->cursor];
             if (isset($tree_pointer['nodes'][$step])) {
                 $tree_pointer = &$tree_pointer['nodes'][$step];
+                $tree_pointer['node_key'] = $step;
             } elseif (isset($tree_pointer['nodes']['$any'])) {
                 $tree_pointer = &$tree_pointer['nodes']['$any'];
+                $tree_pointer['node_key'] = '$any';
             } else {
                 throw new PageNotFoundException('At routing');
             }
             $this->applyNode($route, $tree_pointer);
             $route->cursor++;
             if (isset($tree_pointer['final'])) {
-                break;
+                $route->cursor = $cnt;
             }
         }
     }
 
     public function applyNode($route, $node) {
         if (isset($node['variable'])) {
-            $route->variables[$node['variable']] = $route->path[$route->cursor];
+            if (isset($node['final'])) {
+                $route->variables[$node['variable']] = array_slice($route->path, $route->cursor);
+            } else {
+                $route->variables[$node['variable']] = $route->path[$route->cursor];
+            }
         }
         if (isset($node['error'])) {
             $route->error_handlers[] = $node['error'];

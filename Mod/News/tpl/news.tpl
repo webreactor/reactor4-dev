@@ -6,15 +6,15 @@ News.tpl
 Key: {@key}
 {/foreach}
 
-
 {foreach $data.data as @line}
 *{@line.title} {echo date('r', @line.dtime)}*
  {@line.preview}
 {/foreach}
 
 Navigation:</br>
+{set $link = '?page=__page__'}
 {navigation key=@key data=$data}
-<a href="?page={@key}">{@key}</a></br>
+<a href="{echo $web_tools->makeUrlTemplate(array('page' => @key))}">{@key}</a></br>
 {else}
 {@key}</br>
 {/navigation}

@@ -35,7 +35,7 @@ class Lexer {
     }
 
     function init($str) {
-        $this->str = $str;
+        $this->str = trim($str);
         $this->step = 0;
         $this->error = '';
         $this->rez = array();
@@ -133,7 +133,7 @@ class Lexer {
 
     function parse_variable($str) {
         $this->init($str);
-        $lexems = ' .:,;?!()[]{}<>-+/*=&^@#$%~\\"\'';
+        $lexems = ' .:,;?!()[]{}<>-+/*=&^@#$%~"\'';
         $word = '';
         $before = $c = '';
         $this->step = 0;

@@ -1,5 +1,5 @@
 ERROR HAPPEN
 
-{$request_response->route->error->getMessage()}
-{$request_response->route->error->getLine()}
-{$request_response->route->error->getTraceAsString()}
+{$req_res->route->error->getMessage()}
+{$req_res->route->error->getLine()}
+{$req_res->route->error->getTraceAsString()}

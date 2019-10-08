@@ -7,13 +7,17 @@ nodes:
         template_wrap: [ /news, main.tpl ]
         # final: true
         map:
-            - [get, page, 1, integer]
+            - [get, page, 1, natural]
             - [static, 10]
         nodes:
             $any:
-                variable: here
-                handler: [ /news/printerw, handler ]
+                variable: page
+                handler: [ /news/collection, getPage ]
                 template: [ /news, news.tpl ]
+                template_wrap: [ /news, main.tpl ]
+                map:
+                    - [variable, page, 1, natural]
+                    - [static, 10]
 
 error:
     template: [ /web, error.tpl ]

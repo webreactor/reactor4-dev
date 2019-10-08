@@ -21,8 +21,9 @@ class Render extends MultiService {
         if ($template_wrap !== null || $template !== null) {
             $templater = $this->app['templater'];
             $templater->register('data', $response->body);
-            $templater->register('request_response', $req_res);
+            $templater->register('req_res', $req_res);
             $templater->register('template', $template);
+            $templater->register('web_tools', $this->app['tools']);
             if ($template_wrap !== null) {
                 $template = $template_wrap;
             }

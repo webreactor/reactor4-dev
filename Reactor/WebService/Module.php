@@ -11,6 +11,7 @@ class Module extends \Reactor\Application\Module {
         $this->set('templater', new \Reactor\Gekkon\Module\Service());
         $this->set('error_handler', new ErrorHandler());
         $this->set('core', new Core());
+        $this->set('tools', new Tools());
     }
 
     public function handleGlobalRequest() {
