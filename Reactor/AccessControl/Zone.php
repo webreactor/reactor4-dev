@@ -30,7 +30,7 @@ class Zone implements ServiceProviderInterface {
         return $this->zoneExecute($name, $arguments);
     }
 
-    public function getService($container) {
+    public function provideService($container) {
         if (!$this->is_init) {
             $this->is_init = true;
             $this->container = $container;

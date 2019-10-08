@@ -19,11 +19,11 @@ class Render extends MultiService {
         $template = $req_res->route->getTarget('template');
         $template_wrap = $req_res->route->getTarget('template_wrap');
         if ($template_wrap !== null || $template !== null) {
-            $templater = $this->app['templater'];
+            $templater = $this->app->get('templater');
             $templater->register('data', $response->body);
             $templater->register('req_res', $req_res);
             $templater->register('template', $template);
-            $templater->register('web_tools', $this->app['tools']);
+            $templater->register('web_tools', $this->app->get('tools'));
             if ($template_wrap !== null) {
                 $template = $template_wrap;
             }

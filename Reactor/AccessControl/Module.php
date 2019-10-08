@@ -16,8 +16,8 @@ class Module extends \Reactor\Application\Module {
         $this->access_control = new AccessControl($this, $this->get('user'), $this->get('access_control_list'));
     }
 
-    public function getService($container) {
-        parent::getService($container);
+    public function provideService($container) {
+        parent::provideService($container);
         return $this->access_control;
     }
 

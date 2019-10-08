@@ -9,7 +9,7 @@ class ContainerAwareDispatcher extends Dispatcher implements ServiceProviderInte
     protected $is_used = false;
     protected $app;
     
-    public function getService($app) {
+    public function provideService($app) {
         if ($this->is_used === false) {
             $this->is_used = true;
             $this->app = $app;

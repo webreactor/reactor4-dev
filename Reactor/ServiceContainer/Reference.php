@@ -11,7 +11,7 @@ class Reference implements ServiceProviderInterface {
         $this->path = $path;
     }
 
-    public function getService($container = null) {
+    public function provideService($container = null) {
         if ($this->loading) {
             throw new \Exception("Circular reference [{$this->path}]");
         }

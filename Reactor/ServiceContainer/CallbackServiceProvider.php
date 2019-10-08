@@ -13,10 +13,10 @@ class CallbackServiceProvider implements ServiceProviderInterface {
         $this->callback = $callback;
     }
 
-    function getService($container) {
+    function provideService($container) {
         $value = call_user_func($this->callback, $container);
         if ($value instanceof ServiceProviderInterface) {
-            return $value->getService($container);
+            return $value->provideService($container);
         }
         return $value;
     }

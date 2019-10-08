@@ -9,10 +9,10 @@ class Core extends MultiService {
     public function handleRequest($request) {
         try {
             try {
-                $this->events = $this->app['events'];
+                $this->events = $this->app->get('events');
                 set_error_handler(array($this, 'handlePHPError'));
                 $route = new RouterContext($request->link->path);
-                $this->app['req_res'] = $req_res = new RequestResponse($request, new Response(), $route);
+                $this->app->set('req_res', $req_res = new RequestResponse($request, new Response(), $route));
                 $this->execute($req_res);
             } catch (\Throwable $error) {
                 $this->handleError($error, $req_res);
@@ -24,7 +24,7 @@ class Core extends MultiService {
 
     public function execute($req_res) {
         $this->events->raise('web.request.received', $req_res);
-        $this->app['router']->routeRequest($req_res);
+        $this->app->get('router')->routeRequest($req_res);
         $this->execAndRender($req_res);
         $this->events->raise('web.request.served', $req_res);
     }
@@ -47,7 +47,7 @@ class Core extends MultiService {
             $this->events->raise('web.request.handled', $req_res);
             profiling('logic is done');
             if (!$route->new_target) {
-                $this->app['render']->render($req_res);
+                $this->app->get('render')->render($req_res);
             }
         }
     }

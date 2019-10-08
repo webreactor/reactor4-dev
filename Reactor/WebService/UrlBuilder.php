@@ -6,17 +6,17 @@ use Reactor\Application\MultiService;
 
 class UrlBuilder extends MultiService {
 
-    protected $template = null;
+    protected $templates = null;
     protected $used_vars = array();
 
     public function buildUrl($variables) {
-        $rr = $this->app['req_res'];
+        $rr = $this->app->get('req_res');
         $data = $variables + $rr->route->variables + $rr->request->get;
         $cache_key = implode('_', array_keys($data));
-        if (!isset($this->template[$cache_key])) {
-            $this->template[$cache_key] = $this->buildUrlTemplate($data);
+        if (!isset($this->templates[$cache_key])) {
+            $this->templates[$cache_key] = $this->buildUrlTemplate($data, $rr);
         }
-        $cache = $this->template[$cache_key];
+        $cache = $this->templates[$cache_key];
         return $this->fillUrlTemplate($cache[0], $data, $cache[1]);
     }
 
@@ -44,10 +44,9 @@ class UrlBuilder extends MultiService {
         return $link;
     }
 
-    public function buildUrlTemplate($data) {
+    public function buildUrlTemplate($data, $rr) {
         $template = '/';
-        $rr = $this->app['req_res'];
-        $node = $this->app['site_tree'];
+        $node = $this->app->get('site_tree');
         $this->used_vars = array();
         foreach ($rr->route->steps as $step) {
             if (isset($step['node_key'])) {

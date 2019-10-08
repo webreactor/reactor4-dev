@@ -4,6 +4,6 @@ namespace Reactor\ServiceContainer;
 
 Interface ServiceProviderInterface {
 
-    public function getService($container);
+    public function provideService($container);
 
 }

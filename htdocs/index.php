@@ -19,8 +19,14 @@ profiling('app loaded');
 
 
 // $m = new \Reactor\StaticFiles\Manager();
-
 // $t = $m->listModules($app);
+// $t = new ArrayObject(array(1));
+// $t = array(1);
+// for ($i=1;$i<100000;$i++) {
+//     $t[$i%10] = $t[($i-1)%10];
+// }
+
+
 
 
 // foreach ($t as $path) {
@@ -30,6 +36,6 @@ profiling('app loaded');
 // print_r($t);
 
 
-$app['web']->handleGlobalRequest();
+$app->get('web')->handleGlobalRequest();
 
 profiling('end');

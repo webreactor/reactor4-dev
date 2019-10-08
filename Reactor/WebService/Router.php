@@ -7,7 +7,7 @@ use Reactor\Application\MultiService;
 class Router extends MultiService {
 
     public function routeRequest($req_res) {
-        $this->route($req_res, $this->app['site_tree']);
+        $this->route($req_res, $this->app->get('site_tree'));
     }
 
     public function route($req_res, $tree) {

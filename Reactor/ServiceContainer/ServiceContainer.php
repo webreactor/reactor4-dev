@@ -33,13 +33,12 @@ class ServiceContainer extends ValueScope {
     public function getDirect($name) {
         $value = $this->data[$name];
         if ($value instanceof ServiceProviderInterface) {
-            return $value->getService($this);
+            return $value->provideService($this);
         }
         return $value;
     }
 
-    public function getByPath($path = '', $default = '_throw_exception_') {
-        $path = trim($path, '/');
+    public function getByPath($path, $default = '_throw_exception_') {
         if ($path == '') {
             return $this;
         }
@@ -48,10 +47,13 @@ class ServiceContainer extends ValueScope {
         } else {
             $value = $this;
         }
-        $path_words = explode('/', $path);
-        $words_cnt = count($path_words);
-        for ($current = 0; $current < $words_cnt; $current++) {
-            $value = $value[$path_words[$current]];
+        $path = trim($path, '/');
+        foreach (explode('/', $path) as $word) {
+            if ($value instanceof ValueScope) {
+                $value = $value->get($word);
+           } else {
+                $value = $value[$word];
+           }
         }
         return $value;
     }

@@ -7,7 +7,7 @@ use Reactor\Database\PDO\Connection;
 class Module extends \Reactor\Application\Module {
 
     public function onUse() {
-        foreach ($this['connections'] as $key => $value) {
+        foreach ($this->get('connections') as $key => $value) {
             if (!isset($value['options'])) {
                 $value['options'] = array();
             }

@@ -12,9 +12,9 @@ class CachedServiceProvider implements ServiceProviderInterface {
         $this->service = $service;
     }
 
-    public function getService($container) {
+    public function provideService($container) {
         if (!$this->cached) {
-            $this->value = $this->service->getService($container);
+            $this->value = $this->service->provideService($container);
             $this->cached = true;
         }
         return $this->value;

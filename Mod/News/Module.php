@@ -11,7 +11,7 @@ class Module extends \Reactor\Application\Module {
     }
 
     public function onUse() {
-        $this->set('collection', new CollectionModel($this['db'],'news_data', 'pk_news'));
+        $this->set('collection', new CollectionModel($this->get('db'),'news_data', 'pk_news'));
         $this->set('printer', new Printer());
     }
 

@@ -16,7 +16,7 @@ class Module extends \Reactor\Application\Module {
     }
 
     public function handleGlobalRequest() {
-        $this['core']->handleRequest(RequestFactory::buildFromGlobals());
+        $this->get('core')->handleRequest(RequestFactory::buildFromGlobals());
     }
 
 }

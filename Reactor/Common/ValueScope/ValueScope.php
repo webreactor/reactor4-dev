@@ -2,7 +2,7 @@
 
 namespace Reactor\Common\ValueScope;
 
-class ValueScope implements \ArrayAccess, \IteratorAggregate {
+class ValueScope implements \IteratorAggregate {
 
     protected $data = array();
     protected $parent = null;
@@ -95,22 +95,6 @@ class ValueScope implements \ArrayAccess, \IteratorAggregate {
 
     public function getIterator() {
         return new ValueScopeIterator($this);
-    }
-
-    public function offsetExists($name) {
-        return $this->has($name);
-    }
-
-    public function offsetGet($name) {
-        return $this->get($name);
-    }
-
-    public function offsetSet($name, $value) {
-        $this->set($name, $value);
-    }
-
-    public function offsetUnset($name) {
-        $this->remove($name);
     }
 
 }

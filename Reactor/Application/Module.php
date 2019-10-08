@@ -30,7 +30,7 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
         return call_user_func_array(array($service, $method), $args);
     }
 
-    public function getService($container) {
+    public function provideService($container) {
         if (!$this->is_used) {
             $this->is_used = true;
             $this->onUse();
@@ -47,7 +47,7 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
             return $this->getByPath($path_or_service, $default);
         }
         if ($path_or_service instanceof ServiceProviderInterface) {
-            return $path_or_service->getService($this);
+            return $path_or_service->provideService($this);
         }
         return $path_or_service;
     }
