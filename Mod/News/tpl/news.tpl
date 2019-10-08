@@ -13,9 +13,10 @@ Key: {@key}
 
 Navigation:</br>
 {set $link = '?page=__page__'}
-{navigation key=@key data=$data}
-<a href="{echo $web_tools->makeUrlTemplate(array('page' => @key))}">{@key}</a></br>
+{navigation key=@key data=$data frame=2}
+<a href="{echo $web_tools->buildUrl(array('page' => @key, 'test'=>1))}">{@key}</a></br>
 {else}
 {@key}</br>
 {/navigation}
 Total: {$data.total_rows}
+

@@ -12,6 +12,7 @@ class Module extends \Reactor\Application\Module {
         $this->set('error_handler', new ErrorHandler());
         $this->set('core', new Core());
         $this->set('tools', new Tools());
+        $this->set('url', new UrlBuilder());
     }
 
     public function handleGlobalRequest() {
