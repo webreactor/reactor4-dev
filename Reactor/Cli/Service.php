@@ -66,7 +66,7 @@ class Service extends MultiService {
                     echo gettype($value)."\n";
                 }
             }
-        } elseif (is_array($mixed)) {
+        } elseif (is_array($mixed) || $mixed instanceof \Traversable) {
             echo $this->dumpArray($mixed);
         } elseif (is_object($mixed)) {
             echo "Class is ".get_class($mixed)."\n"; 
@@ -110,7 +110,7 @@ class Service extends MultiService {
 
     protected function dumpArray($data, $level = 0) {
         $rez = '';
-        if (is_array($data)) {
+        if (is_array($data) || $data instanceof \Traversable) {
             foreach ($data as $key => $value) {
                 $rez .= str_repeat(' ', $level*4).$key.': ';
                 if (is_array($value)) {
