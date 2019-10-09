@@ -41,3 +41,10 @@ class Manager {
 
 }
 
+// $m = new \Reactor\StaticFiles\Manager();
+// $t = $m->listModules($app);
+// for ($i=0;$i<10000;$i++) {
+//     $app->web->getByPath('/news/printer');
+//     $app->web->test = 1;
+// }
+

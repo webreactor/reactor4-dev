@@ -11,6 +11,6 @@ mysql:
             options: "<?[ \\PDO::ATTR_PERSISTENT => true ]"
 
 web:
-    site_tree: <? $app->get('yml_loader')->lazyLoad('config/site_tree.yml')
+    site_tree: <? $app->yml_loader->lazyLoad('config/site_tree.yml')
     tpl_bin: <? BASE_DIR . 'var/tpl_bin/'
 

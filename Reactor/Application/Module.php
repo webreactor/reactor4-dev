@@ -13,13 +13,13 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
     protected $dir = null;
     protected $is_used = false;
 
-    public function onLoadDefaults() {
+    protected function onLoadDefaults() {
     }
 
-    public function onLoad() {
+    protected function onLoad() {
     }
 
-    public function onUse() {
+    protected function onUse() {
     }
 
     public function callService($path, $method = null, $args = array()) {

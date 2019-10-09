@@ -38,16 +38,16 @@ class ServiceContainer extends ValueScope {
         return $value;
     }
 
-    public function getByPath($path, $default = '_throw_exception_') {
-        if ($path == '') {
-            return $this;
-        }
-        if ($path[0] === '/') {
+    public function getByPath($path) {
+        if ($path[0] == '/') {
             $value = $this->getRoot();
         } else {
             $value = $this;
         }
         $path = trim($path, '/');
+        if ($path == '') {
+            return $value;
+        }
         foreach (explode('/', $path) as $word) {
             if ($value instanceof ValueScope) {
                 $value = $value->get($word);
@@ -84,6 +84,14 @@ class ServiceContainer extends ValueScope {
 
     public function setReference($name, $path) {
         $this->set($name, $this->getReference($path, true));
+    }
+
+    public function __get($offset) {
+        return $this->get($offset);
+    }
+
+    public function __set($offset, $value) {
+        $this->set($offset, $value);
     }
 
 }

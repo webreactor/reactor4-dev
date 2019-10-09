@@ -2,12 +2,12 @@
 
 namespace Reactor\WebService;
 
-use Reactor\Common\Tools\HandyArray;
+use Reactor\Common\ValueScope\ValueScopeArray;
 
 class RequestFactory {
 
     static function buildFromGlobals() {
-        $server = new HandyArray($_SERVER);
+        $server = new ValueScopeArray($_SERVER);
         $request = new Request();
 
         $request->post = $_POST;

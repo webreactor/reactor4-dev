@@ -11,7 +11,7 @@ class MultiService implements ServiceProviderInterface {
     protected $is_used = false;
     protected $app = null;
 
-    function provideService($app) {
+    public function provideService($app) {
         if (!$this->is_used) {
             $this->is_used = true;
             $this->app = $app;
@@ -20,19 +20,11 @@ class MultiService implements ServiceProviderInterface {
         return $this;
     }
 
-    function callService($path, $method = null, $args = array()) {
+    public function callService($path, $method = null, $args = array()) {
         return $this->app->callService($path, $method, $args);
     }
 
-    function get($name, $default = '_throw_exception_') {
-        return $this->app->get($name, $default);
-    }
-
-    function set($name, $value) {
-        return $this->app->set($name, $value);
-    }
-
-    function onUse() {
+    protected function onUse() {
     }
 
 }

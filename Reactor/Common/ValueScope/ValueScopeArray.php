@@ -21,4 +21,5 @@ class ValueScopeArray extends ValueScope implements \ArrayAccess {
     public function offsetUnset($offset) {
         $this->remove($offset);
     }
+
 }

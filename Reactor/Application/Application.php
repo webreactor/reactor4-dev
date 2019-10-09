@@ -6,7 +6,7 @@ use Reactor\ServiceContainer\Reference;
 
 class Application extends Module {
 
-    public function loadConfig() {
+    public function __construct() {
         $this->onLoadDefaults();
         $this->onLoad();
         $this->onUse();
