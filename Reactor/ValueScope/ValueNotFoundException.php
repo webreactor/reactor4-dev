@@ -1,5 +1,5 @@
 <?php
 
-namespace Reactor\Common\ValueScope;
+namespace Reactor\ValueScope;
 
 class ValueNotFoundException extends \Exception {}

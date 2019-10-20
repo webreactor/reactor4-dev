@@ -1,25 +1,17 @@
 <?php
 
-namespace Reactor\Common\ValueScope;
+namespace Reactor\ValueScope;
 
 class ValueScope implements \IteratorAggregate {
 
     protected $data = array();
     protected $parent = null;
 
-    public function getParent() {
-        return $this->parent;
-    }
-
     public function getRoot() {
         if ($this->parent) {
             return $this->parent->getRoot();
         }
         return $this;
-    }
-
-    public function setParent($parent) {
-        $this->parent = $parent;
     }
 
     public function get($name, $default = '_throw_exception_') {
@@ -76,6 +68,9 @@ class ValueScope implements \IteratorAggregate {
 
     public function set($name, $value) {
         $this->data[$name] = $value;
+        if ($value instanceof ValueScope) {
+            $value->parent = $this;
+        }
     }
 
     public function has($name) {
@@ -83,10 +78,9 @@ class ValueScope implements \IteratorAggregate {
     }
 
     public function setAll($values) {
-        // this is an optimization
-        // strictly speaking it should be cycle using set()
-        // if you overload set() you should overload setAll as well
-        $this->data = $values;
+        foreach ($values as $name => $value) {
+            $this->set($name, $value);
+        }
     }
 
     public function getAll() {

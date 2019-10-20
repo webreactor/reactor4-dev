@@ -3,7 +3,7 @@
 namespace Reactor\StaticFiles;
 
 use \Reactor\Application\Module;
-use \Reactor\Common\Tools\FileSystemTools;
+use \Reactor\Tools\FileSystemTools;
 
 class Manager {
     
@@ -27,14 +27,14 @@ class Manager {
     }
 
     public function deployStatics($app, $destination, $static_folder = 'static') {
-        $destination = rtrim($destination, '/').'/'.$static_folder.'/';
+        $destination = rtrim($destination, '/').'/';
         $modules = $this->listModules($app);
         foreach ($modules as $path) {
             $module = $app->getByPath($path);
             $dir = $module->getDir();
-            $source = $dir .$static_folder.'/';
+            $source = $dir.$static_folder.'/';
             if (is_dir($source)) {
-                FileSystemTools::copyDir($source, $destination.$static_folder);
+                FileSystemTools::copyDir($source, $destination);
             }
         }
     }
@@ -43,7 +43,7 @@ class Manager {
 
 // $m = new \Reactor\StaticFiles\Manager();
 // $t = $m->listModules($app);
-// for ($i=0;$i<10000;$i++) {
+// for ($i=0; $i<10000; $i++) {
 //     $app->web->getByPath('/news/printer');
 //     $app->web->test = 1;
 // }

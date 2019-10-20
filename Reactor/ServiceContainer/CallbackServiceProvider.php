@@ -2,8 +2,8 @@
 
 namespace Reactor\ServiceContainer;
 
-use \Reactor\Common\ValueScope\ValueScope;
-use \Reactor\Common\ValueScope\ValueNotFoundException;
+use \Reactor\ValueScope\ValueScope;
+use \Reactor\ValueScope\ValueNotFoundException;
 
 class CallbackServiceProvider implements ServiceProviderInterface {
     

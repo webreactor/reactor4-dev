@@ -3,13 +3,13 @@
 namespace Reactor\Cli;
 
 use \Reactor\Application\MultiService;
-use \Reactor\Common\ValueScope;
+use \Reactor\ValueScope;
 use Symfony\Component\Yaml\Yaml;
 
 class Service extends MultiService {
     
     public function handleCli($args) {
-        $call = new \Reactor\Common\ValueScope\ValueScopeArray($args);
+        $call = new \Reactor\ValueScope\ValueScopeArray($args);
         $path = $call->get(1, '/');
         $method = $call->get(2, null);
         if ($path == '/' and $method === null) {
@@ -67,7 +67,7 @@ class Service extends MultiService {
                 }
             }
         } elseif (is_array($mixed) || $mixed instanceof \Traversable) {
-            echo $this->dumpArray($mixed);
+            echo self::varDump($mixed);
         } elseif (is_object($mixed)) {
             echo "Class is ".get_class($mixed)."\n"; 
             echo "Avaiable methods:\n";
@@ -108,7 +108,10 @@ class Service extends MultiService {
         return $cnt;
     }
 
-    protected function dumpArray($data, $level = 0) {
+    static function varDump($data, $level = 0, $stack = null) {
+        if ($stack === null) {
+            $stack = new \ArrayObject();
+        }
         $rez = '';
         if (is_array($data) || $data instanceof \Traversable) {
             foreach ($data as $key => $value) {
@@ -116,12 +119,12 @@ class Service extends MultiService {
                 if (is_array($value)) {
                     $rez .= "\n";
                 }
-                $rez .= $this->dumpArray($value, $level + 1);
+                $rez .= self::varDump($value, $level + 1);
             }
         } elseif (is_object($data)) {
             $rez .= gettype($data).' '.get_class($data)."\n";
         } else {
-            $rez .= var_export($data, true)."\n"; 
+            $rez .= var_export($data, true)."\n";
         }
         return $rez;
     }

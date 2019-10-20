@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\Common\Tools;
+namespace Reactor\Tools;
 
 class ValueControl {
 

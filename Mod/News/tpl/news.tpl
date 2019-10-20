@@ -6,6 +6,10 @@ News.tpl
 Key: {@key}
 {/foreach}
 
+{set $form = $web->form->buildFromYML('/news', 'form.yml')}
+
+{$form.print_r()}
+
 {foreach $data.data as @line}
 *{@line.title} {echo date('r', @line.dtime)}*
  {@line.preview}
@@ -14,7 +18,7 @@ Key: {@key}
 Navigation:</br>
 {set $link = '?page=__page__'}
 {navigation key=@key data=$data frame=2}
-<a href="{echo $web_tools->buildUrl(array('page' => @key, 'test'=>1))}">{@key}</a></br>
+<a href="{echo $web->url->build(array('page' => @key, 'test'=>1))}">{@key}</a></br>
 {else}
 {@key}</br>
 {/navigation}

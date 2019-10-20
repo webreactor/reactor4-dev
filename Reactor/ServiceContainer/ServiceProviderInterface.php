@@ -2,7 +2,7 @@
 
 namespace Reactor\ServiceContainer;
 
-Interface ServiceProviderInterface {
+interface ServiceProviderInterface {
 
     public function provideService($container);
 

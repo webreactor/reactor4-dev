@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\Common\Traits;
+namespace Reactor\Tools;
 
 trait Exportable {
     

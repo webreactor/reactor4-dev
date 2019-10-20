@@ -2,7 +2,7 @@
 
 namespace Reactor\WebService;
 
-use Reactor\Common\Tools\StringTools;
+use Reactor\Tools\StringTools;
 
 class QueryParameters extends \ArrayObject {
 

@@ -1,0 +1,18 @@
+fields:
+    login:
+        form: input
+        type: \Reactor\ContentAdapter\Types\BaseString
+        width: 100
+        validators:
+            - [ \Reactor\ContentAdapter\BasicValidator, notNull, 'не должно быть null' ]
+    password:
+        form: input
+        type: \Reactor\ContentAdapter\Types\BaseString
+        # validators:
+            # - [ \Reactor\test, method ]
+        # adapter: 
+        #     form: [ \Blah\class, method ]
+# validators:
+#     - handler: [ \Reactor\FormValidator, method ]
+
+

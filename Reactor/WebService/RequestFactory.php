@@ -2,7 +2,7 @@
 
 namespace Reactor\WebService;
 
-use Reactor\Common\ValueScope\ValueScopeArray;
+use Reactor\ValueScope\ValueScopeArray;
 
 class RequestFactory {
 

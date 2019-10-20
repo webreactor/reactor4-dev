@@ -3,7 +3,7 @@
 namespace Reactor\WebService;
 
 use Reactor\Application\MultiService;
-use Reactor\Common\Tools\StringTools;
+use Reactor\Tools\StringTools;
 
 class Mapper extends MultiService {
 
@@ -67,7 +67,7 @@ class Mapper extends MultiService {
             if ($define[3][0] == '/') {
                 $control = array($this->app->getByPath($define[3]), $define[4]);
             } else {
-                $control = 'Reactor\\Common\\Tools\\ValueControl::is'.$define[3];
+                $control = 'Reactor\\Tools\\ValueControl::is'.$define[3];
             }
             if(!$control($data[$define[1]])) {
                 throw new PageNotFoundException("Failed format check $control {$define[1]}", 1);

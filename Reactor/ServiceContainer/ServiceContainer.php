@@ -2,11 +2,9 @@
 
 namespace Reactor\ServiceContainer;
 
-use \Reactor\Common\ValueScope\ValueScope;
+use \Reactor\ValueScope\NamedValueScope;
 
-class ServiceContainer extends ValueScope {
-
-    protected $name = '';
+class ServiceContainer extends NamedValueScope {
 
     public function set($name, $value) {
         parent::set($name, $this->prepareValue($value));
@@ -24,53 +22,12 @@ class ServiceContainer extends ValueScope {
         return $value;
     }
 
-    public function addAll($values) {
-        foreach ($values as $name => $value) {
-            $this->set($name, $value);
-        }
-    }
-
     public function getDirect($name) {
         $value = $this->data[$name];
         if ($value instanceof ServiceProviderInterface) {
             return $value->provideService($this);
         }
         return $value;
-    }
-
-    public function getByPath($path) {
-        if ($path[0] == '/') {
-            $value = $this->getRoot();
-        } else {
-            $value = $this;
-        }
-        $path = trim($path, '/');
-        if ($path == '') {
-            return $value;
-        }
-        foreach (explode('/', $path) as $word) {
-            if ($value instanceof ValueScope) {
-                $value = $value->get($word);
-           } else {
-                $value = $value[$word];
-           }
-        }
-        return $value;
-    }
-
-    public function setName($name) {
-        $this->name = $name;
-    }
-
-    public function getName() {
-        return $this->name;
-    }
-
-    public function getFullName() {
-        if ($this->parent) {
-            return $this->parent->getFullName().$this->name.'/';
-        }
-        return '/';
     }
 
     public function getReference($path = '', $local = false) {

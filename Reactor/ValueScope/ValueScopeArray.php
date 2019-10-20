@@ -1,13 +1,11 @@
 <?php
 
-namespace Reactor\Common\ValueScope;
+namespace Reactor\ValueScope;
 
 class ValueScopeArray extends ValueScope implements \ArrayAccess {
 
-    public function __construct($data = null) {
-        if ($data != null) {
-            $this->setAll($data);
-        }
+    public function __construct($data = array()) {
+        $this->data = $data;
     }
     public function offsetExists($offset) {
         return $this->has($offset);

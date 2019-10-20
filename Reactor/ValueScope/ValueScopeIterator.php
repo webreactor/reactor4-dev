@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\Common\ValueScope;
+namespace Reactor\ValueScope;
 
 class ValueScopeIterator implements \Iterator {
     

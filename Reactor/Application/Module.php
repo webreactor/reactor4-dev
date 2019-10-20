@@ -13,13 +13,23 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
     protected $dir = null;
     protected $is_used = false;
 
-    protected function onLoadDefaults() {
-    }
-
     protected function onLoad() {
     }
 
     protected function onUse() {
+    }
+
+    public function set($name, $value) {
+        if ($value instanceof Module) {
+            $parent_config = $this->get($name, null);
+            parent::set($name, $value);
+            if (is_array($parent_config)) {
+                $value->setAll($parent_config);
+            }
+            $value->onLoad();
+        } else {
+            parent::set($name, $value);
+        }
     }
 
     public function callService($path, $method = null, $args = array()) {
@@ -50,18 +60,6 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
             return $path_or_service->provideService($this);
         }
         return $path_or_service;
-    }
-
-    public function loadModule($name, $module, $config = array()) {
-        $parent_config = $this->get($name, array());
-        $this->set($name, $module);
-        $module->setParent($this);
-        $module->setName($name);
-        $module->onLoadDefaults();
-        $module->addAll($parent_config);
-        $module->addAll($config);
-        $module->onLoad();
-        return $module;
     }
 
     public function getDir() {
