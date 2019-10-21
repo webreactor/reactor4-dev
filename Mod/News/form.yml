@@ -1,11 +1,13 @@
 fields:
     login:
+        caption: Логин
         form: input
         type: \Reactor\ContentAdapter\Types\BaseString
         width: 100
         validators:
-            - [ \Reactor\ContentAdapter\BasicValidator, notNull, 'не должно быть null' ]
+            - [ \Reactor\ContentAdapter\BasicValidator, notEmpty, 'Не должно быть пустым' ]
     password:
+        caption: Пароль
         form: input
         type: \Reactor\ContentAdapter\Types\BaseString
         # validators:

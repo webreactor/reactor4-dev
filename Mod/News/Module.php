@@ -11,8 +11,9 @@ class Module extends \Reactor\Application\Module {
     }
 
     public function onUse() {
-        $this->collection = new CollectionModel($this->get('db'),'news_data', 'pk_news');
+        $this->collection = new CollectionModel($this->db, 'news_data', 'pk_news');
         $this->printer = new Printer();
+        $this->form = new \Reactor\ContentAdapter\FormController('form.yml', array('/news/printer', 'display'));
     }
 
 }

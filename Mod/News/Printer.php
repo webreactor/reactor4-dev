@@ -10,8 +10,8 @@ class Printer {
     }
 
     public function display($data) {
-        echo "display\n";
-        print_r($data);
+        // echo "display\n";
+        // print_r($data);
     }
 
 }

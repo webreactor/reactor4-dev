@@ -4,8 +4,12 @@ namespace Reactor\ContentAdapter;
 
 class BasicValidator {
 
-    public function notNull($field) {
+    static function notNull($field) {
         return $field->data !== null;
+    }
+
+    static function notEmpty($field) {
+        return !empty($field->data);
     }
 
 }

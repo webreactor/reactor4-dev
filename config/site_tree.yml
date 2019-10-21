@@ -18,6 +18,10 @@ nodes:
                 map:
                     - [variable, page, 1, natural]
                     - [static, 10]
+            add:
+                handler: [ /news/form, handle ]
+                template: [ /news, form.tpl ]
+                template_wrap: [ /news, main.tpl ]
 
 error:
     template: [ /web, error.tpl ]

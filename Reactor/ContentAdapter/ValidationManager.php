@@ -8,7 +8,10 @@ class ValidationManager {
     public $validators;
 
     public function __construct($settings) {
-        $this->definitions = $settings;
+        if (isset($settings['validators'])) {
+            $this->definitions = $settings['validators'];
+        }
+        $this->validators = array();
     }
 
     public function validate($field) {

@@ -32,14 +32,6 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
         }
     }
 
-    public function callService($path, $method = null, $args = array()) {
-        $service = $this->getByPath($path);
-        if ($method === null) {
-            return $service;
-        }
-        return call_user_func_array(array($service, $method), $args);
-    }
-
     public function provideService($container) {
         if (!$this->is_used) {
             $this->is_used = true;
@@ -52,9 +44,17 @@ class Module extends ServiceContainer implements ServiceProviderInterface {
         $this->set($name, new Zone($name, $value, $access_control));
     }
 
+    public function callService($path, $method = null, $args = array()) {
+        $service = $this->resolveService($path);
+        if ($method === null) {
+            return $service;
+        }
+        return call_user_func_array(array($service, $method), $args);
+    }
+
     public function resolveService($path_or_service, $default = '_throw_exception_') {
         if (is_string($path_or_service)) {
-            return $this->getByPath($path_or_service, $default);
+            return $this->getByPath($path_or_service, $default);    
         }
         if ($path_or_service instanceof ServiceProviderInterface) {
             return $path_or_service->provideService($this);

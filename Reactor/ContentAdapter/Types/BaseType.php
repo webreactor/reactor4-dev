@@ -45,4 +45,7 @@ class BaseType {
         );
     }
 
+    public function isErrors() {
+        return !empty($this->errors);
+    }
 }

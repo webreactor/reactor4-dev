@@ -26,10 +26,10 @@ class Form {
         return $errors;
     }
 
-    public function setData($data) {
+    public function setData($data, $context = null) {
         $data = new ValueScopeArray($data);
         foreach ($this->fields as $key => $field) {
-            $field->setData($data->get($key, null));
+            $field->setData($data->get($key, null), $context);
         }
     }
 
@@ -47,6 +47,15 @@ class Form {
             $data[$key] = $field->getRenderData();
         }
         return $data;
+    }
+
+    public function isErrors() {
+        foreach ($this->fields as $key => $field) {
+            if ($field->isErrors()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

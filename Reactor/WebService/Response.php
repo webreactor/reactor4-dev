@@ -14,4 +14,9 @@ class Response {
         $this->code = $code;
     }
 
+    public function location($url, $code = 302) {
+        $this->headers['Location'] = $url;
+        $this->code = $code;
+    }
+
 }

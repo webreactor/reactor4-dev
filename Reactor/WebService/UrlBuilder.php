@@ -9,7 +9,7 @@ class UrlBuilder extends MultiService {
     protected $templates = null;
     protected $used_vars = array();
 
-    public function build($variables) {
+    public function build($variables = array()) {
         $rr = $this->app->get('req_res');
         $data = $variables + $rr->route->variables + $rr->request->get;
         $cache_key = implode('_', array_keys($data));
