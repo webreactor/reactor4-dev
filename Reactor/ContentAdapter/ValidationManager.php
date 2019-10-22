@@ -16,11 +16,14 @@ class ValidationManager {
 
     public function validate($field) {
         foreach ($this->validators as $key => $validator) {
-            if (!call_user_func($validator, $field)) {
-                if (isset($this->definitions[$key][2])) {
-                    $message = $this->definitions[$key][2];
+            $rez = call_user_func($validator, $field);
+            if ($rez !== true) {
+                if (is_string($rez)) {
+                    $message = $rez;
+                } elseif (isset($this->definitions[$key][1])) {
+                    $message = $this->definitions[$key][1];
                 } else {
-                    $message = '!error from '.implode(' ', $this->definitions[$key]);
+                    $message = '!error from '.implode('-', (array)$this->definitions[$key][0]);
                 }
                 $field->errors[] = $message;
             }

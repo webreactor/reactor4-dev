@@ -41,14 +41,6 @@ class Form {
         return $data;
     }
 
-    public function getRenderData() {
-        $data = array();
-        foreach ($this->fields as $key => $field) {
-            $data[$key] = $field->getRenderData();
-        }
-        return $data;
-    }
-
     public function isErrors() {
         foreach ($this->fields as $key => $field) {
             if ($field->isErrors()) {
@@ -56,6 +48,22 @@ class Form {
             }
         }
         return false;
+    }
+
+    public function getState() {
+        $data = array();
+        foreach ($this->fields as $key => $field) {
+            $data[$key] = $field->getState();
+        }
+        return array(
+            'fields' => $data,
+        );
+    }
+
+    public function setState($data) {
+        foreach ($data['fields'] as $key => $field_data) {
+            $this->fields[$key]->setState($field_data);
+        }
     }
 
 }

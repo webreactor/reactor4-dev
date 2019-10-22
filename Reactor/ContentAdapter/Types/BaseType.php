@@ -37,15 +37,20 @@ class BaseType {
         return $this->data;
     }
 
-    public function getRenderData($context = 'toForm') {
-        return array(
-            'settings' => $this->settings,
-            'data' => $this->getData($context),
-            'errors' => $this->getErrors(),
-        );
-    }
-
     public function isErrors() {
         return !empty($this->errors);
     }
+
+    public function getState() {
+        return array(
+            'data' => $this->data,
+            'errors' => $this->errors,
+        );
+    }
+
+    public function setState($data) {
+        $this->data = $data['data'];
+        $this->errors = $data['errors'];
+    }
+
 }

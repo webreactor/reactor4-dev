@@ -31,14 +31,12 @@ class FormBuilder extends MultiService {
         $manager = new $validator_class($define);
         if ($manager instanceof ValidationManager && isset($define['validators'])) {
             $validators = array();
-            foreach ($define['validators'] as $key => $validator) {
-                if (!is_array($validator)) {
-                    $validator = array($validator, 'validate');
-                } else {
-                    $validator = array_slice($validator, 0, 2);
-                }
-                if (is_string($validator[0]) && $validator[0][0] == '/') {
-                    $validator[0] = $module->resolveService($validator[0]);
+            foreach ($define['validators'] as $key => $validator_def) {
+                $validator = $validator_def[0];
+                if (is_array($validator)) {
+                    $validator[0] = $module->getByPath($validator[0]);
+                } elseif ($validator[0] != '\\') {
+                    $validator = '\\Reactor\\ContentAdapter\\BasicValidator::'.$validator;
                 }
                 $validators[] = $validator;
             }

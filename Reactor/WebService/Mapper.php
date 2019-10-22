@@ -64,10 +64,11 @@ class Mapper extends MultiService {
             return $data;
         }
         if (isset($data[$define[1]])) {
-            if ($define[3][0] == '/') {
-                $control = array($this->app->getByPath($define[3]), $define[4]);
+            $control = $define[3];
+            if (is_array($define[3])) {
+                $control[0] = $this->app->getByPath($control[0]);
             } else {
-                $control = 'Reactor\\Tools\\ValueControl::is'.$define[3];
+                $control = '\\Reactor\\Tools\\ValueControl::'.$control;
             }
             if(!$control($data[$define[1]])) {
                 throw new PageNotFoundException("Failed format check $control {$define[1]}", 1);
