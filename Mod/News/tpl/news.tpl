@@ -18,7 +18,7 @@ Key: {@key}
 Navigation:</br>
 {set $link = '?page=__page__'}
 {navigation key=@key data=$data frame=2}
-<a href="{echo $web->url->build(array('page' => @key, 'test'=>1))}">{@key}</a></br>
+<a href="{echo $web->url->build($req_res, array('page' => @key, 'test'=>1))}">{@key}</a></br>
 {else}
 {@key}</br>
 {/navigation}

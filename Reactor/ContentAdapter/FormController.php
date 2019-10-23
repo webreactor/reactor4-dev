@@ -35,12 +35,10 @@ class FormController extends MultiService {
         $form->validate();
         if ($form->isErrors()) {
             return $form;
-        } else {
-            $this->app->callService($this->handler[0], $this->handler[1], $form->getData());
-            $req_res->response->location($this->app->web->url->build(array('done' => 1)));
         }
-        unset($req_res->route->target['template']);
-        // print_r($req_res->response);die();
+        $this->app->callService($this->handler[0], $this->handler[1], $form->getData());
+        $req_res->location($this->app->web->url->build(array('done' => 1)));
+        return null;
     }
 
 }

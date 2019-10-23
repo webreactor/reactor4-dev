@@ -45,37 +45,42 @@ class Mapper extends MultiService {
     }
 
     public function getFromGet($request_response, $define) {
-        $data = $request_response->request->get;
-        return $this->getFromData($data, $define);
+        $define[0] = $request_response->request->get;
+        return call_user_func_array(array($this, 'getFromData'), $define);
     }
 
     public function getFromPost($request_response, $define) {
-        $data = $request_response->request->post;
-        return $this->getFromData($data, $define);
+        $define[0] = $request_response->request->post;
+        return call_user_func_array(array($this, 'getFromData'), $define);
     }
 
     public function getFromVariable($request_response, $define) {
-        $data = $request_response->route->variables;
-        return $this->getFromData($data, $define);
+        $define[0] = $request_response->route->variables;
+        return call_user_func_array(array($this, 'getFromData'), $define);
     }
 
-    public function getFromData($data, $define) {
-        if ($define[1] === null) {
+    public function getFromData($data, $key = null, $check = null, $default = '__return_404__') {
+        if ($key === null) {
             return $data;
         }
-        if (isset($data[$define[1]])) {
-            $control = $define[3];
-            if (is_array($define[3])) {
-                $control[0] = $this->app->getByPath($control[0]);
-            } else {
-                $control = '\\Reactor\\Tools\\ValueControl::'.$control;
+        if (isset($data[$key])) {
+            $rez = $data[$key];
+            if ($check !== null) {
+                if (is_array($check)) {
+                    $check[0] = $this->app->getByPath($check[0]);
+                } elseif($check[0] !== '\\') {
+                    $check = '\\Reactor\\Tools\\ValueControl::'.$check;
+                }
+                if(!$check($rez)) {
+                    throw new PageNotFoundException("Failed format check $check {$key}", 1);
+                }
             }
-            if(!$control($data[$define[1]])) {
-                throw new PageNotFoundException("Failed format check $control {$define[1]}", 1);
-            }
-            return $data[$define[1]];
+            return $rez;
         }
-        return $define[2];
+        if ($default === '__return_404__') {
+            throw new PageNotFoundException("Failed to find value {$key}", 1);
+        }
+        return $default;
     }
 
 }

@@ -15,6 +15,7 @@ class ValueScopeArray extends ValueScope implements \ArrayAccess {
     }
     public function offsetSet($offset, $value) {
         $this->set($offset, $value);
+        return $value;
     }
     public function offsetUnset($offset) {
         $this->remove($offset);

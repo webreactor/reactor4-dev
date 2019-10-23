@@ -6,11 +6,10 @@ use \Reactor\ValueScope\ValueScopeArray;
 
 class Form {
 
-    public $fields;
-
-    public function __construct() {
-        $this->fields = array();
-    }
+    public $fields = array();
+    public $settings = array();
+    public $errors = array();
+    public $validator = null;
 
     public function validate() {
         foreach ($this->fields as $key => $field) {
@@ -57,6 +56,8 @@ class Form {
         }
         return array(
             'fields' => $data,
+            'settings' => $this->settings,
+            'errors' => $this->errors,
         );
     }
 
@@ -64,6 +65,8 @@ class Form {
         foreach ($data['fields'] as $key => $field_data) {
             $this->fields[$key]->setState($field_data);
         }
+        $this->settings = $data['settings'];
+        $this->errors = $data['errors'];
     }
 
 }

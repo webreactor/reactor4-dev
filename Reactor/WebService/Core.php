@@ -12,7 +12,7 @@ class Core extends MultiService {
                 $this->events = $this->app->events;
                 set_error_handler(array($this, 'handlePHPError'));
                 $route = new RouterContext($request->link->path);
-                $this->app->req_res = $req_res = new RequestResponse($request, new Response(), $route);
+                $req_res = new RequestResponse($request, new Response(), $route);
                 $this->execute($req_res);
             } catch (\Throwable $error) {
                 $this->handleError($error, $req_res);

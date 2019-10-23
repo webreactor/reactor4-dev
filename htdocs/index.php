@@ -1,4 +1,5 @@
 <?php
+
 define('start', microtime(true));
 $last = start;
 function profiling($msg) {
@@ -19,3 +20,4 @@ profiling('app loaded');
 $app->get('web')->handleGlobalRequest();
 
 profiling('end');
+/**/

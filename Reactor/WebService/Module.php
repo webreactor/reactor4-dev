@@ -15,6 +15,7 @@ class Module extends \Reactor\Application\Module {
         $this->core = new Core();
         $this->url = new UrlBuilder();
         $this->form = new FormBuilder();
+        $this->session = new WebSession();
     }
 
     public function handleGlobalRequest() {

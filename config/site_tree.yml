@@ -7,7 +7,7 @@ nodes:
         template_wrap: [ /news, main.tpl ]
         # final: true
         map:
-            - [get, page, 1, isNatural]
+            - [get, page, isNatural, 1]
             - [static, 10]
         nodes:
             $any:
@@ -16,7 +16,7 @@ nodes:
                 template: [ /news, news.tpl ]
                 template_wrap: [ /news, main.tpl ]
                 map:
-                    - [variable, page, 1, isNatural]
+                    - [variable, page, isNatural, 1]
                     - [static, 10]
             add:
                 handler: [ /news/form, handle ]

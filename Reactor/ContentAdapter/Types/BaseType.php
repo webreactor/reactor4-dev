@@ -28,6 +28,7 @@ class BaseType {
             $data = call_user_func(array($this, $from_context), $data);
         }
         $this->data = $data;
+        $this->errors = array();
     }
 
     public function getData($to_context = null) {
