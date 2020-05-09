@@ -1,35 +1,25 @@
 <?php
 
-namespace Reactor\ContentAdapter;
+namespace Reactor\Forms;
 
-use \Reactor\Application\MultiService;
+use \Reactor\WebComponents\MethodController;
 
-class FormController extends MultiService {
+class FormController extends MethodController {
 
     public function __construct($form_yml, $handler) {
         $this->form_yml = $form_yml;
         $this->handler = $handler;
     }
 
-    public function handle($req_res) {
-        if ($req_res->request->method === 'POST') {
-            return $this->handleForm($req_res);
-        }
-        if ($req_res->request->method === 'GET') {
-            return $this->renderForm($req_res);
-        }
-    }
-
     public function createForm() {
         return $this->app->web->form->buildFromYML($this->app, $this->form_yml);
-
     }
 
-    public function renderForm($req_res) {
+    public function onGET($req_res) {
         return $this->createForm();
     }
 
-    public function handleForm($req_res) {
+    public function onPOST($req_res) {
         $form = $this->createForm();
         $form->setData($req_res->request->post, 'fromForm');
         $form->validate();

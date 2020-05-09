@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\ContentAdapter\Types;
+namespace Reactor\Forms\BaseTypes;
 
 class BaseType {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\ContentAdapter;
+namespace Reactor\Forms;
 
 use \Reactor\Application\Multiservice;
 
@@ -24,7 +24,7 @@ class FormBuilder extends MultiService {
     }
 
     public function buildValidator($define, $module) {
-        $validator_class = '\\Reactor\\ContentAdapter\\ValidationManager';
+        $validator_class = '\\Reactor\\Forms\\ValidationManager';
         if (isset($define['validator'])) {
             $validator_class = $define['validator'];
         }
@@ -36,7 +36,7 @@ class FormBuilder extends MultiService {
                 if (is_array($validator)) {
                     $validator[0] = $module->getByPath($validator[0]);
                 } elseif ($validator[0] != '\\') {
-                    $validator = '\\Reactor\\ContentAdapter\\BasicValidator::'.$validator;
+                    $validator = '\\Reactor\\Forms\\BasicValidator::'.$validator;
                 }
                 $validators[] = $validator;
             }

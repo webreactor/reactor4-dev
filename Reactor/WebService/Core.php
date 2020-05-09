@@ -26,7 +26,7 @@ class Core extends MultiService {
         $this->events->raise('web.request.received', $req_res);
         $this->app->router->routeRequest($req_res);
         $this->execAndRender($req_res);
-        $this->events->raise('web.request.served', $req_res);
+        $this->events->raise('web.request.rendered', $req_res);
     }
 
     public function execAndRender($req_res) {
@@ -44,7 +44,7 @@ class Core extends MultiService {
                     $req_res->response->body = $data;
                 }
             }
-            $this->events->raise('web.request.handled', $req_res);
+            $this->events->raise('web.request.executed', $req_res);
             profiling('logic is done');
             if (!$route->new_target) {
                 $this->app->render->render($req_res);

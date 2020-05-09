@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactor\ContentAdapter;
+namespace Reactor\Forms;
 
 use \Reactor\ValueScope\ValueScopeArray;
 
